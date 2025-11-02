@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlowUp • Equipe</title>
+  <link rel="stylesheet" href="/Menu/css/menu.css">
+  <link rel="stylesheet" href="/Menu/css/equipe.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+          <span>FlowUp</span>
+      </div>
+
+      <nav class="nav">
+        <a href="/Menu/html/menu.html">
+          <div class="ico i-analytics"></div><span>Mapa Geral</span>
+        </a>
+        <a href="/Menu/html/planejamento.html">
+          <div class="ico i-planning"></div><span>Planejamento Mensal</span>
+        </a>
+        <a href="#">
+          <div class="ico i-post"></div><span>Agendamento de Postagem</span>
+        </a>
+        <a href="#">
+          <div class="ico i-calendar"></div><span>Calendário de Postagem</span>
+        </a>
+        <a href="#">
+          <div class="ico i-manage"></div><span>Gestão de Projetos</span>
+        </a>
+        <a href="/Menu/html/briefing.html">
+          <div class="ico i-briefing"></div><span>Briefing</span>
+        </a>
+        <a href="/Menu/html/equipe.html" class="active">
+          <div class="ico i-team"></div><span>Equipe</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <!-- à esquerda: empresa -->
+      <div class="company">
+        <div class="avatar" title="Logo da Empresa"></div>
+        <div class="custom-select">
+          <div class="select-selected">
+            <span>Empresa A</span>
+            <div class="select-arrow"></div>
+          </div>
+          <div class="select-items">
+            <div class="select-option" data-value="Dragon">
+              <div class="option-avatar"></div>
+              <span>Empresa A</span>
+            </div>
+            <div class="select-option" data-value="Empresa B">
+              <div class="option-avatar"></div>
+              <span>Empresa B</span>
+            </div>
+            <div class="select-option" data-value="Empresa C">
+              <div class="option-avatar"></div>
+              <span>Empresa C</span>
+            </div>
+            <div class="select-divider"></div>
+            <div class="select-option select-new-company" data-value="new">
+              <div class="option-avatar new-company-icon"></div>
+              <span>Cadastrar empresa nova</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ao meio: página atual -->
+      <div class="page-title">
+        <h1>Equipe</h1>
+      </div>
+
+      <!-- à direita: avatar do profissional -->
+      <div class="user" id="user-menu-trigger">
+        <div>
+          <div class="name">Alone Souza</div>
+          <div class="role">Profissional</div>
+        </div>
+        <div class="avatar" title="Seu perfil"></div>
+      </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-equipe">
+      <!-- Seção 1: Enviar Convite -->
+      <section class="card invite-card">
+        <h3>Enviar Convite</h3>
+        <p class="sub">Convide novos membros para se juntar à equipe</p>
+        
+        <div class="invite-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="inviteEmail">E-mail do convidado</label>
+              <input type="email" id="inviteEmail" placeholder="email@exemplo.com">
+            </div>
+            <div class="form-group">
+              <label for="inviteRole">Função</label>
+              <select id="inviteRole">
+                <option value="">Selecionar função</option>
+                <option value="editor">Editor</option>
+                <option value="designer">Designer</option>
+                <option value="videomaker">Videomaker</option>
+                <option value="revisor">Revisor</option>
+                <option value="gestor">Gestor</option>
+                <option value="copywriter">Copywriter</option>
+              </select>
+            </div>
+          </div>
+          <button id="sendInviteBtn" class="btn-primary">
+            Enviar Convite
+          </button>
+        </div>
+      </section>
+
+      <!-- Seção 2: Adicionar Membro -->
+      <section class="card add-member-card">
+        <h3>Adicionar Membro à Equipe</h3>
+        <p class="sub">Cadastre um novo membro na equipe do projeto</p>
+        
+        <div class="member-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="memberName">Nome Completo</label>
+              <input type="text" id="memberName" placeholder="Digite o nome do profissional">
+            </div>
+            <div class="form-group">
+              <label for="memberRole">Cargo/Função</label>
+              <select id="memberRole">
+                <option value="">Selecionar cargo</option>
+                <option value="editor">Editor</option>
+                <option value="designer">Designer</option>
+                <option value="videomaker">Videomaker</option>
+                <option value="revisor">Revisor</option>
+                <option value="gestor">Gestor</option>
+                <option value="copywriter">Copywriter</option>
+                <option value="social-media">Social Media</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="memberEmail">E-mail</label>
+              <input type="email" id="memberEmail" placeholder="email@empresa.com">
+            </div>
+            <div class="form-group">
+              <label for="memberPhone">Telefone</label>
+              <input type="tel" id="memberPhone" placeholder="(11) 99999-9999">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Dias Disponíveis</label>
+              <div class="days-selector">
+                <label class="day-checkbox">
+                  <input type="checkbox" name="days" value="seg">
+                  <span class="day-label">Seg</span>
+                </label>
+                <label class="day-checkbox">
+                  <input type="checkbox" name="days" value="ter">
+                  <span class="day-label">Ter</span>
+                </label>
+                <label class="day-checkbox">
+                  <input type="checkbox" name="days" value="qua">
+                  <span class="day-label">Qua</span>
+                </label>
+                <label class="day-checkbox">
+                  <input type="checkbox" name="days" value="qui">
+                  <span class="day-label">Qui</span>
+                </label>
+                <label class="day-checkbox">
+                  <input type="checkbox" name="days" value="sex">
+                  <span class="day-label">Sex</span>
+                </label>
+                <label class="day-checkbox">
+                  <input type="checkbox" name="days" value="sab">
+                  <span class="day-label">Sab</span>
+                </label>
+                <label class="day-checkbox">
+                  <input type="checkbox" name="days" value="dom">
+                  <span class="day-label">Dom</span>
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="workHours">Horário de Trabalho</label>
+              <select id="workHours">
+                <option value="">Selecionar horário</option>
+                <option value="manha">Manhã (08:00 - 12:00)</option>
+                <option value="tarde">Tarde (13:00 - 17:00)</option>
+                <option value="noite">Noite (18:00 - 22:00)</option>
+                <option value="integral">Integral (08:00 - 18:00)</option>
+                <option value="flexivel">Horário Flexível</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Permissões</label>
+            <div class="permissions-grid">
+              <label class="permission-checkbox">
+                <input type="checkbox" name="permissions" value="create_post"> Criar Posts
+              </label>
+              <label class="permission-checkbox">
+                <input type="checkbox" name="permissions" value="edit_post"> Editar Posts
+              </label>
+              <label class="permission-checkbox">
+                <input type="checkbox" name="permissions" value="approve_post"> Aprovar Posts
+              </label>
+              <label class="permission-checkbox">
+                <input type="checkbox" name="permissions" value="delete_post"> Excluir Posts
+              </label>
+              <label class="permission-checkbox">
+                <input type="checkbox" name="permissions" value="manage_team"> Gerenciar Equipe
+              </label>
+              <label class="permission-checkbox">
+                <input type="checkbox" name="permissions" value="view_analytics"> Ver Análises
+              </label>
+            </div>
+          </div>
+
+          <button id="addMemberBtn" class="btn-primary">
+            Adicionar à Equipe
+          </button>
+        </div>
+      </section>
+
+      <!-- Seção 3: Lista de Membros -->
+      <section class="card members-card">
+        <h3>Membros da Equipe</h3>
+        <p class="sub">Todos os profissionais envolvidos no projeto</p>
+        
+        <div class="members-grid" id="membersGrid">
+          <!-- Membros serão adicionados aqui via JavaScript -->
+        </div>
+      </section>
+
+      <!-- Seção 4: Tarefas da Equipe -->
+      <section class="card tasks-card">
+        <h3>Tarefas da Equipe</h3>
+        <p class="sub">Acompanhe as tarefas atribuídas a cada membro</p>
+        
+        <div class="tasks-container">
+          <div class="task-item">
+            <div class="task-header">
+              <div class="member-info">
+                <div class="member-avatar"></div>
+                <div>
+                  <div class="member-name">Maria Silva</div>
+                  <div class="member-role">Editor</div>
+                </div>
+              </div>
+              <span class="status status-editing">Em andamento</span>
+            </div>
+            <div class="task-content">
+              <h4>Edição do vídeo da campanha de verão</h4>
+              <p>Prazo: 15/12/2024 • Prioridade: Alta</p>
+            </div>
+          </div>
+
+          <div class="task-item">
+            <div class="task-header">
+              <div class="member-info">
+                <div class="member-avatar"></div>
+                <div>
+                  <div class="member-name">João Santos</div>
+                  <div class="member-role">Designer</div>
+                </div>
+              </div>
+              <span class="status status-pending">Pendente</span>
+            </div>
+            <div class="task-content">
+              <h4>Criação das artes para lançamento</h4>
+              <p>Prazo: 10/12/2024 • Prioridade: Média</p>
+            </div>
+          </div>
+
+          <div class="task-item">
+            <div class="task-header">
+              <div class="member-info">
+                <div class="member-avatar"></div>
+                <div>
+                  <div class="member-name">Ana Costa</div>
+                  <div class="member-role">Revisor</div>
+                </div>
+              </div>
+              <span class="status status-completed">Concluído</span>
+            </div>
+            <div class="task-content">
+              <h4>Revisão dos posts da Black Friday</h4>
+              <p>Concluído em: 05/12/2024</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/Menu/javascript/equipe.js"></script>
+</body>
+</html>
