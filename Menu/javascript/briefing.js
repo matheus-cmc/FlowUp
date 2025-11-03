@@ -98,7 +98,7 @@ function renderBriefingList() {
     if (filteredBriefings.length === 0) {
         briefingList.innerHTML = `
             <div class="empty-state">
-                <div class="empty-icon">📋</div>
+                <div class="empty-icon"></div>
                 <h4>Nenhum briefing encontrado</h4>
                 <p>Crie seu primeiro briefing clicando no botão "Novo Briefing"</p>
             </div>
@@ -147,10 +147,10 @@ function showBriefingDetail(id) {
             </div>
             <div class="detail-actions">
                 <button class="btn-secondary" onclick="editBriefing(${briefing.id})">
-                    ✏️ Editar
+                     Editar
                 </button>
                 <button class="btn-danger" onclick="confirmDelete(${briefing.id})">
-                    🗑️ Excluir
+                     Excluir
                 </button>
             </div>
         </div>
@@ -158,7 +158,7 @@ function showBriefingDetail(id) {
         <div class="detail-content">
             <!-- Sobre o Projeto -->
             <div class="detail-section">
-                <h3>📋 Sobre o Projeto</h3>
+                <h3> Sobre o Projeto</h3>
                 <div class="detail-grid">
                     <div class="detail-item">
                         <label>Descrição</label>
@@ -177,7 +177,7 @@ function showBriefingDetail(id) {
 
             <!-- Sobre o Mercado e Público -->
             <div class="detail-section">
-                <h3>🎯 Sobre o Mercado e Público</h3>
+                <h3> Sobre o Mercado e Público</h3>
                 <div class="detail-grid">
                     <div class="detail-item">
                         <label>Público-Alvo</label>
@@ -196,7 +196,7 @@ function showBriefingDetail(id) {
 
             <!-- Sobre a Comunicação -->
             <div class="detail-section">
-                <h3>💬 Sobre a Comunicação</h3>
+                <h3> Sobre a Comunicação</h3>
                 <div class="detail-grid">
                     <div class="detail-item">
                         <label>Principais Mensagens</label>
@@ -219,7 +219,7 @@ function showBriefingDetail(id) {
 
             <!-- Sobre a Execução -->
             <div class="detail-section">
-                <h3>⚡ Sobre a Execução</h3>
+                <h3> Sobre a Execução</h3>
                 <div class="detail-grid">
                     <div class="detail-item">
                         <label>Orçamento</label>

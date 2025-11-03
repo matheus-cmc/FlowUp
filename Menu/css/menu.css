@@ -136,6 +136,22 @@ body{
 .user .avatar{width:44px;height:44px;
   background:linear-gradient(90deg,var(--g2),var(--g3));}
 
+  .page-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-title h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(90deg, var(--g1), var(--g2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 /* --- Main --- */
 .main{
   grid-area:main; padding:20px; display:grid; gap:20px;
