@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlowUp • Calendário de Postagem</title>
+  <link rel="stylesheet" href="/Menu/css/menu.css">
+  <link rel="stylesheet" href="/Menu/css/calendario.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand"><span>FlowUp</span></div>
+      <nav class="nav">
+        <a href="/Menu/html/menu.html"><div class="ico i-analytics"></div><span>Mapa Geral</span></a>
+        <a href="/Menu/html/planejamento.html"><div class="ico i-planning"></div><span>Planejamento Mensal</span></a>
+        <a href="/Menu/html/agendamento.html"><div class="ico i-post"></div><span>Agendamento de Postagem</span></a>
+        <a href="/Menu/html/calendario.html" class="active"><div class="ico i-calendar"></div><span>Calendário de Postagem</span></a>
+        <a href="/Menu/html/gestao.html"><div class="ico i-manage"></div><span>Gestão de Projetos</span></a>
+        <a href="/Menu/html/briefing.html"><div class="ico i-briefing"></div><span>Briefing</span></a>
+        <a href="/Menu/html/equipe.html"><div class="ico i-team"></div><span>Equipe</span></a>
+      </nav>
+    </aside>
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="company">
+        <div class="avatar"></div>
+        <div class="custom-select">
+          <div class="select-selected">
+            <span>Empresa A</span>
+            <div class="select-arrow"></div>
+          </div>
+          <!-- (Dropdown omitido para foco na página) -->
+        </div>
+      </div>
+
+      <div class="page-title"><h1>Calendário de Postagem</h1></div>
+
+      <div class="user" id="user-menu-trigger">
+        <div>
+          <div class="name">Alone Souza</div>
+          <div class="role">Profissional</div>
+        </div>
+        <div class="avatar"></div>
+        <div class="user-menu" id="user-menu"></div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="main calendario-main">
+      <div class="calendario-container">
+
+        <!-- Barra superior: mês/ano + filtros -->
+        <div class="cal-header">
+          <div class="cal-nav">
+            <button class="cal-btn" id="prevMonthBtn">◀</button>
+            <h2 id="calTitle">Novembro 2025</h2>
+            <button class="cal-btn" id="nextMonthBtn">▶</button>
+          </div>
+
+          <div class="filters-right">
+            <div class="filter-group">
+              <select class="filter-select" id="tipoFilter">
+                <option value="all">Todos os Tipos</option>
+                <option value="reels">Reels</option>
+                <option value="video">Vídeo</option>
+                <option value="carrossel">Carrossel</option>
+                <option value="storys">Storys</option>
+                <option value="foto">Foto</option>
+              </select>
+
+              <select class="filter-select" id="statusFilter">
+                <option value="all">Todos os Status</option>
+                <option value="rascunho">Rascunho</option>
+                <option value="em_producao">Em Produção</option>
+                <option value="em_revisao">Em Revisão</option>
+                <option value="aprovado">Aprovado</option>
+                <option value="agendado">Agendado</option>
+                <option value="publicado">Publicado</option>
+              </select>
+            </div>
+
+            <button class="btn-clear-filters" id="clearFiltersBtn">Limpar filtros</button>
+          </div>
+        </div>
+
+        <!-- Grade do calendário -->
+        <div class="calendar-grid" id="calendarGrid">
+          <!-- Renderizado via JS -->
+        </div>
+
+        <!-- Lista do dia selecionado -->
+        <div class="day-panel" id="dayPanel">
+          <div class="day-panel-header">
+            <h3 id="dayPanelTitle">Posts do dia</h3>
+            <button class="btn-secondary" id="closeDayPanel">Fechar</button>
+          </div>
+          <div class="day-list" id="dayList"></div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="/Menu/javascript/menu.js"></script>
+  <script src="/Menu/javascript/calendario.js"></script>
+</body>
+</html>

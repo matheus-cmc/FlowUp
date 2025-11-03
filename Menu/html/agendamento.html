@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlowUp • Agendamento de Postagem</title>
+  <link rel="stylesheet" href="/Menu/css/menu.css">
+  <link rel="stylesheet" href="/Menu/css/agendamento.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <!-- Menu -->
+    <aside class="sidebar">
+      <div class="brand">
+        <span>FlowUp</span>
+      </div>
+
+      <nav class="nav">
+        <a href="/Menu/html/menu.html">
+          <div class="ico i-analytics"></div>
+          <span>Mapa Geral</span>
+        </a>
+        <a href="/Menu/html/planejamento.html">
+          <div class="ico i-planning"></div>
+          <span>Planejamento Mensal</span>
+        </a>
+        <a href="/Menu/html/agendamento.html" class="active">
+          <div class="ico i-post"></div>
+          <span>Agendamento de Postagem</span>
+        </a>
+        <a href="/Menu/html/calendario.html">
+          <div class="ico i-calendar"></div>
+          <span>Calendário de Postagem</span>
+        </a>
+        <a href="/Menu/html/gestao.html">
+          <div class="ico i-manage"></div>
+          <span>Gestão de Projetos</span>
+        </a>
+        <a href="/Menu/html/briefing.html">
+          <div class="ico i-briefing"></div>
+          <span>Briefing</span>
+        </a>
+        <a href="/Menu/html/equipe.html">
+          <div class="ico i-team"></div>
+          <span>Equipe</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="company">
+        <div class="avatar" title="Logo da Empresa"></div>
+        <div class="custom-select">
+          <div class="select-selected">
+            <span>Empresa A</span>
+            <div class="select-arrow"></div>
+          </div>
+          <div class="select-items">
+            <div class="select-option" data-value="Empresa A">
+              <div class="option-avatar"></div>
+              <span>Empresa A</span>
+            </div>
+            <div class="select-option" data-value="Empresa B">
+              <div class="option-avatar"></div>
+              <span>Empresa B</span>
+            </div>
+            <div class="select-divider"></div>
+            <div class="select-option select-new-company" data-value="new">
+              <div class="option-avatar new-company-icon"></div>
+              <span>Cadastrar empresa nova</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ao meio: página atual -->
+      <div class="page-title">
+        <h1>Agendamento de Postagem</h1>
+      </div>
+
+      <!-- Menu do usuário -->
+      <div class="user" id="user-menu-trigger">
+        <div>
+          <div class="name">Alone Souza</div>
+          <div class="role">Profissional</div>
+        </div>
+        <div class="avatar" title="Seu perfil"></div>
+        
+        <div class="user-menu" id="user-menu">
+          <div class="user-menu-header">
+            <div class="user-menu-avatar"></div>
+            <div class="user-menu-info">
+              <div class="user-menu-name">Alone Souza</div>
+              <div class="user-menu-email">alone.souza@flowup.com</div>
+            </div>
+          </div>
+          <div class="user-menu-divider"></div>
+          <a href="#" class="user-menu-item">
+            <div class="user-menu-icon i-profile"></div>
+            <span>Meu Perfil</span>
+          </a>
+          <a href="#" class="user-menu-item">
+            <div class="user-menu-icon i-messages"></div>
+            <span>Mensagens</span>
+            <span class="user-menu-badge">3</span>
+          </a>
+          <a href="#" class="user-menu-item">
+            <div class="user-menu-icon i-settings"></div>
+            <span>Configurações</span>
+          </a>
+          <div class="user-menu-divider"></div>
+          <a href="#" class="user-menu-item">
+            <div class="user-menu-icon i-logout"></div>
+            <span>Sair</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="main agendamento-main">
+      <div class="agendamento-container">
+        <!-- Header com título e botão -->
+        <div class="agendamento-header">
+          <div class="header-info">
+            <h1>Agendamento de Postagem</h1>
+            <p class="sub">Programe suas publicações para o Instagram</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn-primary" id="importarProjetosBtn">
+              <span class="btn-icon">📥</span> Importar Projetos Concluídos
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de Filtros -->
+        <div class="filters-bar">
+          <div class="search-box">
+            <input type="text" id="searchProjeto" placeholder="Buscar por título...">
+            <div class="search-icon"></div>
+          </div>
+
+          <div class="filters-right">
+            <div class="filter-group">
+              <select class="filter-select" id="tipoFilter">
+                <option value="all">Todos os Tipos</option>
+                <option value="reels">Reels</option>
+                <option value="video">Vídeo</option>
+                <option value="carrossel">Carrossel</option>
+                <option value="storys">Storys</option>
+                <option value="foto">Foto</option>
+              </select>
+
+              <select class="filter-select" id="statusFilter">
+                <option value="all">Todos os Status</option>
+                <option value="pronto">Pronto para Agendar</option>
+                <option value="agendado">Agendado</option>
+                <option value="publicado">Publicado</option>
+              </select>
+
+              <select class="filter-select" id="mesFilter">
+                <option value="all">Todos os Meses</option>
+                <option value="1">Janeiro</option>
+                <option value="2">Fevereiro</option>
+                <option value="3">Março</option>
+                <option value="4">Abril</option>
+                <option value="5">Maio</option>
+                <option value="6">Junho</option>
+                <option value="7">Julho</option>
+                <option value="8">Agosto</option>
+                <option value="9">Setembro</option>
+                <option value="10">Outubro</option>
+                <option value="11">Novembro</option>
+                <option value="12">Dezembro</option>
+              </select>
+            </div>
+
+            <button type="button" class="btn-clear-filters" id="clearFiltersBtn">Limpar filtros</button>
+          </div>
+        </div>
+
+        <!-- Layout Dividido -->
+        <div class="agendamento-layout">
+          <!-- Lista Lateral -->
+          <aside class="agendamento-sidebar">
+            <div class="sidebar-header">
+              <h3>Meus Agendamentos</h3>
+            </div>
+            
+            <div class="agendamento-list" id="agendamentoList">
+              <!-- Lista será preenchida via JavaScript -->
+            </div>
+          </aside>
+
+          <!-- Painel Principal -->
+          <section class="agendamento-panel">
+            <div class="panel-placeholder" id="panelPlaceholder">
+              <div class="placeholder-content">
+                <div class="placeholder-icon">📱</div>
+                <h3>Selecione um agendamento</h3>
+                <p>Escolha um agendamento da lista ao lado para visualizar ou editar</p>
+              </div>
+            </div>
+
+            <div class="panel-content" id="panelContent" style="display: none;">
+              <div class="panel-header">
+                <h2 id="panelTitulo">Título do Projeto</h2>
+                <div class="panel-actions">
+                  <button class="btn-secondary" id="editarAgendamentoBtn">
+                    <span class="btn-icon">✏️</span> Editar
+                  </button>
+                  <button class="btn-primary" id="agendarNovamenteBtn">
+                    <span class="btn-icon">📅</span> Agendar Novamente
+                  </button>
+                </div>
+              </div>
+
+              <div class="panel-details">
+                <div class="detail-grid">
+                  <div class="detail-group">
+                    <label>Tipo de Conteúdo</label>
+                    <p id="panelTipo">-</p>
+                  </div>
+                  <div class="detail-group">
+                    <label>Status</label>
+                    <div id="panelStatus">-</div>
+                  </div>
+                  <div class="detail-group">
+                    <label>Data de Agendamento</label>
+                    <p id="panelData">-</p>
+                  </div>
+                  <div class="detail-group">
+                    <label>Plataforma</label>
+                    <p id="panelPlataforma">-</p>
+                  </div>
+                </div>
+
+                <div class="detail-section">
+                  <h4>Legenda</h4>
+                  <div class="legenda-content" id="panelLegenda">
+                    -
+                  </div>
+                </div>
+
+                <div class="detail-section">
+                  <h4>Hashtags</h4>
+                  <div class="hashtags-content" id="panelHashtags">
+                    -
+                  </div>
+                </div>
+
+                <div class="detail-section">
+                  <h4>Mídia</h4>
+                  <div class="media-preview-grid" id="panelMedia">
+                    <!-- Mídia será carregada aqui -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal de Agendamento (mantido do código anterior) -->
+  <div class="modal" id="agendamentoModal">
+    <div class="modal-content large-modal">
+      <div class="modal-header">
+        <h3 id="modalAgendamentoTitulo">Agendar Postagem</h3>
+        <button class="modal-close" id="modalAgendamentoClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="agendamento-detail">
+          <!-- Informações do Projeto -->
+          <div class="info-section">
+            <h4>Informações do Projeto</h4>
+            <div class="info-grid">
+              <div class="info-group">
+                <label>Título</label>
+                <p id="agendamentoTitulo">-</p>
+              </div>
+              <div class="info-group">
+                <label>Tipo de Conteúdo</label>
+                <p id="agendamentoTipo">-</p>
+              </div>
+              <div class="info-group">
+                <label>Mês do Planejamento</label>
+                <p id="agendamentoMes">-</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Configurações de Agendamento -->
+          <div class="agendamento-section">
+            <h4>Configurações de Agendamento</h4>
+            
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="dataAgendamento">Data de Publicação</label>
+                <input type="date" id="dataAgendamento" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="horaAgendamento">Horário de Publicação</label>
+                <input type="time" id="horaAgendamento" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="plataformaAgendamento">Plataforma</label>
+                <select id="plataformaAgendamento">
+                  <option value="instagram">Instagram</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="twitter">Twitter</option>
+                  <option value="linkedin">LinkedIn</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="tipoPostagem">Tipo de Postagem</label>
+                <select id="tipoPostagem">
+                  <option value="feed">Feed</option>
+                  <option value="storys">Storys</option>
+                  <option value="reels">Reels</option>
+                  <option value="carrossel">Carrossel</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Conteúdo da Postagem -->
+          <div class="content-section">
+            <h4>Conteúdo da Postagem</h4>
+            
+            <div class="form-group">
+              <label for="legendaPostagem">Legenda</label>
+              <textarea id="legendaPostagem" rows="4" placeholder="Escreva a legenda da publicação..."></textarea>
+              <div class="char-count">
+                <span id="charCount">0</span>/2200 caracteres
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="hashtagsPostagem">Hashtags</label>
+              <textarea id="hashtagsPostagem" rows="2" placeholder="#exemplo #hashtags"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="localizacaoPostagem">Localização</label>
+              <input type="text" id="localizacaoPostagem" placeholder="Adicionar localização">
+            </div>
+            
+            <div class="form-group">
+              <label for="marcarPessoas">Marcar Pessoas</label>
+              <input type="text" id="marcarPessoas" placeholder="@nomedousuario">
+            </div>
+          </div>
+
+          <!-- Mídia -->
+          <div class="media-section">
+            <h4>Mídia para Publicação</h4>
+            
+            <div class="media-preview" id="mediaPreview">
+              <!-- Prévia da mídia será carregada aqui -->
+            </div>
+            
+            <div class="media-actions">
+              <button class="btn-secondary" id="adicionarMidiaBtn">
+                <span class="btn-icon">➕</span> Adicionar Mídia
+              </button>
+              <input type="file" id="uploadMidia" accept="image/*,video/*" multiple hidden>
+            </div>
+          </div>
+
+          <!-- Configurações Avançadas -->
+          <div class="advanced-section">
+            <h4>Configurações Avançadas</h4>
+            
+            <div class="advanced-options">
+              <div class="option-group">
+                <input type="checkbox" id="comentariosAtivos">
+                <label for="comentariosAtivos">Permitir comentários</label>
+              </div>
+              
+              <div class="option-group">
+                <input type="checkbox" id="compartilhamentoAtivo">
+                <label for="compartilhamentoAtivo">Permitir compartilhamento</label>
+              </div>
+              
+              <div class="option-group">
+                <input type="checkbox" id="salvarRascunho">
+                <label for="salvarRascunho">Salvar como rascunho</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="cancelAgendamentoBtn">Cancelar</button>
+        <button type="button" class="btn-primary" id="salvarAgendamentoBtn">Agendar Publicação</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmação -->
+  <div class="modal" id="confirmacaoModal">
+    <div class="modal-content small-modal">
+      <div class="modal-header">
+        <h3>Confirmação de Agendamento</h3>
+        <button class="modal-close" id="confirmacaoModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirmacaoMensagem">Publicação agendada com sucesso!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary" id="confirmacaoOkBtn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/Menu/javascript/menu.js"></script>
+  <script src="/Menu/javascript/agendamento.js"></script>
+</body>
+</html>
