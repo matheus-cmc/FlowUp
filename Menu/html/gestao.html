@@ -75,6 +75,11 @@
         </div>
       </div>
 
+      <!-- ao meio: página atual -->
+      <div class="page-title">
+        <h1>Gestão de Planejamento</h1>
+      </div>
+
       <!-- Menu do usuário -->
       <div class="user" id="user-menu-trigger">
         <div>
@@ -117,77 +122,75 @@
     <!-- Conteúdo Principal -->
     <main class="main gestao-main">
       <div class="gestao-container">
-        <!-- Cabeçalho -->
-        <div class="gestao-header">
-          <div>
-            <h1>Gestão de Projetos</h1>
-            <p class="sub">Acompanhe e gerencie todas as publicações em produção</p>
-          </div>
-          <div class="header-actions">
-            <button class="btn-secondary" id="injetarMockBtn">
-              <span class="btn-icon">🔄</span> Injetar do Planejamento (Mock)
-            </button>
-            <div class="view-toggle">
-              <button class="toggle-btn active" data-view="kanban">
-                <span>Kanban</span>
-              </button>
-              <button class="toggle-btn" data-view="lista">
-                <span>Lista</span>
-              </button>
-            </div>
-          </div>
-        </div>
 
-        <!-- Filtros -->
         <div class="filters-bar">
-          <div class="search-box">
-            <input type="text" id="searchProjeto" placeholder="Buscar por título...">
-            <div class="search-icon"></div>
-          </div>
-          
-          <div class="filter-group">
-            <select class="filter-select" id="responsavelFilter">
-              <option value="all">Todos os Responsáveis</option>
-              <option value="alone">Alone Souza</option>
-              <option value="maria">Maria Silva</option>
-              <option value="joao">João Santos</option>
-              <option value="ana">Ana Costa</option>
-              <option value="carlos">Carlos Oliveira</option>
-            </select>
-            
-            <select class="filter-select" id="tipoFilter">
-              <option value="all">Todos os Tipos</option>
-              <option value="reels">Reels</option>
-              <option value="video">Vídeo</option>
-              <option value="carrossel">Carrossel</option>
-              <option value="storys">Storys</option>
-              <option value="foto">Foto</option>
-            </select>
-            
-            <select class="filter-select" id="prioridadeFilter">
-              <option value="all">Todas as Prioridades</option>
-              <option value="alta">Alta</option>
-              <option value="media">Média</option>
-              <option value="baixa">Baixa</option>
-            </select>
-            
-            <select class="filter-select" id="mesFilter">
-              <option value="all">Todos os Meses</option>
-              <option value="1">Janeiro</option>
-              <option value="2">Fevereiro</option>
-              <option value="3">Março</option>
-              <option value="4">Abril</option>
-              <option value="5">Maio</option>
-              <option value="6">Junho</option>
-              <option value="7">Julho</option>
-              <option value="8">Agosto</option>
-              <option value="9">Setembro</option>
-              <option value="10">Outubro</option>
-              <option value="11">Novembro</option>
-              <option value="12">Dezembro</option>
-            </select>
-          </div>
-        </div>
+  <!-- Linha 1 (esquerda) -->
+  <div class="header-actions toolbar">
+    <button class="btn-secondary" id="injetarMockBtn">
+      <span class="btn-icon"></span> Injetar do Planejamento (Mock)
+    </button>
+    <div class="view-toggle">
+      <button class="toggle-btn active" data-view="kanban"><span>Kanban</span></button>
+      <button class="toggle-btn" data-view="lista"><span>Lista</span></button>
+    </div>
+  </div>
+
+  <!-- Linha 2 (esquerda) -->
+  <div class="search-box">
+    <input type="text" id="searchProjeto" placeholder="Buscar por título...">
+    <div class="search-icon"></div>
+  </div>
+
+  <!-- Lado direito (mesmas 2 linhas): filtros + limpar na horizontal -->
+  <div class="filters-right">
+    <div class="filter-group">
+      <select class="filter-select" id="responsavelFilter">
+        <option value="all">Todos os Responsáveis</option>
+        <option value="alone">Alone Souza</option>
+        <option value="maria">Maria Silva</option>
+        <option value="joao">João Santos</option>
+        <option value="ana">Ana Costa</option>
+        <option value="carlos">Carlos Oliveira</option>
+      </select>
+
+      <select class="filter-select" id="tipoFilter">
+        <option value="all">Todos os Tipos</option>
+        <option value="reels">Reels</option>
+        <option value="video">Vídeo</option>
+        <option value="carrossel">Carrossel</option>
+        <option value="storys">Storys</option>
+        <option value="foto">Foto</option>
+      </select>
+
+      <select class="filter-select" id="prioridadeFilter">
+        <option value="all">Todas as Prioridades</option>
+        <option value="alta">Alta</option>
+        <option value="media">Média</option>
+        <option value="baixa">Baixa</option>
+      </select>
+
+      <select class="filter-select" id="mesFilter">
+        <option value="all">Todos os Meses</option>
+        <option value="1">Janeiro</option>
+        <option value="2">Fevereiro</option>
+        <option value="3">Março</option>
+        <option value="4">Abril</option>
+        <option value="5">Maio</option>
+        <option value="6">Junho</option>
+        <option value="7">Julho</option>
+        <option value="8">Agosto</option>
+        <option value="9">Setembro</option>
+        <option value="10">Outubro</option>
+        <option value="11">Novembro</option>
+        <option value="12">Dezembro</option>
+      </select>
+    </div>
+
+    <button type="button" class="btn-clear-filters" id="clearFiltersBtn">Limpar filtros</button>
+  </div>
+</div>
+
+
 
         <!-- Conteúdo -->
         <div class="gestao-content">
@@ -345,16 +348,16 @@
             <h4>Ações</h4>
             <div class="action-buttons">
               <button class="btn-success" id="marcarConcluidoBtn">
-                <span class="btn-icon">✅</span> Marcar Concluído
+                <span class="btn-icon"></span> Marcar Concluído
               </button>
               <button class="btn-secondary" id="atualizarStatusBtn">
-                <span class="btn-icon">🔄</span> Atualizar Status
+                <span class="btn-icon"></span> Atualizar Status
               </button>
               <button class="btn-secondary" id="trocarResponsavelBtn">
-                <span class="btn-icon">👤</span> Trocar Responsável
+                <span class="btn-icon"></span> Trocar Responsável
               </button>
               <button class="btn-secondary" id="definirDeadlineBtn">
-                <span class="btn-icon">📅</span> Definir Data Limite
+                <span class="btn-icon"></span> Definir Data Limite
               </button>
             </div>
           </div>
@@ -381,6 +384,46 @@
               <button class="btn-primary" id="saveContentBtn">Salvar Alterações</button>
             </div>
           </div>
+
+          <!-- Mídia -->
+<div class="media-section">
+  <h4>Arquivos de Mídia</h4>
+
+  <div class="media-uploads">
+    <!-- Dropzone Imagens -->
+    <label class="dropzone" for="uploadImagens">
+      <div class="dz-icon"></div>
+      <div class="dz-text">
+        <strong>Adicionar imagens</strong>
+        <span>PNG, JPG, JPEG • múltiplos</span>
+      </div>
+      <input id="uploadImagens" type="file" accept="image/*" multiple hidden>
+    </label>
+
+    <!-- Dropzone Vídeos -->
+    <label class="dropzone" for="uploadVideos">
+      <div class="dz-icon"></div>
+      <div class="dz-text">
+        <strong>Adicionar vídeos</strong>
+        <span>MP4, MOV • múltiplos</span>
+      </div>
+      <input id="uploadVideos" type="file" accept="video/*" multiple hidden>
+    </label>
+  </div>
+
+  <!-- Grids de preview -->
+  <div class="media-grids">
+    <div class="media-group">
+      <div class="media-title">Imagens</div>
+      <div class="media-grid" id="imagensPreview"></div>
+    </div>
+    <div class="media-group">
+      <div class="media-title">Vídeos</div>
+      <div class="media-grid" id="videosPreview"></div>
+    </div>
+  </div>
+</div>
+
 
           <!-- Histórico -->
           <div class="history-section">
@@ -487,6 +530,5 @@
   <!--Agora vai-->
 </body>
 </html>
-
 
 

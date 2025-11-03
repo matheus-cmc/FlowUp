@@ -118,7 +118,7 @@ function renderPlanejamentoList() {
     if (filteredPlanejamentos.length === 0) {
         planejamentoList.innerHTML = `
             <div class="empty-state">
-                <div class="empty-icon">📅</div>
+                <div class="empty-icon"></div>
                 <h4>Nenhum planejamento encontrado</h4>
                 <p>Crie seu primeiro planejamento clicando no botão "Novo Planejamento"</p>
             </div>
@@ -139,7 +139,7 @@ function renderPlanejamentoList() {
             <p class="planejamento-item-description">${planejamento.descricao}</p>
             <div class="planejamento-stats">
                 <span class="planejamento-date">${formatDate(planejamento.updatedAt)}</span>
-                <span class="planejamento-type">${planejamento.tipo === 'especial' ? '⭐ Especial' : '📅 Mensal'}</span>
+                <span class="planejamento-type">${planejamento.tipo === 'especial' ? ' Especial' : ' Mensal'}</span>
             </div>
         </div>
     `).join('');
@@ -166,7 +166,7 @@ function showPlanejamentoDetail(id) {
             <div class="detail-title-section">
                 <h2>${planejamento.titulo}</h2>
                 <div class="detail-meta">
-                    ${planejamento.tipo === 'especial' ? '⭐ Planejamento Especial' : `📅 ${getMesNome(planejamento.mes)} ${planejamento.ano}`}
+                    ${planejamento.tipo === 'especial' ? 'Planejamento Especial' : ` ${getMesNome(planejamento.mes)} ${planejamento.ano}`}
                     • ${planejamento.posts.length} publicações programadas
                 </div>
                 <div class="stats-row" style="display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap;">
@@ -183,25 +183,25 @@ function showPlanejamentoDetail(id) {
             </div>
             <div class="detail-actions">
                 <button class="btn-secondary" onclick="editPlanejamento(${planejamento.id})">
-                    ✏️ Editar
+                     Editar
                 </button>
                 <button class="btn-info" onclick="openActionsModal(${planejamento.id})">
-                    📤 Ações
+                     Ações
                 </button>
                 <button class="btn-danger" onclick="confirmDelete(${planejamento.id})">
-                    🗑️ Excluir
+                     Excluir
                 </button>
             </div>
         </div>
 
         <div class="detail-content">
             <div class="form-section" style="border: none; margin: 0; padding: 0;">
-                <h3>📋 Descrição</h3>
+                <h3> Descrição</h3>
                 <p style="color: var(--muted); line-height: 1.6; margin: 0;">${planejamento.descricao || 'Sem descrição'}</p>
             </div>
 
             <div class="detail-posts">
-                <h3>📱 Publicações Programadas (${planejamento.posts.length})</h3>
+                <h3> Publicações Programadas (${planejamento.posts.length})</h3>
                 ${planejamento.posts.map((post, index) => `
                     <div class="detail-post">
                         <div class="detail-post-header">
@@ -572,16 +572,16 @@ function compartilharWhatsApp(planejamentoId) {
     if (!planejamento) return;
 
     let mensagem = `*${planejamento.titulo}*\n\n`;
-    mensagem += `📅 *Período:* ${planejamento.tipo === 'especial' ? 'Planejamento Especial' : `${getMesNome(planejamento.mes)} ${planejamento.ano}`}\n`;
-    mensagem += `📋 *Descrição:* ${planejamento.descricao || 'Não informada'}\n\n`;
+    mensagem += ` *Período:* ${planejamento.tipo === 'especial' ? 'Planejamento Especial' : `${getMesNome(planejamento.mes)} ${planejamento.ano}`}\n`;
+    mensagem += ` *Descrição:* ${planejamento.descricao || 'Não informada'}\n\n`;
     mensagem += `*Publicações (${planejamento.posts.length}):*\n\n`;
     
     planejamento.posts.forEach((post, index) => {
         mensagem += `*${index + 1}. ${post.titulo}*\n`;
-        mensagem += `📱 Tipo: ${getTipoNome(post.tipo)}\n`;
-        mensagem += `🔄 Status: ${getStatusNome(post.status)}\n`;
-        mensagem += `📅 Data: ${formatDate(post.data)}\n`;
-        mensagem += `👤 Responsável: ${getResponsavelNome(post.responsavel)}\n\n`;
+        mensagem += ` Tipo: ${getTipoNome(post.tipo)}\n`;
+        mensagem += ` Status: ${getStatusNome(post.status)}\n`;
+        mensagem += `Data: ${formatDate(post.data)}\n`;
+        mensagem += `Responsável: ${getResponsavelNome(post.responsavel)}\n\n`;
     });
     
     const whatsappLink = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;

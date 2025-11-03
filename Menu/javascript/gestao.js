@@ -34,6 +34,102 @@ document.addEventListener('DOMContentLoaded', function() {
   renderViews();
 });
 
+// ===== Custom Select Lite (sem avatar) para os filtros =====
+function enhanceFilterSelects(){
+  document.querySelectorAll('select.filter-select').forEach((sel) => {
+    if (sel.dataset.enhanced === "1") return;
+
+    // wrapper
+    const wrap = document.createElement('div');
+    wrap.className = 'custom-select-lite';
+    wrap.setAttribute('role', 'combobox');
+    wrap.setAttribute('aria-expanded', 'false');
+
+    // selected
+    const selected = document.createElement('button');
+    selected.type = 'button';
+    selected.className = 'csl-selected';
+    selected.setAttribute('aria-haspopup', 'listbox');
+    selected.innerHTML = `<span class="csl-label">${sel.options[sel.selectedIndex]?.text || ''}</span><span class="csl-arrow"></span>`;
+
+    // list
+    const list = document.createElement('div');
+    list.className = 'csl-items';
+    list.setAttribute('role', 'listbox');
+
+    [...sel.options].forEach((opt, idx) => {
+      const item = document.createElement('div');
+      item.className = 'csl-option';
+      item.setAttribute('role', 'option');
+      item.dataset.value = opt.value;
+      item.textContent = opt.text;
+      if (idx === sel.selectedIndex) item.setAttribute('aria-selected', 'true');
+
+      item.addEventListener('click', () => {
+        // atualizar nativo
+        sel.value = opt.value;
+        sel.dispatchEvent(new Event('change', { bubbles: true }));
+        // UI
+        list.querySelectorAll('.csl-option[aria-selected="true"]').forEach(el => el.removeAttribute('aria-selected'));
+        item.setAttribute('aria-selected', 'true');
+        selected.querySelector('.csl-label').textContent = opt.text;
+        closeAllLite();
+      });
+
+      list.appendChild(item);
+    });
+
+    // inserir DOM
+    sel.classList.add('select-native-hidden');
+    sel.parentNode.insertBefore(wrap, sel);
+    wrap.appendChild(sel);
+    wrap.appendChild(selected);
+    wrap.appendChild(list);
+
+    // handlers
+    selected.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleLite(wrap, true);
+    });
+    selected.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleLite(wrap, true); }
+      if (e.key === 'Escape') { toggleLite(wrap, false); }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const opts = [...list.querySelectorAll('.csl-option')];
+        let idx = opts.findIndex(o => o.getAttribute('aria-selected') === 'true');
+        idx = e.key === 'ArrowDown' ? Math.min(idx + 1, opts.length - 1) : Math.max(idx - 1, 0);
+        opts[idx].click();
+      }
+    });
+
+    sel.dataset.enhanced = "1";
+  });
+
+  // fecha ao clicar fora/esc
+  document.addEventListener('click', closeAllLite);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAllLite(); });
+}
+
+function toggleLite(wrap, open){
+  const isOpen = wrap.classList.contains('open');
+  const wantOpen = open ?? !isOpen;
+  closeAllLite();
+  if (wantOpen){
+    wrap.classList.add('open');
+    wrap.setAttribute('aria-expanded','true');
+  }
+}
+function closeAllLite(){
+  document.querySelectorAll('.custom-select-lite.open').forEach(w => {
+    w.classList.remove('open');
+    w.setAttribute('aria-expanded','false');
+  });
+}
+
+// inicializa depois que a página montar
+document.addEventListener('DOMContentLoaded', enhanceFilterSelects);
+
 function setupEventListeners() {
   // Toggle de visualização
   document.querySelectorAll('.toggle-btn').forEach(btn => {
@@ -732,6 +828,166 @@ function injectMockData() {
 
   ingestFromPlanejamento(mockData);
 }
+document.addEventListener('DOMContentLoaded', () => {
+  const clearBtn = document.getElementById('clearFiltersBtn');
+  if (!clearBtn) return;
+
+  clearBtn.addEventListener('click', () => {
+    const search = document.getElementById('searchProjeto');
+    const ids = ['responsavelFilter','tipoFilter','prioridadeFilter','mesFilter'];
+
+    // limpar busca
+    if (search){
+      search.value = '';
+      search.dispatchEvent(new Event('input', {bubbles:true}));
+      search.dispatchEvent(new Event('change', {bubbles:true}));
+    }
+
+    // resetar selects para "all" e disparar change
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.value = 'all';
+      el.dispatchEvent(new Event('change', {bubbles:true}));
+
+      // se estiver usando o custom-select-lite, atualiza o rótulo também
+      const wrap = el.closest('.custom-select-lite');
+      if (wrap){
+        const allOpt = wrap.querySelector('.csl-option[data-value="all"]') || wrap.querySelector('.csl-option');
+        wrap.querySelectorAll('.csl-option[aria-selected="true"]').forEach(o => o.removeAttribute('aria-selected'));
+        if (allOpt){
+          allOpt.setAttribute('aria-selected','true');
+          const label = wrap.querySelector('.csl-label');
+          if (label) label.textContent = allOpt.textContent;
+        }
+      }
+    });
+
+    // se existir função de aplicar filtros, chama
+    if (typeof applyFilters === 'function') applyFilters();
+    if (typeof renderProjetos === 'function') renderProjetos();
+  });
+});
+// ===== Mídia no modal + edição de status/prioridade =====
+const modalMedia = { imagens: [], videos: [] };  // buffers temporários (File objects)
+
+// helper para criar thumb
+function createThumb({ url, isVideo, onRemove }) {
+  const wrap = document.createElement('div');
+  wrap.className = 'media-thumb';
+  const btn = document.createElement('button');
+  btn.className = 'media-remove';
+  btn.type = 'button';
+  btn.innerHTML = 'Remover';
+  btn.addEventListener('click', (e) => { e.stopPropagation(); onRemove?.(); wrap.remove(); });
+  wrap.appendChild(btn);
+
+  if (isVideo) {
+    const v = document.createElement('video');
+    v.src = url; v.muted = true; v.playsInline = true; v.preload = 'metadata';
+    wrap.appendChild(v);
+  } else {
+    const img = document.createElement('img');
+    img.src = url; wrap.appendChild(img);
+  }
+  return wrap;
+}
+
+function bindMediaHandlers(){
+  const upImg = document.getElementById('uploadImagens');
+  const upVid = document.getElementById('uploadVideos');
+  const gridImg = document.getElementById('imagensPreview');
+  const gridVid = document.getElementById('videosPreview');
+
+  if (upImg) {
+    upImg.addEventListener('change', () => {
+      [...upImg.files].forEach(file => {
+        const url = URL.createObjectURL(file);
+        modalMedia.imagens.push(file);
+        const thumb = createThumb({
+          url, isVideo:false,
+          onRemove: () => {
+            const idx = modalMedia.imagens.indexOf(file);
+            if (idx > -1) modalMedia.imagens.splice(idx,1);
+            URL.revokeObjectURL(url);
+          }
+        });
+        gridImg.appendChild(thumb);
+      });
+      upImg.value = ''; // permite re-adicionar os mesmos nomes
+    });
+  }
+
+  if (upVid) {
+    upVid.addEventListener('change', () => {
+      [...upVid.files].forEach(file => {
+        const url = URL.createObjectURL(file);
+        modalMedia.videos.push(file);
+        const thumb = createThumb({
+          url, isVideo:true,
+          onRemove: () => {
+            const idx = modalMedia.videos.indexOf(file);
+            if (idx > -1) modalMedia.videos.splice(idx,1);
+            URL.revokeObjectURL(url);
+          }
+        });
+        gridVid.appendChild(thumb);
+      });
+      upVid.value = '';
+    });
+  }
+}
+
+// chame isso quando abrir o modal para um projeto:
+function hydrateModalFields(projeto){
+  // status/prioridade
+  const st = document.getElementById('detailStatusSelect');
+  const pr = document.getElementById('detailPrioridadeSelect');
+  if (st) st.value = projeto?.status || 'redacao';
+  if (pr) pr.value = projeto?.prioridade || 'media';
+
+  // limpar previews e buffers
+  modalMedia.imagens = [];
+  modalMedia.videos = [];
+  const gridImg = document.getElementById('imagensPreview');
+  const gridVid = document.getElementById('videosPreview');
+  if (gridImg) gridImg.innerHTML = '';
+  if (gridVid) gridVid.innerHTML = '';
+}
+
+// se você já tem uma função openProjetoModal(proj), apenas garanta que ela chama:
+document.addEventListener('DOMContentLoaded', () => {
+  bindMediaHandlers();
+
+  // salvar: anexamos ao botão existente
+  const saveBtn = document.getElementById('saveContentBtn');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', () => {
+      const st = document.getElementById('detailStatusSelect')?.value;
+      const pr = document.getElementById('detailPrioridadeSelect')?.value;
+
+      // >>> Atualize o objeto do projeto atual
+      // Assumindo que você tem algo como currentProjeto:
+      if (window.currentProjeto){
+        if (st) window.currentProjeto.status = st;
+        if (pr) window.currentProjeto.prioridade = pr;
+        // opcional: salvar legendas/inspirações já existentes no modal...
+        // window.currentProjeto.legenda = document.getElementById('detailLegenda').value;
+      }
+
+      // >>> Suba os arquivos se quiser (Firebase Storage etc.)
+      // modalMedia.imagens / modalMedia.videos são arrays de File prontos
+      // -> aqui você faz o upload e guarda as URLs no seu projeto
+
+      // re-render UI se existirem essas funções
+      if (typeof renderProjetos === 'function') renderProjetos();
+      if (typeof applyFilters === 'function') applyFilters();
+      if (typeof atualizarProgressoUI === 'function') atualizarProgressoUI(window.currentProjeto);
+    });
+  }
+
+  // quando abrir o modal em outro lugar do seu código, chame hydrateModalFields(projeto)
+});
 
 // Expor funções para uso global
 window.openProjetoModal = openProjetoModal;

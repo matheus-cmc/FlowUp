@@ -77,6 +77,12 @@
         </div>
       </div>
 
+       <!-- ao meio: página atual -->
+      <div class="page-title">
+        <h1>Planejamento Mensal</h1>
+      </div>
+      
+
       <!-- Menu do usuário -->
       <div class="user" id="user-menu-trigger">
         <div>
@@ -122,8 +128,6 @@
         <!-- Cabeçalho -->
         <div class="planejamento-header">
           <div>
-            <h1>Planejamento Mensal</h1>
-            <p class="sub">Organize e programe suas publicações do mês</p>
           </div>
           <button class="btn-primary" id="novoPlanejamentoBtn">
             <span class="btn-icon">+</span> Novo Planejamento
@@ -174,7 +178,7 @@
           <div class="planejamento-detail-section">
             <div class="detail-placeholder" id="detailPlaceholder">
               <div class="placeholder-content">
-                <div class="placeholder-icon">📅</div>
+                <div class="placeholder-icon"></div>
                 <h3>Selecione um planejamento</h3>
                 <p>Escolha um planejamento da lista ao lado para visualizar ou editar</p>
               </div>
@@ -201,7 +205,7 @@
           <!-- Informações Básicas -->
           <div class="form-section">
             <h4 class="section-title">
-              <span class="section-emoji">📅</span> Informações do Planejamento
+              <span class="section-emoji"></span> Informações do Planejamento
             </h4>
             
             <div class="form-row">
@@ -256,7 +260,7 @@
           <!-- Posts/Publicações -->
           <div class="form-section">
             <h4 class="section-title">
-              <span class="section-emoji">📱</span> Publicações Programadas
+              <span class="section-emoji"></span> Publicações Programadas
             </h4>
             
             <div class="posts-container" id="postsContainer">
@@ -381,7 +385,7 @@
       <div class="modal-body">
         <div class="actions-grid">
           <button class="action-card" onclick="gerarPDF(currentPlanejamentoId)">
-            <div class="action-icon">📄</div>
+            <div class="action-icon"></div>
             <div class="action-info">
               <h4>Gerar PDF</h4>
               <p>Exportar planejamento completo em PDF</p>
@@ -389,7 +393,7 @@
           </button>
           
           <button class="action-card" onclick="compartilharEmail(currentPlanejamentoId)">
-            <div class="action-icon">📧</div>
+            <div class="action-icon"></div>
             <div class="action-info">
               <h4>Enviar por E-mail</h4>
               <p>Enviar para o cliente por e-mail</p>
@@ -397,7 +401,7 @@
           </button>
           
           <button class="action-card" onclick="compartilharWhatsApp(currentPlanejamentoId)">
-            <div class="action-icon">💬</div>
+            <div class="action-icon"></div>
             <div class="action-info">
               <h4>Compartilhar WhatsApp</h4>
               <p>Enviar resumo pelo WhatsApp</p>
@@ -405,7 +409,7 @@
           </button>
           
           <button class="action-card" onclick="duplicarPlanejamento(currentPlanejamentoId)">
-            <div class="action-icon">📋</div>
+            <div class="action-icon"></div>
             <div class="action-info">
               <h4>Duplicar</h4>
               <p>Criar cópia deste planejamento</p>
