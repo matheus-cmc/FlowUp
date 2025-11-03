@@ -989,6 +989,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // quando abrir o modal em outro lugar do seu código, chame hydrateModalFields(projeto)
 });
 
-// Expor funções para uso global
+// Expor funções para uso global ok
 window.openProjetoModal = openProjetoModal;
 window.ingestFromPlanejamento = ingestFromPlanejamento;
