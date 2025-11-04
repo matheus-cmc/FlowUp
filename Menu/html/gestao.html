@@ -122,75 +122,173 @@
     <!-- Conteúdo Principal -->
     <main class="main gestao-main">
       <div class="gestao-container">
+        <!-- Cabeçalho -->
+        
 
-        <div class="filters-bar">
-  <!-- Linha 1 (esquerda) -->
-  <div class="header-actions toolbar">
+        <!-- Barra de Filtros Atualizada -->
+<div class="filters-bar">
+  <!-- Linha 1: Botões e toggle -->
+  <div class="filters-top-row">
     <button class="btn-secondary" id="injetarMockBtn">
-      <span class="btn-icon"></span> Injetar do Planejamento (Mock)
+      <span class="btn-icon"></span> Injetar do Planejamento 
     </button>
+
     <div class="view-toggle">
       <button class="toggle-btn active" data-view="kanban"><span>Kanban</span></button>
       <button class="toggle-btn" data-view="lista"><span>Lista</span></button>
     </div>
-  </div>
 
-  <!-- Linha 2 (esquerda) -->
-  <div class="search-box">
-    <input type="text" id="searchProjeto" placeholder="Buscar por título...">
-    <div class="search-icon"></div>
-  </div>
+    <div class="filters-wrapper">
+      <button class="btn-filters" id="btnFilters">
+        <div class="filter-icon"></div>
+        <span>Filtros</span>
+        <div class="filter-badge" id="filterBadge">0</div>
+      </button>
 
-  <!-- Lado direito (mesmas 2 linhas): filtros + limpar na horizontal -->
-  <div class="filters-right">
-    <div class="filter-group">
-      <select class="filter-select" id="responsavelFilter">
-        <option value="all">Todos os Responsáveis</option>
-        <option value="alone">Alone Souza</option>
-        <option value="maria">Maria Silva</option>
-        <option value="joao">João Santos</option>
-        <option value="ana">Ana Costa</option>
-        <option value="carlos">Carlos Oliveira</option>
-      </select>
+      <div class="filters-dropdown" id="filtersDropdown">
+        <div class="filters-dropdown-header">
+          <div class="filters-dropdown-title">Filtrar por</div>
+          <button class="filters-dropdown-close" id="closeFilters">&times;</button>
+        </div>
 
-      <select class="filter-select" id="tipoFilter">
-        <option value="all">Todos os Tipos</option>
-        <option value="reels">Reels</option>
-        <option value="video">Vídeo</option>
-        <option value="carrossel">Carrossel</option>
-        <option value="storys">Storys</option>
-        <option value="foto">Foto</option>
-      </select>
+        <div class="filter-group-dropdown">
+          <!-- Responsável -->
+          <div class="filter-item">
+            <label class="filter-label">RESPONSÁVEL</label>
+            <div class="custom-select filter-custom-select">
+              <div class="select-selected" data-filter="responsavel">
+                <span>Todos os Responsáveis</span>
+                <div class="select-arrow"></div>
+              </div>
+              <div class="select-items">
+                <div class="select-option" data-value="all">Todos os Responsáveis</div>
+                <div class="select-option" data-value="alone">Alone Souza</div>
+                <div class="select-option" data-value="maria">Maria Silva</div>
+                <div class="select-option" data-value="joao">João Santos</div>
+                <div class="select-option" data-value="ana">Ana Costa</div>
+                <div class="select-option" data-value="carlos">Carlos Oliveira</div>
+              </div>
+              <select class="select-native-hidden" id="responsavelFilter">
+                <option value="all">Todos os Responsáveis</option>
+                <option value="alone">Alone Souza</option>
+                <option value="maria">Maria Silva</option>
+                <option value="joao">João Santos</option>
+                <option value="ana">Ana Costa</div>
+                <option value="carlos">Carlos Oliveira</option>
+              </select>
+            </div>
+          </div>
 
-      <select class="filter-select" id="prioridadeFilter">
-        <option value="all">Todas as Prioridades</option>
-        <option value="alta">Alta</option>
-        <option value="media">Média</option>
-        <option value="baixa">Baixa</option>
-      </select>
+          <!-- Tipo de Conteúdo -->
+          <div class="filter-item">
+            <label class="filter-label">TIPO DE CONTEÚDO</label>
+            <div class="custom-select filter-custom-select">
+              <div class="select-selected" data-filter="tipo">
+                <span>Todos os Tipos</span>
+                <div class="select-arrow"></div>
+              </div>
+              <div class="select-items">
+                <div class="select-option" data-value="all">Todos os Tipos</div>
+                <div class="select-option" data-value="reels">Reels</div>
+                <div class="select-option" data-value="video">Vídeo</div>
+                <div class="select-option" data-value="carrossel">Carrossel</div>
+                <div class="select-option" data-value="storys">Storys</div>
+                <div class="select-option" data-value="foto">Foto</div>
+              </div>
+              <select class="select-native-hidden" id="tipoFilter">
+                <option value="all">Todos os Tipos</option>
+                <option value="reels">Reels</option>
+                <option value="video">Vídeo</option>
+                <option value="carrossel">Carrossel</option>
+                <option value="storys">Storys</option>
+                <option value="foto">Foto</option>
+              </select>
+            </div>
+          </div>
 
-      <select class="filter-select" id="mesFilter">
-        <option value="all">Todos os Meses</option>
-        <option value="1">Janeiro</option>
-        <option value="2">Fevereiro</option>
-        <option value="3">Março</option>
-        <option value="4">Abril</option>
-        <option value="5">Maio</option>
-        <option value="6">Junho</option>
-        <option value="7">Julho</option>
-        <option value="8">Agosto</option>
-        <option value="9">Setembro</option>
-        <option value="10">Outubro</option>
-        <option value="11">Novembro</option>
-        <option value="12">Dezembro</option>
-      </select>
+          <!-- Prioridade -->
+          <div class="filter-item">
+            <label class="filter-label">PRIORIDADE</label>
+            <div class="custom-select filter-custom-select">
+              <div class="select-selected" data-filter="prioridade">
+                <span>Todas as Prioridades</span>
+                <div class="select-arrow"></div>
+              </div>
+              <div class="select-items">
+                <div class="select-option" data-value="all">Todas as Prioridades</div>
+                <div class="select-option" data-value="alta">Alta</div>
+                <div class="select-option" data-value="media">Média</div>
+                <div class="select-option" data-value="baixa">Baixa</div>
+              </div>
+              <select class="select-native-hidden" id="prioridadeFilter">
+                <option value="all">Todas as Prioridades</option>
+                <option value="alta">Alta</option>
+                <option value="media">Média</option>
+                <option value="baixa">Baixa</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Mês -->
+          <div class="filter-item">
+            <label class="filter-label">MÊS</label>
+            <div class="custom-select filter-custom-select">
+              <div class="select-selected" data-filter="mes">
+                <span>Todos os Meses</span>
+                <div class="select-arrow"></div>
+              </div>
+              <div class="select-items">
+                <div class="select-option" data-value="all">Todos os Meses</div>
+                <div class="select-option" data-value="1">Janeiro</div>
+                <div class="select-option" data-value="2">Fevereiro</div>
+                <div class="select-option" data-value="3">Março</div>
+                <div class="select-option" data-value="4">Abril</div>
+                <div class="select-option" data-value="5">Maio</div>
+                <div class="select-option" data-value="6">Junho</div>
+                <div class="select-option" data-value="7">Julho</div>
+                <div class="select-option" data-value="8">Agosto</div>
+                <div class="select-option" data-value="9">Setembro</div>
+                <div class="select-option" data-value="10">Outubro</div>
+                <div class="select-option" data-value="11">Novembro</div>
+                <div class="select-option" data-value="12">Dezembro</div>
+              </div>
+              <select class="select-native-hidden" id="mesFilter">
+                <option value="all">Todos os Meses</option>
+                <option value="1">Janeiro</option>
+                <option value="2">Fevereiro</option>
+                <option value="3">Março</option>
+                <option value="4">Abril</option>
+                <option value="5">Maio</option>
+                <option value="6">Junho</option>
+                <option value="7">Julho</option>
+                <option value="8">Agosto</option>
+                <option value="9">Setembro</option>
+                <option value="10">Outubro</option>
+                <option value="11">Novembro</option>
+                <option value="12">Dezembro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="filter-divider"></div>
+
+          <button class="btn-clear-filters" id="clearFiltersBtn">
+            <div class="clear-icon"></div>
+            Limpar todos os filtros
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <button type="button" class="btn-clear-filters" id="clearFiltersBtn">Limpar filtros</button>
+  <!-- Linha 2: Busca -->
+  <div class="search-row">
+    <div class="search-box">
+      <input type="text" id="searchProjeto" placeholder="Buscar por título...">
+      <div class="search-icon"></div>
+    </div>
   </div>
 </div>
-
-
 
         <!-- Conteúdo -->
         <div class="gestao-content">
@@ -386,44 +484,43 @@
           </div>
 
           <!-- Mídia -->
-<div class="media-section">
-  <h4>Arquivos de Mídia</h4>
+          <div class="media-section">
+            <h4>Arquivos de Mídia</h4>
 
-  <div class="media-uploads">
-    <!-- Dropzone Imagens -->
-    <label class="dropzone" for="uploadImagens">
-      <div class="dz-icon"></div>
-      <div class="dz-text">
-        <strong>Adicionar imagens</strong>
-        <span>PNG, JPG, JPEG • múltiplos</span>
-      </div>
-      <input id="uploadImagens" type="file" accept="image/*" multiple hidden>
-    </label>
+            <div class="media-uploads">
+              <!-- Dropzone Imagens -->
+              <label class="dropzone" for="uploadImagens">
+                <div class="dz-icon"></div>
+                <div class="dz-text">
+                  <strong>Adicionar imagens</strong>
+                  <span>PNG, JPG, JPEG • múltiplos</span>
+                </div>
+                <input id="uploadImagens" type="file" accept="image/*" multiple hidden>
+              </label>
 
-    <!-- Dropzone Vídeos -->
-    <label class="dropzone" for="uploadVideos">
-      <div class="dz-icon"></div>
-      <div class="dz-text">
-        <strong>Adicionar vídeos</strong>
-        <span>MP4, MOV • múltiplos</span>
-      </div>
-      <input id="uploadVideos" type="file" accept="video/*" multiple hidden>
-    </label>
-  </div>
+              <!-- Dropzone Vídeos -->
+              <label class="dropzone" for="uploadVideos">
+                <div class="dz-icon"></div>
+                <div class="dz-text">
+                  <strong>Adicionar vídeos</strong>
+                  <span>MP4, MOV • múltiplos</span>
+                </div>
+                <input id="uploadVideos" type="file" accept="video/*" multiple hidden>
+              </label>
+            </div>
 
-  <!-- Grids de preview -->
-  <div class="media-grids">
-    <div class="media-group">
-      <div class="media-title">Imagens</div>
-      <div class="media-grid" id="imagensPreview"></div>
-    </div>
-    <div class="media-group">
-      <div class="media-title">Vídeos</div>
-      <div class="media-grid" id="videosPreview"></div>
-    </div>
-  </div>
-</div>
-
+            <!-- Grids de preview -->
+            <div class="media-grids">
+              <div class="media-group">
+                <div class="media-title">Imagens</div>
+                <div class="media-grid" id="imagensPreview"></div>
+              </div>
+              <div class="media-group">
+                <div class="media-title">Vídeos</div>
+                <div class="media-grid" id="videosPreview"></div>
+              </div>
+            </div>
+          </div>
 
           <!-- Histórico -->
           <div class="history-section">
@@ -523,12 +620,5 @@
 
   <script src="/Menu/javascript/menu.js"></script>
   <script type="module" src="/Menu/javascript/gestao.js"></script>
-
-
-
-
-  <!--Agora vai-->
 </body>
 </html>
-
-
