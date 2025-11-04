@@ -34,102 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
   renderViews();
 });
 
-// ===== Custom Select Lite (sem avatar) para os filtros =====
-function enhanceFilterSelects(){
-  document.querySelectorAll('select.filter-select').forEach((sel) => {
-    if (sel.dataset.enhanced === "1") return;
-
-    // wrapper
-    const wrap = document.createElement('div');
-    wrap.className = 'custom-select-lite';
-    wrap.setAttribute('role', 'combobox');
-    wrap.setAttribute('aria-expanded', 'false');
-
-    // selected
-    const selected = document.createElement('button');
-    selected.type = 'button';
-    selected.className = 'csl-selected';
-    selected.setAttribute('aria-haspopup', 'listbox');
-    selected.innerHTML = `<span class="csl-label">${sel.options[sel.selectedIndex]?.text || ''}</span><span class="csl-arrow"></span>`;
-
-    // list
-    const list = document.createElement('div');
-    list.className = 'csl-items';
-    list.setAttribute('role', 'listbox');
-
-    [...sel.options].forEach((opt, idx) => {
-      const item = document.createElement('div');
-      item.className = 'csl-option';
-      item.setAttribute('role', 'option');
-      item.dataset.value = opt.value;
-      item.textContent = opt.text;
-      if (idx === sel.selectedIndex) item.setAttribute('aria-selected', 'true');
-
-      item.addEventListener('click', () => {
-        // atualizar nativo
-        sel.value = opt.value;
-        sel.dispatchEvent(new Event('change', { bubbles: true }));
-        // UI
-        list.querySelectorAll('.csl-option[aria-selected="true"]').forEach(el => el.removeAttribute('aria-selected'));
-        item.setAttribute('aria-selected', 'true');
-        selected.querySelector('.csl-label').textContent = opt.text;
-        closeAllLite();
-      });
-
-      list.appendChild(item);
-    });
-
-    // inserir DOM
-    sel.classList.add('select-native-hidden');
-    sel.parentNode.insertBefore(wrap, sel);
-    wrap.appendChild(sel);
-    wrap.appendChild(selected);
-    wrap.appendChild(list);
-
-    // handlers
-    selected.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleLite(wrap, true);
-    });
-    selected.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleLite(wrap, true); }
-      if (e.key === 'Escape') { toggleLite(wrap, false); }
-      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-        e.preventDefault();
-        const opts = [...list.querySelectorAll('.csl-option')];
-        let idx = opts.findIndex(o => o.getAttribute('aria-selected') === 'true');
-        idx = e.key === 'ArrowDown' ? Math.min(idx + 1, opts.length - 1) : Math.max(idx - 1, 0);
-        opts[idx].click();
-      }
-    });
-
-    sel.dataset.enhanced = "1";
-  });
-
-  // fecha ao clicar fora/esc
-  document.addEventListener('click', closeAllLite);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAllLite(); });
-}
-
-function toggleLite(wrap, open){
-  const isOpen = wrap.classList.contains('open');
-  const wantOpen = open ?? !isOpen;
-  closeAllLite();
-  if (wantOpen){
-    wrap.classList.add('open');
-    wrap.setAttribute('aria-expanded','true');
-  }
-}
-function closeAllLite(){
-  document.querySelectorAll('.custom-select-lite.open').forEach(w => {
-    w.classList.remove('open');
-    w.setAttribute('aria-expanded','false');
-  });
-}
-
-// inicializa depois que a página montar
-document.addEventListener('DOMContentLoaded', enhanceFilterSelects);
-
 function setupEventListeners() {
   // Toggle de visualização
   document.querySelectorAll('.toggle-btn').forEach(btn => {
@@ -141,18 +45,222 @@ function setupEventListeners() {
     });
   });
 
-  // Filtros
+  // Busca
   document.getElementById('searchProjeto').addEventListener('input', renderViews);
-  document.getElementById('responsavelFilter').addEventListener('change', renderViews);
-  document.getElementById('tipoFilter').addEventListener('change', renderViews);
-  document.getElementById('prioridadeFilter').addEventListener('change', renderViews);
-  document.getElementById('mesFilter').addEventListener('change', renderViews);
 
   // Botão de injetar mock
-  injetarMockBtn.addEventListener('click', injectMockData);
+  document.getElementById('injetarMockBtn').addEventListener('click', injectMockData);
+
+  // Configurar dropdown de filtros
+  setupFilterDropdown();
 
   // Modais
   setupModalEvents();
+}
+
+// Nova função para o sistema de filtros com dropdown customizado
+function setupFilterDropdown() {
+  const btnFilters = document.getElementById('btnFilters');
+  const filtersDropdown = document.getElementById('filtersDropdown');
+  const closeFilters = document.getElementById('closeFilters');
+  const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+  const filterBadge = document.getElementById('filterBadge');
+
+  // Inicializar custom selects
+  initializeCustomSelects();
+
+  // Toggle dropdown
+  if (btnFilters && filtersDropdown) {
+    btnFilters.addEventListener('click', (e) => {
+      e.stopPropagation();
+      filtersDropdown.classList.toggle('show');
+      btnFilters.classList.toggle('active');
+    });
+  }
+
+  // Fechar dropdown
+  if (closeFilters) {
+    closeFilters.addEventListener('click', () => {
+      filtersDropdown.classList.remove('show');
+      btnFilters.classList.remove('active');
+      closeAllCustomSelects();
+    });
+  }
+
+  // Fechar ao clicar fora
+  document.addEventListener('click', (e) => {
+    if (filtersDropdown && !filtersDropdown.contains(e.target) && e.target !== btnFilters) {
+      filtersDropdown.classList.remove('show');
+      btnFilters.classList.remove('active');
+      closeAllCustomSelects();
+    }
+  });
+
+  // Fechar com ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (filtersDropdown.classList.contains('show')) {
+        filtersDropdown.classList.remove('show');
+        btnFilters.classList.remove('active');
+      }
+      closeAllCustomSelects();
+    }
+  });
+
+  // Atualizar badge de filtros ativos
+  function updateFilterBadge() {
+    if (!filterBadge) return;
+    
+    const activeFilters = Array.from(document.querySelectorAll('.filter-custom-select .select-selected span'))
+      .filter(span => {
+        const text = span.textContent.trim();
+        return !text.includes('Todos os') && !text.includes('Todas as');
+      }).length;
+    
+    if (activeFilters > 0) {
+      filterBadge.textContent = activeFilters;
+      filterBadge.style.display = 'block';
+    } else {
+      filterBadge.style.display = 'none';
+    }
+  }
+
+  // Limpar filtros
+  if (clearFiltersBtn) {
+    clearFiltersBtn.addEventListener('click', () => {
+      // Resetar todos os custom selects
+      document.querySelectorAll('.filter-custom-select').forEach(select => {
+        const selected = select.querySelector('.select-selected span');
+        const firstOption = select.querySelector('.select-option');
+        const nativeSelect = select.querySelector('select');
+        
+        if (selected && firstOption) {
+          selected.textContent = firstOption.textContent;
+          if (nativeSelect) {
+            nativeSelect.value = firstOption.dataset.value;
+            nativeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        }
+        
+        // Remover classe selected de todas as opções
+        select.querySelectorAll('.select-option').forEach(option => {
+          option.classList.remove('selected');
+        });
+        
+        // Marcar primeira opção como selecionada
+        if (firstOption) {
+          firstOption.classList.add('selected');
+        }
+      });
+      
+      updateFilterBadge();
+      renderViews(); // Re-renderizar as visualizações
+      
+      // Fechar dropdown após limpar
+      filtersDropdown.classList.remove('show');
+      btnFilters.classList.remove('active');
+    });
+  }
+
+  // Inicializar badge
+  updateFilterBadge();
+}
+
+// Inicializar custom selects
+function initializeCustomSelects() {
+  document.querySelectorAll('.filter-custom-select').forEach(select => {
+    const selected = select.querySelector('.select-selected');
+    const options = select.querySelectorAll('.select-option');
+    const nativeSelect = select.querySelector('select');
+    
+    // Configurar seleção inicial
+    const initialOption = options[0];
+    if (initialOption) {
+      initialOption.classList.add('selected');
+    }
+    
+    // Configurar evento de clique no selected
+    selected.addEventListener('click', (e) => {
+      e.stopPropagation();
+      
+      // Fechar outros selects abertos
+      closeOtherCustomSelects(select);
+      
+      // Toggle este select
+      select.classList.toggle('open');
+    });
+    
+    // Configurar eventos para as opções
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        const value = option.dataset.value;
+        const text = option.textContent;
+        
+        // Atualizar visual
+        selected.querySelector('span').textContent = text;
+        
+        // Atualizar select nativo
+        if (nativeSelect) {
+          nativeSelect.value = value;
+          nativeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+        
+        // Atualizar seleção visual
+        options.forEach(opt => opt.classList.remove('selected'));
+        option.classList.add('selected');
+        
+        // Fechar select
+        select.classList.remove('open');
+        
+        // Atualizar badge e renderizar
+        updateFilterBadge();
+        renderViews();
+      });
+    });
+    
+    // Fechar ao clicar fora
+    document.addEventListener('click', () => {
+      select.classList.remove('open');
+    });
+    
+    // Prevenir propagação dentro do select
+    select.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  });
+}
+
+function closeAllCustomSelects() {
+  document.querySelectorAll('.filter-custom-select').forEach(select => {
+    select.classList.remove('open');
+  });
+}
+
+function closeOtherCustomSelects(currentSelect) {
+  document.querySelectorAll('.filter-custom-select').forEach(select => {
+    if (select !== currentSelect) {
+      select.classList.remove('open');
+    }
+  });
+}
+
+// Atualizar badge de filtros ativos (função auxiliar)
+function updateFilterBadge() {
+  const filterBadge = document.getElementById('filterBadge');
+  if (!filterBadge) return;
+  
+  const activeFilters = Array.from(document.querySelectorAll('.filter-custom-select .select-selected span'))
+    .filter(span => {
+      const text = span.textContent.trim();
+      return !text.includes('Todos os') && !text.includes('Todas as');
+    }).length;
+  
+  if (activeFilters > 0) {
+    filterBadge.textContent = activeFilters;
+    filterBadge.style.display = 'block';
+  } else {
+    filterBadge.style.display = 'none';
+  }
 }
 
 function setupModalEvents() {
@@ -828,166 +936,6 @@ function injectMockData() {
 
   ingestFromPlanejamento(mockData);
 }
-document.addEventListener('DOMContentLoaded', () => {
-  const clearBtn = document.getElementById('clearFiltersBtn');
-  if (!clearBtn) return;
-
-  clearBtn.addEventListener('click', () => {
-    const search = document.getElementById('searchProjeto');
-    const ids = ['responsavelFilter','tipoFilter','prioridadeFilter','mesFilter'];
-
-    // limpar busca
-    if (search){
-      search.value = '';
-      search.dispatchEvent(new Event('input', {bubbles:true}));
-      search.dispatchEvent(new Event('change', {bubbles:true}));
-    }
-
-    // resetar selects para "all" e disparar change
-    ids.forEach(id => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.value = 'all';
-      el.dispatchEvent(new Event('change', {bubbles:true}));
-
-      // se estiver usando o custom-select-lite, atualiza o rótulo também
-      const wrap = el.closest('.custom-select-lite');
-      if (wrap){
-        const allOpt = wrap.querySelector('.csl-option[data-value="all"]') || wrap.querySelector('.csl-option');
-        wrap.querySelectorAll('.csl-option[aria-selected="true"]').forEach(o => o.removeAttribute('aria-selected'));
-        if (allOpt){
-          allOpt.setAttribute('aria-selected','true');
-          const label = wrap.querySelector('.csl-label');
-          if (label) label.textContent = allOpt.textContent;
-        }
-      }
-    });
-
-    // se existir função de aplicar filtros, chama
-    if (typeof applyFilters === 'function') applyFilters();
-    if (typeof renderProjetos === 'function') renderProjetos();
-  });
-});
-// ===== Mídia no modal + edição de status/prioridade =====
-const modalMedia = { imagens: [], videos: [] };  // buffers temporários (File objects)
-
-// helper para criar thumb
-function createThumb({ url, isVideo, onRemove }) {
-  const wrap = document.createElement('div');
-  wrap.className = 'media-thumb';
-  const btn = document.createElement('button');
-  btn.className = 'media-remove';
-  btn.type = 'button';
-  btn.innerHTML = 'Remover';
-  btn.addEventListener('click', (e) => { e.stopPropagation(); onRemove?.(); wrap.remove(); });
-  wrap.appendChild(btn);
-
-  if (isVideo) {
-    const v = document.createElement('video');
-    v.src = url; v.muted = true; v.playsInline = true; v.preload = 'metadata';
-    wrap.appendChild(v);
-  } else {
-    const img = document.createElement('img');
-    img.src = url; wrap.appendChild(img);
-  }
-  return wrap;
-}
-
-function bindMediaHandlers(){
-  const upImg = document.getElementById('uploadImagens');
-  const upVid = document.getElementById('uploadVideos');
-  const gridImg = document.getElementById('imagensPreview');
-  const gridVid = document.getElementById('videosPreview');
-
-  if (upImg) {
-    upImg.addEventListener('change', () => {
-      [...upImg.files].forEach(file => {
-        const url = URL.createObjectURL(file);
-        modalMedia.imagens.push(file);
-        const thumb = createThumb({
-          url, isVideo:false,
-          onRemove: () => {
-            const idx = modalMedia.imagens.indexOf(file);
-            if (idx > -1) modalMedia.imagens.splice(idx,1);
-            URL.revokeObjectURL(url);
-          }
-        });
-        gridImg.appendChild(thumb);
-      });
-      upImg.value = ''; // permite re-adicionar os mesmos nomes
-    });
-  }
-
-  if (upVid) {
-    upVid.addEventListener('change', () => {
-      [...upVid.files].forEach(file => {
-        const url = URL.createObjectURL(file);
-        modalMedia.videos.push(file);
-        const thumb = createThumb({
-          url, isVideo:true,
-          onRemove: () => {
-            const idx = modalMedia.videos.indexOf(file);
-            if (idx > -1) modalMedia.videos.splice(idx,1);
-            URL.revokeObjectURL(url);
-          }
-        });
-        gridVid.appendChild(thumb);
-      });
-      upVid.value = '';
-    });
-  }
-}
-
-// chame isso quando abrir o modal para um projeto:
-function hydrateModalFields(projeto){
-  // status/prioridade
-  const st = document.getElementById('detailStatusSelect');
-  const pr = document.getElementById('detailPrioridadeSelect');
-  if (st) st.value = projeto?.status || 'redacao';
-  if (pr) pr.value = projeto?.prioridade || 'media';
-
-  // limpar previews e buffers
-  modalMedia.imagens = [];
-  modalMedia.videos = [];
-  const gridImg = document.getElementById('imagensPreview');
-  const gridVid = document.getElementById('videosPreview');
-  if (gridImg) gridImg.innerHTML = '';
-  if (gridVid) gridVid.innerHTML = '';
-}
-
-// se você já tem uma função openProjetoModal(proj), apenas garanta que ela chama:
-document.addEventListener('DOMContentLoaded', () => {
-  bindMediaHandlers();
-
-  // salvar: anexamos ao botão existente
-  const saveBtn = document.getElementById('saveContentBtn');
-  if (saveBtn) {
-    saveBtn.addEventListener('click', () => {
-      const st = document.getElementById('detailStatusSelect')?.value;
-      const pr = document.getElementById('detailPrioridadeSelect')?.value;
-
-      // >>> Atualize o objeto do projeto atual
-      // Assumindo que você tem algo como currentProjeto:
-      if (window.currentProjeto){
-        if (st) window.currentProjeto.status = st;
-        if (pr) window.currentProjeto.prioridade = pr;
-        // opcional: salvar legendas/inspirações já existentes no modal...
-        // window.currentProjeto.legenda = document.getElementById('detailLegenda').value;
-      }
-
-      // >>> Suba os arquivos se quiser (Firebase Storage etc.)
-      // modalMedia.imagens / modalMedia.videos são arrays de File prontos
-      // -> aqui você faz o upload e guarda as URLs no seu projeto
-
-      // re-render UI se existirem essas funções
-      if (typeof renderProjetos === 'function') renderProjetos();
-      if (typeof applyFilters === 'function') applyFilters();
-      if (typeof atualizarProgressoUI === 'function') atualizarProgressoUI(window.currentProjeto);
-    });
-  }
-
-  // quando abrir o modal em outro lugar do seu código, chame hydrateModalFields(projeto)
-});
 
 // Expor funções para uso global
 window.openProjetoModal = openProjetoModal;
