@@ -8,7 +8,7 @@
 </head>
 <body>
   <div class="app">
-    <!-- Sidebar -->
+    <!-- Sidebar - MANTIDO ORIGINAL -->
     <aside class="sidebar">
       <div class="brand">
           <span>FlowUp</span>
@@ -39,9 +39,8 @@
       </nav>
     </aside>
 
-    <!-- Topbar -->
+    <!-- Topbar - MANTIDO ORIGINAL -->
     <header class="topbar">
-      <!-- à esquerda: avatar da empresa + seleção -->
       <div class="company">
         <div class="avatar" title="Logo da Empresa"></div>
         <div class="custom-select">
@@ -71,7 +70,6 @@
         </div>
       </div>
 
-      <!-- à direita: avatar do profissional -->
       <div class="user" id="user-menu-trigger">
         <div>
           <div class="name">Alone Souza</div>
@@ -79,7 +77,6 @@
         </div>
         <div class="avatar" title="Seu perfil"></div>
         
-        <!-- Menu do usuário -->
         <div class="user-menu" id="user-menu">
           <div class="user-menu-header">
             <div class="user-menu-avatar"></div>
@@ -111,88 +108,308 @@
       </div>
     </header>
 
-    <!-- Conteúdo -->
+    <!-- Conteúdo - CORRIGIDO -->
     <main class="main">
-      <!-- Análise -->
-      <section class="card analytics">
-        <h3>Análise</h3>
-        <p class="sub">Resumo de desempenho (alcance, cliques, engajamento).</p>
-        <div class="stats">
-          <div class="stat">
-            <div class="stat-value">1.2K</div>
-            <div class="stat-label">Alcance</div>
+      <!-- Planejamento Mensal - MANTIDO -->
+      <section class="card">
+        <div class="planning-header">
+          <div class="planning-title">
+            <h3>Planejamento Mensal</h3>
+            <p class="sub">Gerencie suas tarefas e prazos do mês</p>
           </div>
-          <div class="stat">
-            <div class="stat-value">347</div>
-            <div class="stat-label">Engajamento</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value">4.8%</div>
-            <div class="stat-label">Taxa de Cliques</div>
+          <div class="planning-actions">
+            <button class="btn-view active">Kankan</button>
+            <button class="btn-view">Lista</button>
+            <button class="btn-view">Filtros</button>
           </div>
         </div>
-        <a class="link" href="#">Ver análise completa</a>
-      </section>
+        
+        <div class="search-container">
+          <div class="search-icon">🔍</div>
+          <input type="text" placeholder="Buscar por título..." class="search-input">
+        </div>
 
-      <!-- Planejamento Mensal -->
-      <section class="card planning">
-        <h3>Planejamento Mensal</h3>
-        <p class="sub">Estratégia de conteúdo para o mês atual.</p>
-        <div class="planning-progress">
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 65%"></div>
+        <!-- Tabela de Planejamento - SEM COLUNA MÊS -->
+        <div class="table-container">
+          <div class="table-wrapper">
+            <table class="planning-table">
+              <thead>
+                <tr>
+                  <th class="col-title">Título</th>
+                  <th class="col-status">Status</th>
+                  <th class="col-priority">Prioridade</th>
+                  <th class="col-responsible">Responsável</th>
+                  <th class="col-deadline">Data Limite</th>
+                  <th class="col-actions">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Linha 1 -->
+                <tr class="table-row">
+                  <td class="task-title">Reels Verão 2024</td>
+                  <td>
+                    <span class="status-tag status-recording">GRAVAÇÃO</span>
+                  </td>
+                  <td>
+                    <span class="priority-tag priority-high">alta</span>
+                  </td>
+                  <td class="responsible">Alone Souza</td>
+                  <td class="deadline">19/01/2024 ▲</td>
+                  <td class="actions">
+                    <button class="btn-action">🔴</button>
+                  </td>
+                </tr>
+                
+                <!-- Linha 2 -->
+                <tr class="table-row">
+                  <td class="task-title">Carrossel Produtos Novos</td>
+                  <td>
+                    <span class="status-tag status-design">DESIGN</span>
+                  </td>
+                  <td>
+                    <span class="priority-tag priority-medium">media</span>
+                  </td>
+                  <td class="responsible">Maria Silva</td>
+                  <td class="deadline">24/01/2024 ▲</td>
+                  <td class="actions">
+                    <button class="btn-action">🔴</button>
+                  </td>
+                </tr>
+                
+                <!-- Linha 3 -->
+                <tr class="table-row">
+                  <td class="task-title">Video Tutorial</td>
+                  <td>
+                    <span class="status-tag status-editing">EDIÇÃO DE VÍDEO</span>
+                  </td>
+                  <td>
+                    <span class="priority-tag priority-high">alta</span>
+                  </td>
+                  <td class="responsible">João Santos</td>
+                  <td class="deadline">14/01/2024 ▲</td>
+                  <td class="actions">
+                    <button class="btn-action">🔴</button>
+                  </td>
+                </tr>
+                
+                <!-- Linha 4 -->
+                <tr class="table-row">
+                  <td class="task-title">Storys Promocionais</td>
+                  <td>
+                    <span class="status-tag status-writing">REDAÇÃO</span>
+                  </td>
+                  <td>
+                    <span class="priority-tag priority-low">baixa</span>
+                  </td>
+                  <td class="responsible">Ana Costa</td>
+                  <td class="deadline">-</td>
+                  <td class="actions">
+                    <button class="btn-action">🔴</button>
+                  </td>
+                </tr>
+                
+                <!-- Linha 5 -->
+                <tr class="table-row">
+                  <td class="task-title">Fotos Produto</td>
+                  <td>
+                    <span class="status-tag status-photography">FOTOGRAFIA</span>
+                  </td>
+                  <td>
+                    <span class="priority-tag priority-medium">media</span>
+                  </td>
+                  <td class="responsible">Carlos Oliveira</td>
+                  <td class="deadline">29/01/2024 ▲</td>
+                  <td class="actions">
+                    <button class="btn-action">🔴</button>
+                  </td>
+                </tr>
+                
+                <!-- Linha 6 -->
+                <tr class="table-row">
+                  <td class="task-title">Reels Behind the Scenes</td>
+                  <td>
+                    <span class="status-tag status-ready">PRONTO PRA POSTAR</span>
+                  </td>
+                  <td>
+                    <span class="priority-tag priority-low">baixa</span>
+                  </td>
+                  <td class="responsible">Alone Souza</td>
+                  <td class="deadline">09/01/2024</td>
+                  <td class="actions">
+                    <button class="btn-action">🔴</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="progress-text">13 de 20 posts programados</div>
         </div>
-        <a class="link-outline link" href="#">Criar planejamento</a>
+        
+        <div class="search-container" style="margin-top: 20px;">
+          <div class="search-icon">🔍</div>
+          <input type="text" placeholder="Pesquisar" class="search-input">
+        </div>
       </section>
 
-      <!-- Post -->
-      <section class="card post">
-        <h3>Post</h3>
-        <p class="sub">Criação e agendamento de publicações.</p>
-        <div class="quick-actions">
-          <button class="action-btn">
-            <div class="action-icon i-image"></div>
-            <span>Nova Imagem</span>
-          </button>
-          <button class="action-btn">
-            <div class="action-icon i-video"></div>
-            <span>Novo Vídeo</span>
-          </button>
-          <button class="action-btn">
-            <div class="action-icon i-text"></div>
-            <span>Texto Rápido</span>
-          </button>
-        </div>
-        <a class="link" href="#">Criar post</a>
-      </section>
-
-      <!-- Calendário de Postagem -->
+      <!-- Calendário de Postagem - PRIMEIRA VERSÃO COM MÊS E ANO -->
       <section class="card calendar">
         <h3>Calendário de Postagem</h3>
-        <p class="sub">Visualize e gerencie suas publicações agendadas.</p>
-        <div class="calendar-preview">
-          <div class="calendar-day today">
-            <div class="day-number">15</div>
-            <div class="day-posts">3 posts</div>
-          </div>
-          <div class="calendar-day">
-            <div class="day-number">16</div>
-            <div class="day-posts">2 posts</div>
-          </div>
-          <div class="calendar-day">
-            <div class="day-number">17</div>
-            <div class="day-posts">1 post</div>
+        <p class="sub">Visualize e gerencie suas publicações agendadas</p>
+        
+        <!-- Cabeçalho com ano e mês -->
+        <div class="calendar-header">
+          <div class="calendar-nav">
+            <button class="nav-btn">‹</button>
+            <div class="current-month">
+              <span class="month">Janeiro 2024</span>
+            </div>
+            <button class="nav-btn">›</button>
           </div>
         </div>
-        <a class="link-outline link" href="#">Abrir calendário completo</a>
+        
+        <!-- Calendário estilo Google como na primeira versão -->
+        <div class="calendar-google-style">
+          <div class="calendar-week-header">
+            <div class="week-day">Dom</div>
+            <div class="week-day">Seg</div>
+            <div class="week-day">Ter</div>
+            <div class="week-day">Qua</div>
+            <div class="week-day">Qui</div>
+            <div class="week-day">Sex</div>
+            <div class="week-day">Sáb</div>
+          </div>
+          <div class="calendar-week">
+            <!-- Semana 1 -->
+            <div class="week-day empty"></div>
+            <div class="week-day empty"></div>
+            <div class="week-day">
+              <div class="day-number">1</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">2</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">3</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">4</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">5</div>
+            </div>
+          </div>
+          <div class="calendar-week">
+            <!-- Semana 2 -->
+            <div class="week-day">
+              <div class="day-number">6</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">7</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">8</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">9</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">10</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">11</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">12</div>
+            </div>
+          </div>
+          <div class="calendar-week">
+            <!-- Semana 3 -->
+            <div class="week-day">
+              <div class="day-number">13</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">14</div>
+            </div>
+            <div class="week-day today">
+              <div class="day-number">15</div>
+              <div class="day-events">
+                <div class="calendar-event">Instagram</div>
+                <div class="calendar-event">Facebook</div>
+                <div class="calendar-event">Stories</div>
+              </div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">16</div>
+              <div class="day-events">
+                <div class="calendar-event">Reels</div>
+                <div class="calendar-event">Blog</div>
+              </div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">17</div>
+              <div class="day-events">
+                <div class="calendar-event">Twitter</div>
+              </div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">18</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">19</div>
+            </div>
+          </div>
+          <div class="calendar-week">
+            <!-- Semana 4 -->
+            <div class="week-day">
+              <div class="day-number">20</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">21</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">22</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">23</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">24</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">25</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">26</div>
+            </div>
+          </div>
+          <div class="calendar-week">
+            <!-- Semana 5 -->
+            <div class="week-day">
+              <div class="day-number">27</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">28</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">29</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">30</div>
+            </div>
+            <div class="week-day">
+              <div class="day-number">31</div>
+            </div>
+            <div class="week-day empty"></div>
+            <div class="week-day empty"></div>
+          </div>
+        </div>
+        
+        <a class="link" href="#">Abrir calendário completo</a>
       </section>
 
-      <!-- Gestão de Projetos -->
+      <!-- Gestão de Projetos - MANTIDO -->
       <section class="card manage">
         <h3>Gestão de Projetos</h3>
-        <p class="sub">Acompanhe o andamento de todos os projetos.</p>
+        <p class="sub">Vozes da sua mente - acompanhe o andamento</p>
         <div class="project-status">
           <div class="status-item">
             <div class="status-dot in-progress"></div>
@@ -210,60 +427,34 @@
         <a class="link" href="#">Ver todos os projetos</a>
       </section>
 
-      <!-- Briefing -->
+      <!-- Briefing - PRIMEIRA VERSÃO COM BOTÃO CORRETO -->
       <section class="card brief">
         <h3>Briefing</h3>
-        <p class="sub">Crie e gerencie briefings de conteúdo.</p>
-        <div class="briefing-stats">
-          <div class="brief-stat">
-            <div class="brief-number">5</div>
-            <div class="brief-label">Em andamento</div>
+        <p class="sub">Crie e gerencie briefings de conteúdo</p>
+        <div class="project-status">
+          <div class="status-item">
+            <div class="status-dot in-progress"></div>
+            <span>Em andamento: 5 briefings</span>
           </div>
-          <div class="brief-stat">
-            <div class="brief-number">12</div>
-            <div class="brief-label">Concluídos</div>
+          <div class="status-item">
+            <div class="status-dot completed"></div>
+            <span>Concluídos: 12 briefings</span>
           </div>
-          <div class="brief-stat">
-            <div class="brief-number">2</div>
-            <div class="brief-label">Pendentes</div>
+          <div class="status-item">
+            <div class="status-dot pending"></div>
+            <span>Pendentes: 2 briefings</span>
           </div>
-        </div>
-        <a class="link-outline link" href="#">Criar novo briefing</a>
-      </section>
-
-      <!-- Equipe -->
-      <section class="card team">
-        <h3>Equipe</h3>
-        <p class="sub">Gerencie membros e permissões da equipe.</p>
-        <div class="team-members">
-          <div class="member">
-            <div class="member-avatar"></div>
-            <div class="member-info">
-              <div class="member-name">Maria Silva</div>
-              <div class="member-role">Social Media</div>
-            </div>
-          </div>
-          <div class="member">
-            <div class="member-avatar"></div>
-            <div class="member-info">
-              <div class="member-name">João Santos</div>
-              <div class="member-role">Designer</div>
-            </div>
-          </div>
-          <div class="member">
-            <div class="member-avatar"></div>
-            <div class="member-info">
-              <div class="member-name">Ana Costa</div>
-              <div class="member-role">Copywriter</div>
-            </div>
+          <div class="status-item">
+            <div class="status-dot in-progress"></div>
+            <span>Próxima revisão: 18/11</span>
           </div>
         </div>
-        <a class="link" href="#">Gerenciar equipe</a>
+        <a class="link" href="#">Criar novo briefing</a>
       </section>
     </main>
   </div>
 
-  <!-- Modal para cadastrar nova empresa -->
+  <!-- Modal - MANTIDO ORIGINAL -->
   <div class="modal" id="newCompanyModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -312,5 +503,356 @@
   </div>
 
   <script src="/Menu/javascript/menu.js"></script>
+  
+  <style>
+    /* Layout em coluna única */
+    .main {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "planning"
+        "calendar" 
+        "manage"
+        "brief";
+    }
+
+    /* ===== PLANEJAMENTO MENSAL - SEM COLUNA MÊS ===== */
+    .planning-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .planning-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .btn-view {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      background: #f8fafc;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+    
+    .btn-view.active {
+      background: linear-gradient(90deg, var(--g1), var(--g2));
+      color: white;
+      border-color: transparent;
+    }
+    
+    .search-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    
+    .search-container .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 16px;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 12px 16px 12px 44px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-size: 14px;
+      background: white;
+    }
+    
+    .table-container {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    
+    .planning-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .planning-table th {
+      background: #f8fafc;
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    
+    .planning-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .planning-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .task-title {
+      font-weight: 600;
+    }
+    
+    .status-tag {
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .status-recording { background: #fef3c7; color: #92400e; }
+    .status-design { background: #dbeafe; color: #1e40af; }
+    .status-editing { background: #fce7f3; color: #be185d; }
+    .status-writing { background: #f3e8ff; color: #7e22ce; }
+    .status-photography { background: #dcfce7; color: #166534; }
+    .status-ready { background: #dcfce7; color: #166534; }
+    
+    .priority-tag {
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .priority-high { background: #fee2e2; color: #dc2626; }
+    .priority-medium { background: #fef3c7; color: #d97706; }
+    .priority-low { background: #dcfce7; color: #16a34a; }
+    
+    .responsible {
+      font-size: 14px;
+      color: var(--text);
+    }
+    
+    .deadline {
+      font-size: 14px;
+      color: var(--text);
+    }
+    
+    .btn-action {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px;
+    }
+
+    /* ===== CALENDÁRIO PRIMEIRA VERSÃO ===== */
+    .calendar-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .calendar-nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .nav-btn {
+      background: none;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 16px;
+      color: var(--text);
+    }
+    
+    .current-month {
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--text);
+    }
+    
+    .calendar-google-style {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 16px 0;
+    }
+    
+    .calendar-week-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      background: #f8fafc;
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .week-day {
+      padding: 12px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 12px;
+      border-right: 1px solid var(--line);
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .week-day:last-child {
+      border-right: none;
+    }
+    
+    .calendar-week {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .calendar-week:last-child {
+      border-bottom: none;
+    }
+    
+    .week-day {
+      min-height: 80px;
+      padding: 8px;
+      border-right: 1px solid var(--line);
+      border-bottom: none;
+      position: relative;
+    }
+    
+    .week-day.empty {
+      background: #fafafa;
+    }
+    
+    .week-day.today {
+      background: #f0f9ff;
+    }
+    
+    .day-number {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+    
+    .week-day.today .day-number {
+      background: var(--g1);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 4px auto;
+    }
+    
+    .day-events {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    
+    .calendar-event {
+      background: var(--g1);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    /* ===== GESTÃO ===== */
+    .project-status {
+      margin: 16px 0;
+    }
+    
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .status-item:last-child {
+      border-bottom: none;
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    
+    .status-dot.in-progress {
+      background: var(--g3);
+    }
+    
+    .status-dot.completed {
+      background: #10b981;
+    }
+    
+    .status-dot.pending {
+      background: var(--muted);
+    }
+
+    /* ===== BRIEFING PRIMEIRA VERSÃO ===== */
+    .brief .project-status {
+      margin: 16px 0;
+    }
+    
+    .brief .status-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .brief .status-item:last-child {
+      border-bottom: none;
+    }
+    
+    .brief .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    
+    .brief .status-dot.in-progress {
+      background: var(--g3);
+    }
+    
+    .brief .status-dot.completed {
+      background: #10b981;
+    }
+    
+    .brief .status-dot.pending {
+      background: var(--muted);
+    }
+
+    /* ===== LINKS COM GRADIENTE ===== */
+    .link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
+      margin-top: 16px;
+    }
+  </style>
 </body>
 </html>
