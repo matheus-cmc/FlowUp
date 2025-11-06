@@ -108,9 +108,9 @@
       </div>
     </header>
 
-    <!-- Conteúdo - ATUALIZADO -->
+    <!-- Conteúdo - CALENDÁRIO COM LAYOUT DIVIDIDO -->
     <main class="main">
-      <!-- Planejamento Mensal - SEM COLUNA AÇÃO -->
+      <!-- Planejamento Mensal - MANTIDO -->
       <section class="card">
         <div class="planning-header">
           <div class="planning-title">
@@ -231,7 +231,7 @@
         </div>
       </section>
 
-      <!-- Calendário de Postagem - VISUAL MELHORADO -->
+      <!-- Calendário de Postagem - LAYOUT DIVIDIDO -->
       <section class="card calendar">
         <h3>Calendário de Postagem</h3>
         <p class="sub">Visualize e gerencie suas publicações agendadas</p>
@@ -286,188 +286,232 @@
             </div>
           </div>
           
-          <!-- Calendário estilo Google - VISUAL MELHORADO -->
-          <div class="calendar-google-style">
-            <div class="calendar-week-header">
-              <div class="week-day">Dom</div>
-              <div class="week-day">Seg</div>
-              <div class="week-day">Ter</div>
-              <div class="week-day">Qua</div>
-              <div class="week-day">Qui</div>
-              <div class="week-day">Sex</div>
-              <div class="week-day">Sáb</div>
+          <!-- Layout dividido: Calendário na esquerda, Detalhes na direita -->
+          <div class="calendar-split-layout">
+            <!-- Coluna da esquerda - Calendário -->
+            <div class="calendar-column">
+              <div class="calendar-google-style">
+                <div class="calendar-week-header">
+                  <div class="week-day">Dom</div>
+                  <div class="week-day">Seg</div>
+                  <div class="week-day">Ter</div>
+                  <div class="week-day">Qua</div>
+                  <div class="week-day">Qui</div>
+                  <div class="week-day">Sex</div>
+                  <div class="week-day">Sáb</div>
+                </div>
+                
+                <!-- Semanas do calendário -->
+                <div class="calendar-week">
+                  <div class="week-day empty"></div>
+                  <div class="week-day empty"></div>
+                  <div class="week-day" data-day="1">
+                    <div class="day-number">1</div>
+                  </div>
+                  <div class="week-day" data-day="2">
+                    <div class="day-number">2</div>
+                  </div>
+                  <div class="week-day" data-day="3">
+                    <div class="day-number">3</div>
+                  </div>
+                  <div class="week-day" data-day="4">
+                    <div class="day-number">4</div>
+                  </div>
+                  <div class="week-day" data-day="5">
+                    <div class="day-number">5</div>
+                  </div>
+                </div>
+                
+                <div class="calendar-week">
+                  <div class="week-day" data-day="6">
+                    <div class="day-number">6</div>
+                  </div>
+                  <div class="week-day" data-day="7">
+                    <div class="day-number">7</div>
+                  </div>
+                  <div class="week-day" data-day="8">
+                    <div class="day-number">8</div>
+                  </div>
+                  <div class="week-day" data-day="9">
+                    <div class="day-number">9</div>
+                  </div>
+                  <div class="week-day" data-day="10">
+                    <div class="day-number">10</div>
+                  </div>
+                  <div class="week-day" data-day="11">
+                    <div class="day-number">11</div>
+                  </div>
+                  <div class="week-day" data-day="12">
+                    <div class="day-number">12</div>
+                  </div>
+                </div>
+                
+                <div class="calendar-week">
+                  <div class="week-day" data-day="13">
+                    <div class="day-number">13</div>
+                  </div>
+                  <div class="week-day" data-day="14">
+                    <div class="day-number">14</div>
+                  </div>
+                  <div class="week-day today" data-day="15">
+                    <div class="day-number">15</div>
+                    <div class="day-events">
+                      <div class="calendar-event instagram">
+                        <span class="event-icon">📷</span>
+                        <span class="event-text">Instagram Post</span>
+                      </div>
+                      <div class="calendar-event facebook">
+                        <span class="event-icon">👍</span>
+                        <span class="event-text">Facebook</span>
+                      </div>
+                      <div class="calendar-event stories">
+                        <span class="event-icon">📱</span>
+                        <span class="event-text">Stories</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="week-day" data-day="16">
+                    <div class="day-number">16</div>
+                    <div class="day-events">
+                      <div class="calendar-event reels">
+                        <span class="event-icon">🎬</span>
+                        <span class="event-text">Reels Video</span>
+                      </div>
+                      <div class="calendar-event blog">
+                        <span class="event-icon">📝</span>
+                        <span class="event-text">Blog Post</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="week-day" data-day="17">
+                    <div class="day-number">17</div>
+                    <div class="day-events">
+                      <div class="calendar-event twitter">
+                        <span class="event-icon">🐦</span>
+                        <span class="event-text">Twitter Thread</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="week-day" data-day="18">
+                    <div class="day-number">18</div>
+                  </div>
+                  <div class="week-day" data-day="19">
+                    <div class="day-number">19</div>
+                  </div>
+                </div>
+                
+                <div class="calendar-week">
+                  <div class="week-day" data-day="20">
+                    <div class="day-number">20</div>
+                  </div>
+                  <div class="week-day" data-day="21">
+                    <div class="day-number">21</div>
+                  </div>
+                  <div class="week-day" data-day="22">
+                    <div class="day-number">22</div>
+                  </div>
+                  <div class="week-day" data-day="23">
+                    <div class="day-number">23</div>
+                  </div>
+                  <div class="week-day" data-day="24">
+                    <div class="day-number">24</div>
+                  </div>
+                  <div class="week-day" data-day="25">
+                    <div class="day-number">25</div>
+                  </div>
+                  <div class="week-day" data-day="26">
+                    <div class="day-number">26</div>
+                  </div>
+                </div>
+                
+                <div class="calendar-week">
+                  <div class="week-day" data-day="27">
+                    <div class="day-number">27</div>
+                  </div>
+                  <div class="week-day" data-day="28">
+                    <div class="day-number">28</div>
+                  </div>
+                  <div class="week-day" data-day="29">
+                    <div class="day-number">29</div>
+                  </div>
+                  <div class="week-day" data-day="30">
+                    <div class="day-number">30</div>
+                  </div>
+                  <div class="week-day" data-day="31">
+                    <div class="day-number">31</div>
+                  </div>
+                  <div class="week-day empty"></div>
+                  <div class="week-day empty"></div>
+                </div>
+              </div>
             </div>
             
-            <!-- Semanas do calendário -->
-            <div class="calendar-week">
-              <div class="week-day empty"></div>
-              <div class="week-day empty"></div>
-              <div class="week-day">
-                <div class="day-number">1</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">2</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">3</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">4</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">5</div>
-              </div>
-            </div>
-            
-            <div class="calendar-week">
-              <div class="week-day">
-                <div class="day-number">6</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">7</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">8</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">9</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">10</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">11</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">12</div>
-              </div>
-            </div>
-            
-            <div class="calendar-week">
-              <div class="week-day">
-                <div class="day-number">13</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">14</div>
-              </div>
-              <div class="week-day today">
-                <div class="day-number">15</div>
-                <div class="day-events">
-                  <div class="calendar-event instagram">
-                    <span class="event-icon">📷</span>
-                    <span class="event-text">Instagram Post</span>
-                    <span class="event-time">14:00</span>
-                  </div>
-                  <div class="calendar-event facebook">
-                    <span class="event-icon">👍</span>
-                    <span class="event-text">Facebook</span>
-                    <span class="event-time">16:30</span>
-                  </div>
-                  <div class="calendar-event stories">
-                    <span class="event-icon">📱</span>
-                    <span class="event-text">Stories</span>
-                    <span class="event-time">18:00</span>
+            <!-- Coluna da direita - Detalhes do dia -->
+            <div class="details-column">
+              <div class="day-details" id="dayDetails">
+                <div class="details-header">
+                  <h4 class="details-date">15 de Janeiro de 2024</h4>
+                  <p class="details-day">Segunda-feira</p>
+                </div>
+                
+                <div class="posts-summary">
+                  <div class="summary-item">
+                    <span class="summary-count">3</span>
+                    <span class="summary-label">Posts Agendados</span>
                   </div>
                 </div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">16</div>
-                <div class="day-events">
-                  <div class="calendar-event reels">
-                    <span class="event-icon">🎬</span>
-                    <span class="event-text">Reels Video</span>
-                    <span class="event-time">10:00</span>
+                
+                <div class="posts-list">
+                  <h5 class="posts-title">Publicações do Dia</h5>
+                  
+                  <div class="post-item instagram">
+                    <div class="post-header">
+                      <div class="post-platform">
+                        <span class="platform-icon">📷</span>
+                        <span class="platform-name">Instagram</span>
+                      </div>
+                      <span class="post-time">14:00</span>
+                    </div>
+                    <p class="post-description">Post principal do feed - Campanha Verão 2024</p>
+                    <div class="post-status">
+                      <span class="status-badge ready">Pronto para postar</span>
+                    </div>
                   </div>
-                  <div class="calendar-event blog">
-                    <span class="event-icon">📝</span>
-                    <span class="event-text">Blog Post</span>
-                    <span class="event-time">15:00</span>
+                  
+                  <div class="post-item facebook">
+                    <div class="post-header">
+                      <div class="post-platform">
+                        <span class="platform-icon">👍</span>
+                        <span class="platform-name">Facebook</span>
+                      </div>
+                      <span class="post-time">16:30</span>
+                    </div>
+                    <p class="post-description">Post patrocinado - Segmentação: 25-40 anos</p>
+                    <div class="post-status">
+                      <span class="status-badge scheduled">Agendado</span>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">17</div>
-                <div class="day-events">
-                  <div class="calendar-event twitter">
-                    <span class="event-icon">🐦</span>
-                    <span class="event-text">Twitter Thread</span>
-                    <span class="event-time">12:00</span>
-                  </div>
-                </div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">18</div>
-                <div class="day-events">
-                  <div class="calendar-event instagram">
-                    <span class="event-icon">📷</span>
-                    <span class="event-text">Carousel</span>
-                    <span class="event-time">11:00</span>
-                  </div>
-                </div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">19</div>
-              </div>
-            </div>
-            
-            <div class="calendar-week">
-              <div class="week-day">
-                <div class="day-number">20</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">21</div>
-                <div class="day-events">
-                  <div class="calendar-event facebook">
-                    <span class="event-icon">👍</span>
-                    <span class="event-text">Live</span>
-                    <span class="event-time">19:00</span>
+                  
+                  <div class="post-item stories">
+                    <div class="post-header">
+                      <div class="post-platform">
+                        <span class="platform-icon">📱</span>
+                        <span class="platform-name">Stories</span>
+                      </div>
+                      <span class="post-time">18:00</span>
+                    </div>
+                    <p class="post-description">3 cards - Behind the scenes + enquete</p>
+                    <div class="post-status">
+                      <span class="status-badge in-progress">Em produção</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">22</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">23</div>
-              </div>
-              <div class="week-day">
-                <div class="event-indicator">•</div>
-                <div class="day-number">24</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">25</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">26</div>
-              </div>
-            </div>
-            
-            <div class="calendar-week">
-              <div class="week-day">
-                <div class="day-number">27</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">28</div>
-              </div>
-              <div class="week-day">
-                <div class="event-indicator">•</div>
-                <div class="day-number">29</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">30</div>
-              </div>
-              <div class="week-day">
-                <div class="day-number">31</div>
-                <div class="day-events">
-                  <div class="calendar-event stories">
-                    <span class="event-icon">📱</span>
-                    <span class="event-text">Monthly Recap</span>
-                    <span class="event-time">20:00</span>
-                  </div>
+                
+                <div class="day-actions">
+                  <button class="btn-action primary">Agendar Novo Post</button>
+                  <button class="btn-action secondary">Editar Agenda</button>
                 </div>
               </div>
-              <div class="week-day empty"></div>
-              <div class="week-day empty"></div>
             </div>
           </div>
         </div>
@@ -539,7 +583,7 @@
         "brief";
     }
 
-    /* ===== PLANEJAMENTO MENSAL - SEM COLUNA AÇÃO ===== */
+    /* ===== PLANEJAMENTO MENSAL ===== */
     .planning-header {
       display: flex;
       justify-content: space-between;
@@ -689,6 +733,7 @@
       border: 1px solid var(--line);
       background: #f8fafc;
       transition: all 0.2s ease;
+      cursor: pointer;
     }
     
     .calendar-day:hover {
@@ -717,7 +762,7 @@
       font-weight: 500;
     }
 
-    /* ===== CALENDÁRIO COMPLETO - VISUAL MELHORADO ===== */
+    /* ===== CALENDÁRIO COMPLETO - LAYOUT DIVIDIDO ===== */
     .calendar-full {
       margin-top: 20px;
     }
@@ -771,6 +816,22 @@
       background: #f8fafc;
     }
     
+    /* Layout dividido */
+    .calendar-split-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    
+    .calendar-column {
+      flex: 2;
+    }
+    
+    .details-column {
+      flex: 1;
+    }
+    
     .calendar-google-style {
       border: 1px solid var(--line);
       border-radius: 16px;
@@ -813,8 +874,8 @@
     }
     
     .week-day {
-      min-height: 120px;
-      padding: 12px;
+      min-height: 80px;
+      padding: 8px;
       border-right: 1px solid var(--line);
       border-bottom: none;
       position: relative;
@@ -822,6 +883,7 @@
       align-items: flex-start;
       background: white;
       transition: background-color 0.2s ease;
+      cursor: pointer;
     }
     
     .week-day:hover {
@@ -830,16 +892,26 @@
     
     .week-day.empty {
       background: #fafafa;
+      cursor: default;
     }
     
     .week-day.today {
       background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
     }
     
+    .week-day.selected {
+      background: var(--g1);
+      color: white;
+    }
+    
+    .week-day.selected .day-number {
+      color: white;
+    }
+    
     .day-number {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 4px;
       color: var(--text);
       align-self: flex-start;
     }
@@ -847,47 +919,33 @@
     .week-day.today .day-number {
       background: var(--g1);
       color: white;
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 0 12px 0;
-    }
-    
-    .event-indicator {
-      color: var(--g1);
-      font-size: 24px;
-      position: absolute;
-      top: 8px;
-      right: 8px;
+      margin: 0 0 4px 0;
     }
     
     .day-events {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 2px;
       width: 100%;
     }
     
     .calendar-event {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 10px;
-      border-radius: 8px;
-      font-size: 12px;
+      gap: 4px;
+      padding: 4px 6px;
+      border-radius: 4px;
+      font-size: 10px;
       cursor: pointer;
       font-weight: 500;
       width: 100%;
       box-sizing: border-box;
-      transition: all 0.2s ease;
-    }
-    
-    .calendar-event:hover {
-      transform: translateX(4px);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
     
     .calendar-event.instagram { background: #E4405F; color: white; }
@@ -898,7 +956,7 @@
     .calendar-event.twitter { background: #1DA1F2; color: white; }
     
     .event-icon {
-      font-size: 12px;
+      font-size: 10px;
       flex-shrink: 0;
     }
     
@@ -909,11 +967,197 @@
       text-overflow: ellipsis;
       font-weight: 600;
     }
+
+    /* ===== DETALHES DO DIA ===== */
+    .day-details {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
     
-    .event-time {
+    .details-header {
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    
+    .details-date {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 4px 0;
+    }
+    
+    .details-day {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+    
+    .posts-summary {
+      margin-bottom: 20px;
+    }
+    
+    .summary-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 12px;
+    }
+    
+    .summary-count {
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--g1), var(--g2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .summary-label {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 600;
+    }
+    
+    .posts-list {
+      margin-bottom: 24px;
+    }
+    
+    .posts-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0 0 16px 0;
+    }
+    
+    .post-item {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      transition: all 0.2s ease;
+    }
+    
+    .post-item:hover {
+      border-color: var(--g1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .post-item.instagram {
+      border-left: 4px solid #E4405F;
+    }
+    
+    .post-item.facebook {
+      border-left: 4px solid #1877F2;
+    }
+    
+    .post-item.stories {
+      border-left: 4px solid #8a3ab9;
+    }
+    
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    
+    .post-platform {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .platform-icon {
+      font-size: 16px;
+    }
+    
+    .platform-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    .post-time {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    
+    .post-description {
+      font-size: 13px;
+      color: var(--text);
+      margin: 0 0 12px 0;
+      line-height: 1.4;
+    }
+    
+    .post-status {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 6px;
       font-size: 10px;
-      opacity: 0.9;
-      flex-shrink: 0;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .status-badge.ready {
+      background: #dcfce7;
+      color: #166534;
+    }
+    
+    .status-badge.scheduled {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    
+    .status-badge.in-progress {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    .day-actions {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .btn-action {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-action.primary {
+      background: linear-gradient(90deg, var(--g1), var(--g2));
+      color: white;
+    }
+    
+    .btn-action.secondary {
+      background: #f8fafc;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+    
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     /* ===== GESTÃO ===== */
@@ -1029,6 +1273,67 @@
           expandBtn.textContent = 'Abrir calendário completo';
         }
       });
+
+      // Script para selecionar dias no calendário
+      const weekDays = document.querySelectorAll('.week-day:not(.empty)');
+      const dayDetails = document.getElementById('dayDetails');
+      
+      weekDays.forEach(day => {
+        day.addEventListener('click', function() {
+          // Remove seleção anterior
+          weekDays.forEach(d => d.classList.remove('selected'));
+          
+          // Adiciona seleção atual
+          this.classList.add('selected');
+          
+          // Atualiza detalhes do dia (simulação)
+          const dayNumber = this.getAttribute('data-day');
+          updateDayDetails(dayNumber);
+        });
+      });
+
+      function updateDayDetails(dayNumber) {
+        const detailsDate = dayDetails.querySelector('.details-date');
+        const detailsDay = dayDetails.querySelector('.details-day');
+        const summaryCount = dayDetails.querySelector('.summary-count');
+        
+        // Simulação de dados - na prática viria de uma API
+        const dayData = {
+          '15': {
+            date: '15 de Janeiro de 2024',
+            day: 'Segunda-feira',
+            posts: 3
+          },
+          '16': {
+            date: '16 de Janeiro de 2024', 
+            day: 'Terça-feira',
+            posts: 2
+          },
+          '17': {
+            date: '17 de Janeiro de 2024',
+            day: 'Quarta-feira', 
+            posts: 1
+          }
+        };
+
+        const data = dayData[dayNumber] || {
+          date: `${dayNumber} de Janeiro de 2024`,
+          day: 'Dia da semana',
+          posts: 0
+        };
+
+        detailsDate.textContent = data.date;
+        detailsDay.textContent = data.day;
+        summaryCount.textContent = data.posts;
+      }
+
+      // Inicializa com o dia atual selecionado
+      const todayElement = document.querySelector('.week-day.today');
+      if (todayElement) {
+        todayElement.classList.add('selected');
+        const todayNumber = todayElement.getAttribute('data-day');
+        updateDayDetails(todayNumber);
+      }
     });
   </script>
 </body>
