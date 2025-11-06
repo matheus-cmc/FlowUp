@@ -57,7 +57,7 @@
 
 /* Layout de duas colunas */
 .planejamento-layout {
-    display: grid;
+    
     grid-template-columns: 400px 1fr;
     gap: 30px;
     height: calc(100vh - 200px);
@@ -244,7 +244,7 @@
 }
 
 .detail-placeholder {
-    display: flex;
+    
     align-items: center;
     justify-content: center;
     height: 100%;
