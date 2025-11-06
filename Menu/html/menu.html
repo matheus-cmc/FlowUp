@@ -108,9 +108,9 @@
       </div>
     </header>
 
-    <!-- Conteúdo - CALENDÁRIO ATUALIZADO -->
+    <!-- Conteúdo - ATUALIZADO -->
     <main class="main">
-      <!-- Planejamento Mensal - MANTIDO -->
+      <!-- Planejamento Mensal - SEM COLUNA AÇÃO -->
       <section class="card">
         <div class="planning-header">
           <div class="planning-title">
@@ -129,7 +129,7 @@
           <input type="text" placeholder="Buscar por título..." class="search-input">
         </div>
 
-        <!-- Tabela de Planejamento - SEM COLUNA MÊS -->
+        <!-- Tabela de Planejamento - SEM COLUNA AÇÕES -->
         <div class="table-container">
           <div class="table-wrapper">
             <table class="planning-table">
@@ -140,7 +140,6 @@
                   <th class="col-priority">Prioridade</th>
                   <th class="col-responsible">Responsável</th>
                   <th class="col-deadline">Data Limite</th>
-                  <th class="col-actions">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -155,9 +154,6 @@
                   </td>
                   <td class="responsible">Alone Souza</td>
                   <td class="deadline">19/01/2024 ▲</td>
-                  <td class="actions">
-                    <button class="btn-action">🔴</button>
-                  </td>
                 </tr>
                 
                 <!-- Linha 2 -->
@@ -171,9 +167,6 @@
                   </td>
                   <td class="responsible">Maria Silva</td>
                   <td class="deadline">24/01/2024 ▲</td>
-                  <td class="actions">
-                    <button class="btn-action">🔴</button>
-                  </td>
                 </tr>
                 
                 <!-- Linha 3 -->
@@ -187,9 +180,6 @@
                   </td>
                   <td class="responsible">João Santos</td>
                   <td class="deadline">14/01/2024 ▲</td>
-                  <td class="actions">
-                    <button class="btn-action">🔴</button>
-                  </td>
                 </tr>
                 
                 <!-- Linha 4 -->
@@ -203,9 +193,6 @@
                   </td>
                   <td class="responsible">Ana Costa</td>
                   <td class="deadline">-</td>
-                  <td class="actions">
-                    <button class="btn-action">🔴</button>
-                  </td>
                 </tr>
                 
                 <!-- Linha 5 -->
@@ -219,9 +206,6 @@
                   </td>
                   <td class="responsible">Carlos Oliveira</td>
                   <td class="deadline">29/01/2024 ▲</td>
-                  <td class="actions">
-                    <button class="btn-action">🔴</button>
-                  </td>
                 </tr>
                 
                 <!-- Linha 6 -->
@@ -235,9 +219,6 @@
                   </td>
                   <td class="responsible">Alone Souza</td>
                   <td class="deadline">09/01/2024</td>
-                  <td class="actions">
-                    <button class="btn-action">🔴</button>
-                  </td>
                 </tr>
               </tbody>
             </table>
@@ -250,7 +231,7 @@
         </div>
       </section>
 
-      <!-- Calendário de Postagem - ATUALIZADO -->
+      <!-- Calendário de Postagem - VISUAL MELHORADO -->
       <section class="card calendar">
         <h3>Calendário de Postagem</h3>
         <p class="sub">Visualize e gerencie suas publicações agendadas</p>
@@ -305,7 +286,7 @@
             </div>
           </div>
           
-          <!-- Calendário estilo Google -->
+          <!-- Calendário estilo Google - VISUAL MELHORADO -->
           <div class="calendar-google-style">
             <div class="calendar-week-header">
               <div class="week-day">Dom</div>
@@ -374,15 +355,18 @@
                 <div class="day-events">
                   <div class="calendar-event instagram">
                     <span class="event-icon">📷</span>
-                    <span class="event-text">Instagram</span>
+                    <span class="event-text">Instagram Post</span>
+                    <span class="event-time">14:00</span>
                   </div>
                   <div class="calendar-event facebook">
                     <span class="event-icon">👍</span>
                     <span class="event-text">Facebook</span>
+                    <span class="event-time">16:30</span>
                   </div>
                   <div class="calendar-event stories">
                     <span class="event-icon">📱</span>
                     <span class="event-text">Stories</span>
+                    <span class="event-time">18:00</span>
                   </div>
                 </div>
               </div>
@@ -391,11 +375,13 @@
                 <div class="day-events">
                   <div class="calendar-event reels">
                     <span class="event-icon">🎬</span>
-                    <span class="event-text">Reels</span>
+                    <span class="event-text">Reels Video</span>
+                    <span class="event-time">10:00</span>
                   </div>
                   <div class="calendar-event blog">
                     <span class="event-icon">📝</span>
-                    <span class="event-text">Blog</span>
+                    <span class="event-text">Blog Post</span>
+                    <span class="event-time">15:00</span>
                   </div>
                 </div>
               </div>
@@ -404,12 +390,20 @@
                 <div class="day-events">
                   <div class="calendar-event twitter">
                     <span class="event-icon">🐦</span>
-                    <span class="event-text">Twitter</span>
+                    <span class="event-text">Twitter Thread</span>
+                    <span class="event-time">12:00</span>
                   </div>
                 </div>
               </div>
               <div class="week-day">
                 <div class="day-number">18</div>
+                <div class="day-events">
+                  <div class="calendar-event instagram">
+                    <span class="event-icon">📷</span>
+                    <span class="event-text">Carousel</span>
+                    <span class="event-time">11:00</span>
+                  </div>
+                </div>
               </div>
               <div class="week-day">
                 <div class="day-number">19</div>
@@ -422,6 +416,13 @@
               </div>
               <div class="week-day">
                 <div class="day-number">21</div>
+                <div class="day-events">
+                  <div class="calendar-event facebook">
+                    <span class="event-icon">👍</span>
+                    <span class="event-text">Live</span>
+                    <span class="event-time">19:00</span>
+                  </div>
+                </div>
               </div>
               <div class="week-day">
                 <div class="day-number">22</div>
@@ -430,6 +431,7 @@
                 <div class="day-number">23</div>
               </div>
               <div class="week-day">
+                <div class="event-indicator">•</div>
                 <div class="day-number">24</div>
               </div>
               <div class="week-day">
@@ -448,6 +450,7 @@
                 <div class="day-number">28</div>
               </div>
               <div class="week-day">
+                <div class="event-indicator">•</div>
                 <div class="day-number">29</div>
               </div>
               <div class="week-day">
@@ -455,6 +458,13 @@
               </div>
               <div class="week-day">
                 <div class="day-number">31</div>
+                <div class="day-events">
+                  <div class="calendar-event stories">
+                    <span class="event-icon">📱</span>
+                    <span class="event-text">Monthly Recap</span>
+                    <span class="event-time">20:00</span>
+                  </div>
+                </div>
               </div>
               <div class="week-day empty"></div>
               <div class="week-day empty"></div>
@@ -529,7 +539,7 @@
         "brief";
     }
 
-    /* ===== PLANEJAMENTO MENSAL ===== */
+    /* ===== PLANEJAMENTO MENSAL - SEM COLUNA AÇÃO ===== */
     .planning-header {
       display: flex;
       justify-content: space-between;
@@ -587,6 +597,7 @@
       border: 1px solid var(--line);
       border-radius: 12px;
       overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
     
     .planning-table {
@@ -596,33 +607,40 @@
     
     .planning-table th {
       background: #f8fafc;
-      padding: 12px 16px;
+      padding: 16px 20px;
       text-align: left;
       font-weight: 600;
       color: var(--muted);
       font-size: 12px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     
     .planning-table td {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--line);
+      padding: 16px 20px;
+      border-bottom: 1px solid #f1f5f9;
     }
     
     .planning-table tr:last-child td {
       border-bottom: none;
     }
     
+    .planning-table tr:hover {
+      background: #f8fafc;
+    }
+    
     .task-title {
       font-weight: 600;
+      color: var(--text);
     }
     
     .status-tag {
-      padding: 4px 8px;
-      border-radius: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
       font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
     
     .status-recording { background: #fef3c7; color: #92400e; }
@@ -633,8 +651,8 @@
     .status-ready { background: #dcfce7; color: #166534; }
     
     .priority-tag {
-      padding: 4px 8px;
-      border-radius: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
       font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
@@ -647,19 +665,13 @@
     .responsible {
       font-size: 14px;
       color: var(--text);
+      font-weight: 500;
     }
     
     .deadline {
       font-size: 14px;
       color: var(--text);
-    }
-    
-    .btn-action {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-      padding: 4px;
+      font-weight: 500;
     }
 
     /* ===== CALENDÁRIO MINIMIZADO ===== */
@@ -672,10 +684,16 @@
     .calendar-day {
       flex: 1;
       text-align: center;
-      padding: 12px 8px;
+      padding: 16px 8px;
       border-radius: 12px;
       border: 1px solid var(--line);
       background: #f8fafc;
+      transition: all 0.2s ease;
+    }
+    
+    .calendar-day:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
     
     .calendar-day.today {
@@ -684,27 +702,28 @@
     }
     
     .day-number {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 800;
       background: linear-gradient(90deg,var(--g1),var(--g2),var(--g3));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      margin-bottom: 8px;
     }
     
     .day-posts {
-      font-size: 11px;
+      font-size: 12px;
       color: var(--muted);
-      margin-top: 4px;
+      font-weight: 500;
     }
 
-    /* ===== CALENDÁRIO COMPLETO ===== */
+    /* ===== CALENDÁRIO COMPLETO - VISUAL MELHORADO ===== */
     .calendar-full {
       margin-top: 20px;
     }
     
     .calendar-header-full {
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
     
     .calendar-controls {
@@ -720,28 +739,43 @@
     }
     
     .month-select, .year-select {
-      padding: 8px 12px;
+      padding: 10px 16px;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 10px;
       background: white;
       font-size: 14px;
       font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .month-select:focus, .year-select:focus {
+      outline: none;
+      border-color: var(--g1);
+      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.1);
     }
     
     .nav-btn {
-      background: none;
+      background: white;
       border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 8px 12px;
+      border-radius: 10px;
+      padding: 10px 14px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 18px;
       color: var(--text);
+      transition: all 0.2s ease;
+    }
+    
+    .nav-btn:hover {
+      border-color: var(--g1);
+      background: #f8fafc;
     }
     
     .calendar-google-style {
       border: 1px solid var(--line);
-      border-radius: 12px;
+      border-radius: 16px;
       overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
     
     .calendar-week-header {
@@ -752,13 +786,13 @@
     }
     
     .week-day {
-      padding: 12px;
+      padding: 16px;
       text-align: center;
       font-weight: 600;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 13px;
       border-right: 1px solid var(--line);
-      min-height: 40px;
+      min-height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -779,13 +813,19 @@
     }
     
     .week-day {
-      min-height: 100px;
-      padding: 8px;
+      min-height: 120px;
+      padding: 12px;
       border-right: 1px solid var(--line);
       border-bottom: none;
       position: relative;
       flex-direction: column;
       align-items: flex-start;
+      background: white;
+      transition: background-color 0.2s ease;
+    }
+    
+    .week-day:hover {
+      background: #f8fafc;
     }
     
     .week-day.empty {
@@ -793,46 +833,61 @@
     }
     
     .week-day.today {
-      background: #f0f9ff;
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
     }
     
     .day-number {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
       color: var(--text);
+      align-self: flex-start;
     }
     
     .week-day.today .day-number {
       background: var(--g1);
       color: white;
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 0 8px 0;
+      margin: 0 0 12px 0;
+    }
+    
+    .event-indicator {
+      color: var(--g1);
+      font-size: 24px;
+      position: absolute;
+      top: 8px;
+      right: 8px;
     }
     
     .day-events {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
       width: 100%;
     }
     
     .calendar-event {
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 8px;
-      border-radius: 6px;
-      font-size: 11px;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 12px;
       cursor: pointer;
       font-weight: 500;
       width: 100%;
       box-sizing: border-box;
+      transition: all 0.2s ease;
+    }
+    
+    .calendar-event:hover {
+      transform: translateX(4px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
     
     .calendar-event.instagram { background: #E4405F; color: white; }
@@ -843,7 +898,8 @@
     .calendar-event.twitter { background: #1DA1F2; color: white; }
     
     .event-icon {
-      font-size: 10px;
+      font-size: 12px;
+      flex-shrink: 0;
     }
     
     .event-text {
@@ -851,6 +907,13 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-weight: 600;
+    }
+    
+    .event-time {
+      font-size: 10px;
+      opacity: 0.9;
+      flex-shrink: 0;
     }
 
     /* ===== GESTÃO ===== */
@@ -928,7 +991,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 16px;
+      padding: 12px 20px;
       border-radius: 12px;
       text-decoration: none;
       font-weight: 600;
@@ -939,6 +1002,12 @@
       cursor: pointer;
       font-family: inherit;
       font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    
+    .link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
     }
   </style>
 
