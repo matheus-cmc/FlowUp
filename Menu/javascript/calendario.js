@@ -19,8 +19,6 @@ const dayPanelTitle = document.getElementById('dayPanelTitle');
 const dayList = document.getElementById('dayList');
 const closeDayPanel = document.getElementById('closeDayPanel');
 
-// As variáveis mesDescricao e mesDescricaoLabel foram removidas.
-
 // Init
 document.addEventListener('DOMContentLoaded', () => {
     initializeUserMenu();
@@ -41,9 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
         closeDayPanel.addEventListener('click', () => dayPanel.classList.remove('show'));
     }
     
-    // Exibe a mensagem inicial ao carregar o desktop (painel fixo)
+    // Mensagem inicial para painel lateral fixo (desktop)
     if (window.innerWidth >= 1200) {
-        // Exibe uma mensagem inicial no painel lateral
         dayList.innerHTML = `<div class="day-item"><div><h4>Seja Bem-vindo(a)</h4><div class="meta">Clique em um dia no calendário para visualizar os posts agendados.</div></div></div>`;
         dayPanelTitle.textContent = `Posts do Dia`;
     }
@@ -87,7 +84,6 @@ function clearFilters() {
 }
 
 function changeMonth(delta) {
-    // Esconde o painel ao trocar o mês, se for mobile
     if (window.innerWidth < 1200) {
         dayPanel.classList.remove('show');
     }
@@ -97,7 +93,7 @@ function changeMonth(delta) {
     if (viewMonth > 11) { viewMonth = 0; viewYear++; }
     renderCalendar();
     
-    // Atualiza o painel lateral com mensagem genérica após troca de mês (desktop)
+    // Mensagem genérica após troca de mês (desktop)
     if (window.innerWidth >= 1200) {
         dayList.innerHTML = `<div class="day-item"><div><h4>Mês Alterado</h4><div class="meta">Clique em um dia do novo mês para ver as postagens.</div></div></div>`;
         dayPanelTitle.textContent = `Posts do Mês`;
@@ -172,14 +168,13 @@ function renderCell(day, isOut, posts, dateStr) {
             <div class="cal-day">${day}</div>
             <div class="badges">
                 ${badgesHtml}
-                ${posts.length > 4 ? `<div class="badge" style="background:#334155;">+${posts.length - 4} mais</div>` : ''}
+                ${posts.length > 4 ? `<div class="badge" style="background:#334155; color:#fff; padding-left: 10px;">+${posts.length - 4} mais</div>` : ''}
             </div>
         </div>
     `;
 }
 
 function onDayClick(dateStr) {
-    // Lista filtrada para a data
     const tFilter = tipoFilter.value;
     const sFilter = statusFilter.value;
 
@@ -193,11 +188,9 @@ function onDayClick(dateStr) {
     const { day, month, year } = explodeYMD(dateStr);
     dayPanelTitle.textContent = `Posts de ${day}/${month}/${year}`;
     
-    // Atualiza o conteúdo do painel
     dayList.innerHTML = posts.length ? posts.map(renderDayItem).join('') :
         `<div class="day-item"><div><h4>Sem publicações</h4><div class="meta">Nenhum post planejado para esta data.</div></div></div>`;
 
-    // Apenas mostra o painel em mobile, em desktop ele está sempre visível
     if (window.innerWidth < 1200) {
         dayPanel.classList.add('show');
     }
@@ -231,7 +224,7 @@ function renderDayItem(p) {
     `;
 }
 
-// Helpers (mantidos)
+// Helpers
 function groupPostsByDate(posts, tFilter, sFilter) {
     const out = {};
     posts.forEach(p => {
