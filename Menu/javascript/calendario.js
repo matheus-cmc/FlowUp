@@ -2,8 +2,8 @@
 const LS_KEY = 'flowup_planejamentos_v1';
 
 // Estado
-let allPosts = [];          // todos os posts (com data/hora) agregados
-let viewYear, viewMonth;    // mês/ano exibidos (0-11)
+let allPosts = [];          
+let viewYear, viewMonth;    
 
 // DOM
 const calendarGrid = document.getElementById('calendarGrid');
@@ -19,13 +19,74 @@ const dayPanelTitle = document.getElementById('dayPanelTitle');
 const dayList = document.getElementById('dayList');
 const closeDayPanel = document.getElementById('closeDayPanel');
 
+
+// ==========================================================
+// 1. LÓGICA DO SELETOR DE EMPRESA E MENU DO USUÁRIO
+// ==========================================================
+
+function initializeUserMenu() {
+    const userMenuTrigger = document.getElementById('user-menu-trigger');
+    const userMenu = document.getElementById('user-menu');
+    if (userMenuTrigger && userMenu) {
+        userMenuTrigger.addEventListener('click', function(e) {
+            e.stopPropagation(); 
+            userMenu.classList.toggle('user-menu-show');
+        });
+        document.addEventListener('click', function() {
+            userMenu.classList.remove('user-menu-show');
+        });
+        userMenu.addEventListener('click', function(e) { e.stopPropagation(); });
+    }
+}
+
+function initializeCustomSelect() {
+    const customSelect = document.querySelector(".custom-select");
+    const selectSelected = document.querySelector(".select-selected");
+    const selectItems = document.querySelector(".select-items");
+
+    if (customSelect && selectSelected && selectItems) {
+        selectSelected.addEventListener("click", function(e) {
+            e.stopPropagation(); 
+            selectItems.classList.toggle("select-hide");
+            selectSelected.classList.toggle("select-arrow-active");
+        });
+
+        const allOptions = selectItems.querySelectorAll(".select-option");
+        allOptions.forEach(option => {
+            option.addEventListener("click", function(e) {
+                if (!option.classList.contains('select-new-company')) {
+                    selectSelected.querySelector("span").textContent = option.querySelector("span").textContent.trim();
+                } 
+                selectItems.classList.add("select-hide");
+                selectSelected.classList.remove("select-arrow-active");
+            });
+        });
+
+        document.addEventListener("click", function() {
+            if (selectItems && !selectItems.classList.contains("select-hide")) {
+                selectItems.classList.add("select-hide");
+            }
+            if (selectSelected && selectSelected.classList.contains("select-arrow-active")) {
+                selectSelected.classList.remove("select-arrow-active");
+            }
+        });
+    }
+}
+
+// ==========================================================
+// 2. LÓGICA DO CALENDÁRIO (INCLUINDO CORREÇÃO DO "PRI: UNDEFINED")
+// ==========================================================
+
 // Init
 document.addEventListener('DOMContentLoaded', () => {
-    initializeUserMenu();
+    initializeUserMenu(); 
+    initializeCustomSelect(); 
+    
     loadPostsFromStorage();
-    const today = new Date();
-    viewYear = today.getFullYear();
-    viewMonth = today.getMonth(); // 0-11
+    
+    viewYear = 2025;
+    viewMonth = 11; // 11 é Dezembro (0-indexado)
+    
     renderCalendar();
 
     prevMonthBtn.addEventListener('click', () => changeMonth(-1));
@@ -34,34 +95,44 @@ document.addEventListener('DOMContentLoaded', () => {
     statusFilter.addEventListener('change', renderCalendar);
     clearFiltersBtn.addEventListener('click', clearFilters);
     
-    // Configuração do Day Panel
-    if (window.innerWidth < 1200) {
+    if (closeDayPanel) {
         closeDayPanel.addEventListener('click', () => dayPanel.classList.remove('show'));
     }
     
-    // Mensagem inicial para painel lateral fixo (desktop)
     if (window.innerWidth >= 1200) {
         dayList.innerHTML = `<div class="day-item"><div><h4>Seja Bem-vindo(a)</h4><div class="meta">Clique em um dia no calendário para visualizar os posts agendados.</div></div></div>`;
         dayPanelTitle.textContent = `Posts do Dia`;
     }
 });
 
-// Carrega planejamentos e agrega todos os posts (com data/hora)
 function loadPostsFromStorage() {
     const raw = localStorage.getItem(LS_KEY);
     const planejamentos = raw ? JSON.parse(raw) : [];
     const posts = [];
 
+    // --- DADOS MOCK PARA EXEMPLO (Dezembro/2025) ---
+    const mockPosts = [
+        { titulo: 'Reels: Tendências de 2026', tipo: 'reels', status: 'aprovado', data: '2025-12-03', hora: '10:00', responsavel: 'alone', descricao: 'Conteúdo viral com música popular do TikTok.', prioridade: 'alta' },
+        { titulo: 'Carrossel: Top 5 Dicas', tipo: 'carrossel', status: 'em_producao', data: '2025-12-07', hora: '14:30', responsavel: 'maria', legenda: 'Use o CTA para linkar ao novo e-book.', prioridade: 'media' },
+        { titulo: 'Stories: Enquete Rápida', tipo: 'storys', status: 'agendado', data: '2025-12-07', hora: '18:00', responsavel: 'joao', descricao: 'Pergunta simples de "Sim ou Não" sobre o produto B.', prioridade: 'baixa' },
+        { titulo: 'Vídeo Longo: Review do Mês', tipo: 'video', status: 'aprovado', data: '2025-12-15', hora: '12:00', responsavel: 'ana', descricao: 'Vídeo de 3 minutos para IGTV e YouTube. Foco em SEO.', prioridade: 'alta' },
+        { titulo: 'Foto Natalina', tipo: 'foto', status: 'em_revisao', data: '2025-12-24', hora: '10:00', responsavel: 'carlos', descricao: 'Foto do time desejando boas festas. Aguardando aprovação final do cliente.', prioridade: 'media' },
+        { titulo: 'Stories: Boas Festas', tipo: 'storys', status: 'agendado', data: '2025-12-24', hora: '20:00', responsavel: 'alone', descricao: 'Template animado de final de ano.', prioridade: 'baixa' },
+        { titulo: 'Post sem prioridade', tipo: 'foto', status: 'rascunho', data: '2025-12-28', hora: '10:00', responsavel: 'alone', descricao: 'Teste para post sem prioridade definida.' },
+    ];
+    posts.push(...mockPosts);
+    // --------------------------------------------------
+
     planejamentos.forEach(pl => {
         (pl.posts || []).forEach(post => {
-            if (!post?.data) return; // precisa ter data
+            if (!post?.data) return; 
             posts.push({
                 titulo: post.titulo,
                 tipo: post.tipo,
                 status: post.status || 'rascunho',
-                prioridade: post.prioridade || 'media',
-                data: post.data,            // YYYY-MM-DD
-                hora: post.hora || '',      // HH:MM (opcional)
+                prioridade: post.prioridade || '', // Garante string vazia se undefined/null
+                data: post.data,            
+                hora: post.hora || '',      
                 responsavel: post.responsavel,
                 destino: post.destino || '',
                 descricao: post.descricao || '',
@@ -93,7 +164,6 @@ function changeMonth(delta) {
     if (viewMonth > 11) { viewMonth = 0; viewYear++; }
     renderCalendar();
     
-    // Mensagem genérica após troca de mês (desktop)
     if (window.innerWidth >= 1200) {
         dayList.innerHTML = `<div class="day-item"><div><h4>Mês Alterado</h4><div class="meta">Clique em um dia do novo mês para ver as postagens.</div></div></div>`;
         dayPanelTitle.textContent = `Posts do Mês`;
@@ -101,7 +171,6 @@ function changeMonth(delta) {
 }
 
 function renderCalendar() {
-    // Header row (nomes dos dias)
     const weekDays = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
     const headerRow = `
         <div class="cal-header-row">
@@ -109,43 +178,34 @@ function renderCalendar() {
         </div>
     `;
 
-    // Título Mês/Ano
     const mesNome = getMesNome(viewMonth + 1);
     calTitle.textContent = `${mesNome} ${viewYear}`;
 
-    // Datas utilitárias
     const firstDay = new Date(viewYear, viewMonth, 1);
-    const startWeekDay = firstDay.getDay(); // 0=Dom
+    const startWeekDay = firstDay.getDay(); 
     const daysInMonth = new Date(viewYear, viewMonth+1, 0).getDate();
 
-    // Células do mês anterior para preencher a primeira semana
-    const prevMonthDays = startWeekDay; // qtd.
+    const prevMonthDays = startWeekDay; 
     const prevMonthDate = new Date(viewYear, viewMonth, 0);
     const prevMonthLastDay = prevMonthDate.getDate();
 
-    // Filtros
     const tFilter = tipoFilter.value;
     const sFilter = statusFilter.value;
-
-    // Agrupar posts por data YYYY-MM-DD
     const grouped = groupPostsByDate(allPosts, tFilter, sFilter);
 
     let cells = [];
 
-    // Dias do mês anterior (cinzas)
     for (let i = prevMonthDays; i > 0; i--) {
         const dayNum = prevMonthLastDay - i + 1;
         const dateStr = formatYMD(new Date(viewYear, viewMonth-1, dayNum));
         cells.push(renderCell(dayNum, true, grouped[dateStr] || [], dateStr));
     }
 
-    // Dias do mês atual
     for (let d = 1; d <= daysInMonth; d++) {
         const dateStr = formatYMD(new Date(viewYear, viewMonth, d));
         cells.push(renderCell(d, false, grouped[dateStr] || [], dateStr));
     }
 
-    // Dias do próximo mês para completar 6 linhas (42 células)
     while (cells.length % 7 !== 0) {
         const dayNum = cells.length - (prevMonthDays + daysInMonth) + 1;
         const dateStr = formatYMD(new Date(viewYear, viewMonth+1, dayNum));
@@ -197,6 +257,15 @@ function onDayClick(dateStr) {
 }
 
 function renderDayItem(p) {
+    // Tags dinâmicas - Prioridade só aparece se existir e não for vazia
+    let tagsHtml = '';
+    if (p.prioridade) { 
+        tagsHtml += `<span class="tag priority">Prioridade: ${p.prioridade}</span>`;
+    }
+    if (p.planejamentoTitulo) {
+        tagsHtml += `<span class="tag">Projeto: ${p.planejamentoTitulo}</span>`;
+    }
+
     return `
         <div class="day-item">
             <div>
@@ -205,26 +274,33 @@ function renderDayItem(p) {
                     ${getTipoNome(p.tipo)} • ${getStatusNome(p.status)} • ${p.hora || 'Sem hora'} • ${getResponsavelNome(p.responsavel)}
                 </div>
                 
-                <div class="meta-bloco">
-                    **Descrição:** ${p.descricao || '—'}
-                </div>
+                ${p.descricao ? `
+                    <div class="meta-bloco">
+                        **Descrição:** ${p.descricao}
+                    </div>
+                ` : ''}
                 
                 ${p.legenda ? `
                     <div class="meta-bloco" style="border-left-color: var(--g3); font-style:italic;">
                         **Legenda:** ${p.legenda}
                     </div>
                 ` : ''}
-
             </div>
-            <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
-                <span class="tag">Pri: ${p.prioridade}</span>
-                <span class="tag">${p.planejamentoTitulo || ''}</span>
-            </div>
+            
+            ${tagsHtml ? `<div class="day-item-tags">${tagsHtml}</div>` : ''}
         </div>
     `;
 }
 
-// Helpers
+// Funções auxiliares
+
+function openMonthYearSelector() {
+    // Função para possível seletor de mês/ano
+    return;
+}
+window.openMonthYearSelector = openMonthYearSelector;
+
+
 function groupPostsByDate(posts, tFilter, sFilter) {
     const out = {};
     posts.forEach(p => {
@@ -268,21 +344,4 @@ function getResponsavelNome(responsavel) {
     return map[responsavel] || (responsavel || '—');
 }
 
-// Menu do usuário (mesmo padrão das demais páginas)
-function initializeUserMenu() {
-    const userMenuTrigger = document.getElementById('user-menu-trigger');
-    const userMenu = document.getElementById('user-menu');
-    if (userMenuTrigger && userMenu) {
-        userMenuTrigger.addEventListener('click', function(e) {
-            e.stopPropagation();
-            userMenu.classList.toggle('user-menu-show');
-        });
-        document.addEventListener('click', function() {
-            userMenu.classList.remove('user-menu-show');
-        });
-        userMenu.addEventListener('click', function(e) { e.stopPropagation(); });
-    }
-}
-
-// Expor global p/ onclick
 window.onDayClick = onDayClick;
