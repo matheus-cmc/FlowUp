@@ -1,88 +1,188 @@
-/* --- /Menu/css/calendario.css (COMPLETO E FINAL - Filtros Movidos) --- */
-
 :root{
     --g1:#6d28d9; --g2:#ec4899; --g3:#f97316;
     --line:#e2e8f0; --muted:#64748b; --text:#0f172a;
-    --bg-light: #f8fafc;
-    /* Cores Estratégicas para o Indicador Visual */
-    --color-reels:#06b6d4;      
-    --color-video:#7c3aed;      
-    --color-carrossel:#10b981;  
-    --color-storys:#f97316;     
-    --color-foto:#374151;       
+    --bg-light:#f8fafc;
+    --color-reels:#06b6d4;
+    --color-video:#7c3aed;
+    --color-carrossel:#10b981;
+    --color-storys:#f97316;
+    --color-foto:#374151;
 }
 
 /* ================================================= */
-/* 1. ESTILOS DA TOPBAR (Permanecem inalterados)     */
+/* 1. TOPBAR E SELETOR DE EMPRESA                    */
 /* ================================================= */
 
-/* Estrutura da Empresa e Avatares */
-.topbar .company { display: flex; align-items: center; gap: 12px; }
-.topbar .company .avatar { width: 36px !important; height: 36px !important; border-radius: 8px !important; background: #e2e8f0 !important; }
-.user .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, var(--g1), var(--g2)); }
-
-/* Seletor de Empresa Personalizado (Custom Select) */
-.custom-select { position: relative; font-family: inherit; font-size: 14px; font-weight: 600; width: 150px; z-index: 100; }
-.select-selected { background: #fff; padding: 10px 15px; padding-right: 35px; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; }
-.select-selected:hover { border-color: var(--g1); }
-.select-arrow { position: absolute; top: 50%; right: 15px; transform: translateY(-50%); width: 0; height: 0; border: 5px solid transparent; border-color: var(--muted) transparent transparent transparent; transition: transform 0.3s; }
-.select-selected.select-arrow-active .select-arrow { border-color: transparent transparent var(--muted) transparent; transform: translateY(-50%) rotate(180deg); }
-.select-items { position: absolute; background-color: #fff; top: 100%; left: 0; right: 0; z-index: 999; margin-top: 8px; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); overflow: hidden; padding: 6px 0; display: block; }
-.select-hide { display: none !important; }
-.select-option { color: var(--text); padding: 10px 15px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background 0.2s; }
-.select-option:hover, .same-as-selected { background-color: var(--bg-light); }
-.select-option.select-new-company { color: var(--g1); font-weight: 700; border-top: 1px solid #f1f5f9; margin-top: 4px; padding-top: 12px; }
-.select-option .option-avatar { width: 10px; height: 10px; border-radius: 50%; background: var(--g1); }
-.select-option .new-company-icon { background: none; width: 16px; height: 16px; mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"/></svg>'); background-color: var(--g1); }
-.select-divider { height: 1px; background: #f1f5f9; margin: 4px 0; }
-
-
-/* ================================================= */
-/* 2. ESTILOS DO CALENDÁRIO (SIMPLIFICAÇÃO DA BARRA) */
-/* ================================================= */
-
-.calendario-container{ display:flex; flex-direction:column; gap:16px; }
-
-/* Barra superior SIMPLIFICADA (Apenas Mês e Navegação) */
-.calendario-container .cal-header{
-    display:grid; 
-    grid-template-columns: auto 1fr auto; /* Botão Esquerdo | Título Centralizado | Botão Direito */
-    align-items:center; 
-    background:#fff; 
-    border:1px solid var(--line); 
-    border-radius:16px; 
-    padding:14px 20px; 
-    box-shadow:0 8px 20px rgba(17,24,39,.05);
-    gap: 10px; 
+.topbar .company {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-/* Container dos botões de navegação */
-.cal-nav-left { grid-column: 1 / span 1; display: flex; }
-.cal-nav-right { grid-column: 3 / span 1; display: flex; justify-content: flex-end; }
+/* Remover a bolinha ao lado de "Empresa A" */
+.topbar .company .avatar {
+    display: none;  /* Remover a bolinha */
+}
+
+/* Avatar do usuário */
+.user .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(45deg,var(--g1),var(--g2));
+}
+
+/* ----- Custom Select (Dropdown) ----- */
+.custom-select {
+    position: relative;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    width: 170px;
+    z-index: 100;
+}
+
+/* Ajustando a seleção da empresa */
+.select-selected {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;  /* Alinha à esquerda, garantindo que o nome da empresa e a logo não se sobreponham */
+    padding: 10px 16px;  /* Ajuste o padding para um maior espaçamento */
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+    position: relative;
+    gap: 12px;  /* Ajuste o espaço entre a logo e o nome da empresa */
+}
+
+/* Ajustando a logo da empresa no filtro (seleção principal) */
+.select-selected .option-avatar {
+    margin-right: 12px; /* Espaço entre a logo e o nome */
+}
+
+/* Ajustando a seta para que ela fique bem alinhada à direita */
+.select-arrow {
+    position: absolute;
+    right: 16px;  /* Ajuste o valor para garantir que a seta fique à direita */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background: var(--muted);
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><polyline points='6 9 12 15 18 9' stroke='black' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat center/16px 16px;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><polyline points='6 9 12 15 18 9' stroke='black' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat center/16px 16px;
+    transition: transform 0.2s;
+}
+
+/* Ajuste no hover do filtro de empresas */
+.select-selected:hover {
+    border-color: var(--g1);
+}
+
+/* Gradiente no fundo do avatar da empresa selecionada */
+.select-selected .option-avatar {
+    background: linear-gradient(45deg, var(--g1), var(--g2)); /* Gradiente para o fundo */
+}
+
+/* ================================================= */
+/* 2. OPÇÕES DE EMPRESAS NO DROPDOWN                */
+/* ================================================= */
+
+.select-option .option-avatar {
+    width: 24px;  /* Ajuste o tamanho da logo */
+    height: 24px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
+    margin-right: 12px; /* Espaço entre a logo e o nome da empresa */
+    background-color: transparent; /* Garantindo que o fundo seja transparente */
+}
+
+/* Logo da Empresa A dentro do dropdown */
+.select-option[data-value="Empresa A"] .option-avatar {
+    background-image: url('caminho/para/logo_empresa_a.png'); /* Substitua pelo caminho da logo da Empresa A */
+}
+
+/* Logo da Empresa B dentro do dropdown */
+.select-option[data-value="Empresa B"] .option-avatar {
+    background-image: url('caminho/para/logo_empresa_b.png'); /* Substitua pelo caminho da logo da Empresa B */
+}
+
+/* Apliquei o gradiente aqui para igualar ao avatar principal */
+.select-option[data-value="Empresa A"] .option-avatar,
+.select-option[data-value="Empresa B"] .option-avatar {
+    background: linear-gradient(90deg, var(--g1), var(--g2)); /* Gradiente aplicado como fundo */
+}
+
+/* ================================================= */
+/* 3. FILTROS (DENTRO DO PAINEL LATERAL)             */
+/* ================================================= */
+
+.day-panel-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 16px;
+}
+
+/* ================================================= */
+/* 2. CALENDÁRIO                                     */
+/* ================================================= */
+
+.calendario-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.calendario-container .cal-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 14px 20px;
+    box-shadow: 0 8px 20px rgba(17,24,39,.05);
+    gap: 10px;
+}
+
+/* O restante do CSS continua sem alteração */
 
 
-/* TÍTULO DO MÊS CENTRALIZADO E COLORIDO */
-.calendario-container #calTitle{ 
-    margin:0 auto !important; 
-    font-weight:800 !important; 
-    font-size:24px; 
-    background:linear-gradient(90deg,var(--g1),var(--g2)); 
-    -webkit-background-clip:text; 
-    background-clip:text; 
-    color:transparent !important; 
-    grid-column: 2 / span 1; 
-    text-align: center; 
+
+.cal-nav-left, .cal-nav-right {
+    display: flex;
+    align-items: center;
+}
+
+#calTitle {
+    margin: 0 auto;
+    font-weight: 800;
+    font-size: 24px;
+    background: linear-gradient(90deg,var(--g1),var(--g2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: center;
     cursor: pointer;
 }
 
-.cal-btn{
-    border:1px solid var(--line); 
-    background:#fff; 
-    border-radius:10px; 
-    padding:8px 12px; 
-    cursor:pointer; 
-    font-weight:700;
-    color: var(--muted); 
+.cal-btn {
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--muted);
     transition: all 0.2s ease;
     width: 38px;
     height: 38px;
@@ -90,37 +190,42 @@
     align-items: center;
     justify-content: center;
 }
-.cal-btn:hover{ 
-    background:var(--bg-light); 
-    border-color:var(--g1); 
-    color:var(--g1);
+.cal-btn:hover {
+    background: var(--bg-light);
+    border-color: var(--g1);
+    color: var(--g1);
 }
 
-/* --- ESTILOS DOS FILTROS MOVIDOS (Agora no day-panel) --- */
+/* ================================================= */
+/* 3. FILTROS (DENTRO DO PAINEL LATERAL)             */
+/* ================================================= */
+
 .day-panel-filters {
     display: flex;
-    flex-direction: column; /* Para colocar Limpar Filtros abaixo dos selects */
+    flex-direction: column;
     gap: 10px;
     padding-bottom: 10px;
     border-bottom: 1px solid var(--line);
     margin-bottom: 16px;
 }
-.filter-group{ 
-    display:flex; 
-    gap:10px; 
+
+.filter-group {
+    display: flex;
+    gap: 10px;
     flex-wrap: nowrap;
     width: 100%;
 }
-.filter-select{
-    flex: 1; /* Ocupa espaço igual */
-    padding:10px 14px; 
-    border:1px solid var(--line); 
-    border-radius:10px; 
-    background:var(--bg-light); 
-    font-weight:500; 
+
+.filter-select {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--bg-light);
+    font-weight: 500;
     font-size: 14px;
     color: var(--text);
-    appearance: none; 
+    appearance: none;
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%2364748b"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>');
     background-repeat: no-repeat;
     background-position: right 10px center;
@@ -129,94 +234,207 @@
     cursor: pointer;
 }
 .filter-select:hover { border-color: var(--g1); background-color: #fff; }
-.filter-select:focus { outline: none; border-color: var(--g1); box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.1); }
+.filter-select:focus { outline: none; border-color: var(--g1); box-shadow: 0 0 0 3px rgba(109,40,217,0.1); }
 
-.btn-clear-filters{
-    border:1px solid var(--line); 
-    background:#fff; 
-    border-radius:10px; 
-    padding:10px 16px; 
-    font-weight:600; 
-    cursor:pointer;
+.btn-clear-filters {
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 600;
+    cursor: pointer;
     font-size: 14px;
     color: var(--muted);
     transition: all 0.2s ease;
-    width: 100%; /* Ocupa toda a largura do painel */
+    width: 100%;
 }
-.btn-clear-filters:hover{ 
-    background:var(--bg-light); 
-    border-color:var(--g1); 
-    color:var(--g1); 
+.btn-clear-filters:hover {
+    background: var(--bg-light);
+    border-color: var(--g1);
+    color: var(--g1);
 }
-/* --- FIM ESTILOS DOS FILTROS MOVIDOS --- */
 
-/* Grade do calendário e Badges (Permanecem inalterados) */
-.calendar-grid{ display:grid; grid-template-columns: repeat(7, 1fr); border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#e2e8f0; }
-.cal-header-row{ grid-column:1/-1; display:grid; grid-template-columns:repeat(7,1fr); background:#fff; border-bottom:1px solid var(--line); }
-.cal-header-cell{ padding:12px; text-align:center; font-weight:700; color:var(--muted); }
-.cal-cell{ min-height:120px; background:#fff; padding:10px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); position:relative; cursor:pointer; }
-.cal-cell:nth-child(7n){ border-right:none; }
-.cal-cell.out{ background:#fafafa; color:#94a3b8; }
-.cal-day{ font-weight:800; font-size:14px; }
-.badges{ margin-top:8px; display:flex; flex-direction:column; gap:6px; }
-.badge{ font-size:12px; padding:4px 8px; border-radius:8px; background:#f8fafc; color: var(--text); border: 1px solid var(--line); width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px; position:relative; padding-left: 18px; }
-.badge .time{ font-weight:700; font-size:11px; opacity:.9; }
-.badge::before { content: ''; position: absolute; left: 6px; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 2px rgba(0,0,0,0.2); }
+/* ================================================= */
+/* 4. GRID DO CALENDÁRIO E POSTS                     */
+/* ================================================= */
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #e2e8f0;
+}
+.cal-header-row {
+    grid-column: 1/-1;
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+}
+.cal-header-cell {
+    padding: 12px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--muted);
+}
+.cal-cell {
+    min-height: 120px;
+    background: #fff;
+    padding: 10px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    cursor: pointer;
+}
+.cal-cell:nth-child(7n){ border-right: none; }
+.cal-cell.out { background: #fafafa; color: #94a3b8; }
+.cal-day { font-weight: 800; font-size: 14px; }
+
+.badges { margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
+.badge {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: var(--text);
+    border: 1px solid var(--line);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    position: relative;
+    padding-left: 18px;
+}
+.badge::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+}
 .badge.reels::before { background: var(--color-reels); }
 .badge.video::before { background: var(--color-video); }
 .badge.carrossel::before { background: var(--color-carrossel); }
 .badge.storys::before { background: var(--color-storys); }
 .badge.foto::before { background: var(--color-foto); }
 
+/* ================================================= */
+/* 5. PAINEL LATERAL (DAY PANEL)                     */
+/* ================================================= */
 
-/* AJUSTE DE LAYOUT (Dual-Column Desktop) */
-.calendario-main{ display: grid; grid-template-columns: 1fr; gap: 20px; padding: 20px; }
+.calendario-main { display: grid; grid-template-columns: 1fr; gap: 20px; padding: 20px; }
 @media (min-width: 1200px) {
     .calendario-main { grid-template-columns: 2fr 1fr; }
     .calendario-container { grid-column: 1 / span 1; display: flex; flex-direction: column; }
     .day-panel { grid-column: 2 / span 1; display: flex !important; position: sticky; top: 20px; max-height: calc(100vh - 40px); overflow-y: auto; }
-    #closeDayPanel { display: none; } 
+    #closeDayPanel { display: none; }
 }
 
-/* --- MELHORIA DA BARRA LATERAL (DAY PANEL) --- */
-.day-panel{ display:none; flex-direction:column; gap:16px; background:#fff; border:1px solid var(--line); border-radius:16px; padding:20px; box-shadow:0 8px 20px rgba(17,24,39,.06); }
-.day-panel.show { display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; background: #fff; padding: 20px; }
-.day-panel-header{ display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid var(--line); padding-bottom: 10px; margin-bottom: 6px; }
+.day-panel {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(17,24,39,.06);
+}
+.day-panel.show {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: #fff;
+    padding: 20px;
+}
+.day-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 10px;
+    margin-bottom: 6px;
+}
 #dayPanelTitle { font-size: 18px; font-weight: 700; }
-.day-list{ display:flex; flex-direction:column; gap:16px; }
+.day-list { display: flex; flex-direction: column; gap: 16px; }
 
-/* Cartão Individual de Post (day-item) */
-.day-item{ background: #fff; border:1px solid var(--line); border-radius:12px; padding:16px; display:flex; flex-direction: column; gap:10px; transition: box-shadow 0.2s; cursor: pointer; }
-.day-item:hover { box-shadow: 0 4px 10px rgba(17, 24, 39, 0.05); }
-.day-item h4{ margin:0; font-size:15px; font-weight: 700; color: var(--text); }
-.day-item .meta{ font-size:12px; color:var(--muted); margin-top: 4px; }
-.day-item .meta-bloco { margin-top: 12px; padding: 10px; border-left: 4px solid var(--g2); background: #fafbfc; color: var(--text); font-size: 13px; border-radius: 0 6px 6px 0; white-space: pre-wrap; }
-.day-item-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; justify-content: flex-end; }
-.tag{ font-size:11px; padding:4px 10px; border-radius:999px; border:1px solid var(--line); color:var(--text); font-weight: 600; background-color: var(--bg-light); }
-.tag.priority { border-color: var(--g1); color: var(--g1); background-color: rgba(109, 40, 217, 0.1); }
+.day-item {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: box-shadow 0.2s;
+    cursor: pointer;
+}
+.day-item:hover { box-shadow: 0 4px 10px rgba(17,24,39,0.05); }
+.day-item h4 { margin: 0; font-size: 15px; font-weight: 700; color: var(--text); }
+.day-item .meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
-/* Responsividade */
+.day-item .meta-bloco {
+    margin-top: 12px;
+    padding: 10px;
+    border-left: 4px solid var(--g2);
+    background: #fafbfc;
+    color: var(--text);
+    font-size: 13px;
+    border-radius: 0 6px 6px 0;
+    white-space: pre-wrap;
+}
+
+.day-item-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+    justify-content: flex-end;
+}
+.tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-weight: 600;
+    background-color: var(--bg-light);
+}
+.tag.priority {
+    border-color: var(--g1);
+    color: var(--g1);
+    background-color: rgba(109,40,217,0.1);
+}
+
+/* ================================================= */
+/* 6. RESPONSIVIDADE                                 */
+/* ================================================= */
+
 @media (max-width: 900px){
-    /* Simplificando o header para mobile */
     .calendario-container .cal-header {
-        grid-template-columns: auto 1fr auto; /* Mantém a estrutura simples: botão | título | botão */
+        grid-template-columns: auto 1fr auto;
         gap: 10px;
         padding: 10px 15px;
     }
-    .cal-nav-left { grid-column: 1 / span 1; }
-    .calendario-container #calTitle { grid-column: 2 / span 1; font-size: 20px; }
-    .cal-nav-right { grid-column: 3 / span 1; }
-
-    /* Filtros (day-panel-filters) em mobile */
+    #calTitle { font-size: 20px; }
     .day-panel-filters { padding: 10px 0; }
     .filter-group { flex-wrap: wrap; }
-    .filter-select { flex: 1 1 calc(50% - 5px); max-width: none; }
-    .btn-clear-filters { flex: 1 1 100%; max-width: none; }
-
-    .cal-cell{ min-height:90px; }
-    .calendario-main{ padding: 15px; } 
+    .filter-select { flex: 1 1 calc(50% - 5px); }
+    .btn-clear-filters { flex: 1 1 100%; }
+    .cal-cell { min-height: 90px; }
+    .calendario-main { padding: 15px; }
 }
-
 @media (max-width: 480px){
     .filter-select { flex: 1 1 100%; }
 }
