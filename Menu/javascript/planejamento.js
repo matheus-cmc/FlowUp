@@ -1046,3 +1046,4 @@ function initializeUserMenu() {
         });
     }
 }
+
