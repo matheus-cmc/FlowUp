@@ -80,20 +80,108 @@
     gap: 10px;
 }
 
-.filter-select {
-    padding: 12px 16px;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: #f8fafc;
-    font-size: 14px;
-    transition: all 0.2s;
-    min-width: 150px;
+/* --- Seleção Personalizada --- */
+.custom-select {
+    position: relative;
+    width: 180px;
 }
 
-.filter-select:focus {
-    outline: none;
+.select-selected {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+}
+
+.select-selected:hover {
     border-color: var(--g1);
-    background: white;
+}
+
+.select-arrow {
+    width: 16px;
+    height: 16px;
+    background: var(--muted);
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><polyline points='6 9 12 15 18 9' stroke='black' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat center/16px 16px;
+    mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><polyline points='6 9 12 15 18 9' stroke='black' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat center/16px 16px;
+    transition: transform 0.2s;
+}
+
+.select-items {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    z-index: 99;
+    margin-top: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s;
+}
+
+.select-show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.select-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.select-option:hover {
+    background-color: #f8fafc;
+}
+
+.select-option:first-child {
+    border-radius: 12px 12px 0 0;
+}
+
+.select-option:last-child {
+    border-radius: 0 0 12px 12px;
+}
+
+.select-divider {
+    height: 1px;
+    background-color: var(--line);
+    margin: 8px 0;
+}
+
+.option-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background-color: #e5e7eb;
+    margin-right: 8px;
+}
+
+.new-company-icon {
+    background-color: transparent;
+    border: 1px dashed var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.new-company-icon:before {
+    content: "+";
+    color: var(--muted);
+    font-weight: bold;
 }
 
 /* Grade de Planejamentos */
@@ -361,16 +449,25 @@
 
 .modal-content {
     background-color: white;
-    margin: 5% auto;
+    margin: 2% auto;
     border-radius: 16px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
     position: relative;
     transform: translateY(-20px);
     transition: transform 0.3s ease;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .modal.show .modal-content {
     transform: translateY(0);
+}
+
+.extra-large-modal {
+    width: 95%;
+    max-width: 1200px;
+    height: 85vh;
 }
 
 .large-modal {
@@ -394,6 +491,7 @@
     align-items: center;
     padding: 24px 30px 0;
     margin-bottom: 0;
+    flex-shrink: 0;
 }
 
 .modal-header h3 {
@@ -425,8 +523,8 @@
 
 .modal-body {
     padding: 24px 30px;
-    max-height: 70vh;
     overflow-y: auto;
+    flex-grow: 1;
 }
 
 .modal-footer {
@@ -435,6 +533,7 @@
     gap: 12px;
     padding: 20px 30px;
     border-top: 1px solid var(--line);
+    flex-shrink: 0;
 }
 
 /* Formulários */
@@ -465,7 +564,7 @@
 
 .form-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
 }
 
@@ -482,7 +581,6 @@
 }
 
 .form-group input,
-.form-group select,
 .form-group textarea {
     width: 100%;
     padding: 12px 16px;
@@ -494,7 +592,6 @@
 }
 
 .form-group input:focus,
-.form-group select:focus,
 .form-group textarea:focus {
     outline: none;
     border-color: var(--g1);
@@ -525,9 +622,11 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
+    gap: 12px;
 }
 
 .post-title-section {
+    margin-right: 12px;
     flex: 1;
 }
 
@@ -549,24 +648,23 @@
 }
 
 .btn-remove-post {
-    background: #dc3545;
-    color: white;
-    border: none;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    line-height: 1;
-    margin-left: 12px;
+  background: linear-gradient(90deg, var(--g1), var(--g2));
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+  transition: transform .2s, box-shadow .2s, filter .2s;
 }
 
 .btn-remove-post:hover {
-    background: #c82333;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(109, 40, 217, 0.25); /* leve glow no tom do g1 */
+  filter: brightness(0.97);
 }
+
 
 .btn-add-post {
     width: 100%;
@@ -792,6 +890,8 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    border: none;
+    width: 100%;
 }
 
 .action-card:hover {
@@ -865,8 +965,8 @@
         flex-direction: column;
     }
     
-    .filter-select {
-        min-width: auto;
+    .custom-select {
+        width: 100%;
     }
     
     .detail-actions {
@@ -885,9 +985,63 @@
     .planejamentos-grid {
         grid-template-columns: 1fr;
     }
+    
+    .extra-large-modal {
+        width: 98%;
+        height: 90vh;
+    }
 }
 
-/* Template de Post (usado no JavaScript) */
-template {
-    display: none;
+/* Garantir que os selects personalizados funcionem dentro dos posts */
+.post-item .custom-select {
+    width: 100% !important;
+}
+
+.post-item .select-selected {
+    width: 100%;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-weight: 600;
+}
+
+.post-item .select-items {
+    width: 100%;
+    z-index: 1000;
+}
+
+/* Estilo para quando o select está aberto */
+.select-selected.select-arrow-active {
+    border-color: var(--g1);
+    box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.1);
+}
+
+.select-selected.select-arrow-active .select-arrow {
+    transform: rotate(180deg);
+}
+
+/* Garantir que o select real esteja escondido mas ainda funcione */
+.post-item select {
+    display: none !important;
+}
+
+/* Estilo para os selects quando estão em foco */
+.post-item .custom-select:focus-within .select-selected {
+    border-color: var(--g1);
+    box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.1);
+}
+/* garanta texto visível no cabeçalho do select e nas opções */
+.select-selected span { 
+  color: var(--text, #111827);   /* fallback caso a var não exista */
+}
+
+.select-option { 
+  color: var(--text, #111827);
+}
+
+/* se quiser garantir o placeholder "Selecione" em tom mais suave */
+.select-selected span:empty::before {
+  content: "Selecione";
+  color: var(--muted, #6b7280);
 }

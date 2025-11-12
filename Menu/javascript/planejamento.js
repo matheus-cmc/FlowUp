@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     renderPlanejamentoList();
     setupEventListeners();
     initializeUserMenu();
+    initializeCustomSelects();
 });
 
 function setupEventListeners() {
@@ -111,6 +112,56 @@ function setupEventListeners() {
             closeActionsModal();
             closeConfirmModal();
         }
+    });
+}
+
+// Inicializar selects customizados
+function initializeCustomSelects() {
+    const customSelects = document.querySelectorAll('.custom-select');
+    
+    customSelects.forEach(select => {
+        const selected = select.querySelector('.select-selected');
+        const items = select.querySelector('.select-items');
+        const options = items.querySelectorAll('.select-option');
+        const hiddenSelect = select.querySelector('select');
+        
+        // Fechar outros selects quando abrir um
+        selected.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeAllSelects(this);
+            items.classList.toggle('select-show');
+        });
+        
+        // Configurar opções
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                const value = this.getAttribute('data-value');
+                const text = this.textContent;
+                
+                // Atualizar texto selecionado
+                selected.querySelector('span').textContent = text;
+                
+                // Atualizar select oculto
+                if (hiddenSelect) {
+                    hiddenSelect.value = value;
+                    hiddenSelect.dispatchEvent(new Event('change'));
+                }
+                
+                // Fechar dropdown
+                items.classList.remove('select-show');
+            });
+        });
+    });
+    
+    // Fechar selects ao clicar fora
+    document.addEventListener('click', closeAllSelects);
+}
+
+function closeAllSelects(elmnt) {
+    const selects = document.querySelectorAll('.select-items');
+    selects.forEach(select => {
+        if (elmnt && select.contains(elmnt)) return;
+        select.classList.remove('select-show');
     });
 }
 
@@ -308,113 +359,180 @@ function openNewPlanejamentoModal() {
     // Mostrar grupo do mês por padrão
     document.getElementById('mesGroup').style.display = 'block';
     
+    // Inicializar selects customizados no modal
+    initializeCustomSelects();
+    
     planejamentoModal.style.display = 'flex';
     setTimeout(() => planejamentoModal.classList.add('show'), 10);
 }
 
 function addPost() {
-    const template = document.getElementById('postTemplate');
-    if (!template) {
-        // Criar template dinamicamente se não existir
-        const postTemplate = document.createElement('template');
-        postTemplate.id = 'postTemplate';
-        postTemplate.innerHTML = `
-            <div class="post-item">
-                <div class="post-header">
-                    <div class="post-title-section">
-                        <input type="text" class="post-titulo" name="postTitulo" placeholder="Título da publicação (ex: Lançamento Produto X)" required>
+    const postElement = document.createElement('div');
+    postElement.className = 'post-item';
+    postElement.innerHTML = `
+        <div class="post-header">
+            <div class="post-title-section">
+                <input type="text" class="post-titulo" name="postTitulo" placeholder="Título da publicação (ex: Lançamento Produto X)" required>
+            </div>
+            <button type="button" class="btn-remove-post">
+                <span></span> Excluir
+            </button>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label>Tipo de Conteúdo *</label>
+                <div class="custom-select">
+                    <div class="select-selected">
+                        <span>Selecione</span>
+                        <div class="select-arrow"></div>
                     </div>
-                    <button type="button" class="btn-remove-post">&times;</button>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Tipo de Conteúdo *</label>
-                        <select name="postTipo" required>
-                            <option value="">Selecione</option>
-                            <option value="reels">Reels</option>
-                            <option value="video">Vídeo</option>
-                            <option value="carrossel">Carrossel</option>
-                            <option value="storys">Storys</option>
-                            <option value="foto">Foto</option>
-                        </select>
+                    <div class="select-items">
+                        <div class="select-option" data-value="">Selecione</div>
+                        <div class="select-option" data-value="reels">Reels</div>
+                        <div class="select-option" data-value="video">Vídeo</div>
+                        <div class="select-option" data-value="carrossel">Carrossel</div>
+                        <div class="select-option" data-value="storys">Storys</div>
+                        <div class="select-option" data-value="foto">Foto</div>
+                        <div class="select-option" data-value="videos">Vídeos</div>
+                        <div class="select-option" data-value="fotos">Fotos</div>
                     </div>
-
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select name="postStatus">
-                            <option value="rascunho">Rascunho</option>
-                            <option value="em_producao">Em Produção</option>
-                            <option value="em_revisao">Em Revisão</option>
-                            <option value="aprovado">Aprovado</option>
-                            <option value="agendado">Agendado</option>
-                            <option value="publicado">Publicado</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Prioridade</label>
-                        <select name="postPrioridade">
-                            <option value="baixa">Baixa</option>
-                            <option value="media">Média</option>
-                            <option value="alta">Alta</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Data de Postagem *</label>
-                        <input type="date" name="postData" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Responsável *</label>
-                        <select name="postResponsavel" required>
-                            <option value="">Selecione</option>
-                            <option value="alone">Alone Souza</option>
-                            <option value="maria">Maria Silva</option>
-                            <option value="joao">João Santos</option>
-                            <option value="ana">Ana Costa</option>
-                            <option value="carlos">Carlos Oliveira</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Destino da Tarefa</label>
-                        <select name="postDestino">
-                            <option value="">Selecione o destino</option>
-                            <option value="design">Design</option>
-                            <option value="gravacao">Gravação</option>
-                            <option value="edicao">Edição</option>
-                            <option value="revisao">Revisão</option>
-                            <option value="publicacao">Publicação</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Descrição da Publicação *</label>
-                    <textarea name="postDescricao" required placeholder="Descreva o conteúdo desta publicação..." rows="3"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Texto da Legenda</label>
-                    <textarea name="postLegenda" placeholder="Texto que acompanhará a publicação..." rows="3"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Inspirações (Links, imagens, vídeos)</label>
-                    <textarea name="postInspiracao" placeholder="Cole links de referência, inspirações ou observações..." rows="2"></textarea>
+                    <select name="postTipo" required style="display: none;">
+                        <option value="">Selecione</option>
+                        <option value="reels">Reels</option>
+                        <option value="video">Vídeo</option>
+                        <option value="carrossel">Carrossel</option>
+                        <option value="storys">Storys</option>
+                        <option value="foto">Foto</option>
+                        <option value="videos">Vídeos</option>
+                        <option value="fotos">Fotos</option>
+                    </select>
                 </div>
             </div>
-        `;
-        document.body.appendChild(postTemplate);
-    }
-    
-    const postElement = document.getElementById('postTemplate').content.cloneNode(true);
+
+            <div class="form-group">
+                <label>Status</label>
+                <div class="custom-select">
+                    <div class="select-selected">
+                        <span>Rascunho</span>
+                        <div class="select-arrow"></div>
+                    </div>
+                    <div class="select-items">
+                        <div class="select-option" data-value="rascunho">Rascunho</div>
+                        <div class="select-option" data-value="em_producao">Em Produção</div>
+                        <div class="select-option" data-value="em_revisao">Em Revisão</div>
+                        <div class="select-option" data-value="aprovado">Aprovado</div>
+                        <div class="select-option" data-value="agendado">Agendado</div>
+                        <div class="select-option" data-value="publicado">Publicado</div>
+                    </div>
+                    <select name="postStatus" style="display: none;">
+                        <option value="rascunho">Rascunho</option>
+                        <option value="em_producao">Em Produção</option>
+                        <option value="em_revisao">Em Revisão</option>
+                        <option value="aprovado">Aprovado</option>
+                        <option value="agendado">Agendado</option>
+                        <option value="publicado">Publicado</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Prioridade</label>
+                <div class="custom-select">
+                    <div class="select-selected">
+                        <span>Baixa</span>
+                        <div class="select-arrow"></div>
+                    </div>
+                    <div class="select-items">
+                        <div class="select-option" data-value="baixa">Baixa</div>
+                        <div class="select-option" data-value="media">Média</div>
+                        <div class="select-option" data-value="alta">Alta</div>
+                    </div>
+                    <select name="postPrioridade" style="display: none;">
+                        <option value="baixa">Baixa</option>
+                        <option value="media">Média</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Data de Postagem *</label>
+                <input type="date" name="postData" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Responsável *</label>
+                <div class="custom-select">
+                    <div class="select-selected">
+                        <span>Selecione</span>
+                        <div class="select-arrow"></div>
+                    </div>
+                    <div class="select-items">
+                        <div class="select-option" data-value="">Selecione</div>
+                        <div class="select-option" data-value="alone">Alone Souza</div>
+                        <div class="select-option" data-value="maria">Maria Silva</div>
+                        <div class="select-option" data-value="joao">João Santos</div>
+                        <div class="select-option" data-value="ana">Ana Costa</div>
+                        <div class="select-option" data-value="carlos">Carlos Oliveira</div>
+                    </div>
+                    <select name="postResponsavel" required style="display: none;">
+                        <option value="">Selecione</option>
+                        <option value="alone">Alone Souza</option>
+                        <option value="maria">Maria Silva</option>
+                        <option value="joao">João Santos</option>
+                        <option value="ana">Ana Costa</option>
+                        <option value="carlos">Carlos Oliveira</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Destino da Tarefa</label>
+                <div class="custom-select">
+                    <div class="select-selected">
+                        <span>Selecione o destino</span>
+                        <div class="select-arrow"></div>
+                    </div>
+                    <div class="select-items">
+                        <div class="select-option" data-value="">Selecione o destino</div>
+                        <div class="select-option" data-value="design">Design</div>
+                        <div class="select-option" data-value="gravacao">Gravação</div>
+                        <div class="select-option" data-value="edicao">Edição</div>
+                        <div class="select-option" data-value="revisao">Revisão</div>
+                        <div class="select-option" data-value="publicacao">Publicação</div>
+                    </div>
+                    <select name="postDestino" style="display: none;">
+                        <option value="">Selecione o destino</option>
+                        <option value="design">Design</option>
+                        <option value="gravacao">Gravação</option>
+                        <option value="edicao">Edição</option>
+                        <option value="revisao">Revisão</option>
+                        <option value="publicacao">Publicação</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Descrição da Publicação *</label>
+            <textarea name="postDescricao" required placeholder="Descreva o conteúdo desta publicação..." rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Texto da Legenda</label>
+            <textarea name="postLegenda" placeholder="Texto que acompanhará a publicação..." rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Inspirações (Links, imagens, vídeos)</label>
+            <textarea name="postInspiracao" placeholder="Cole links de referência, inspirações ou observações..." rows="2"></textarea>
+        </div>
+    `;
     
     // Configurar remoção do post
     const removeBtn = postElement.querySelector('.btn-remove-post');
@@ -423,6 +541,9 @@ function addPost() {
     });
     
     postsContainer.appendChild(postElement);
+    
+    // Inicializar selects customizados no novo post
+    initializeCustomSelects();
     postCounter++;
 }
 
@@ -439,6 +560,11 @@ function editPlanejamento(id) {
     document.getElementById('planejamentoAno').value = planejamento.ano;
     document.getElementById('planejamentoTitulo').value = planejamento.titulo;
     document.getElementById('planejamentoDescricao').value = planejamento.descricao || '';
+    
+    // Atualizar selects customizados
+    updateCustomSelect('planejamentoTipo', planejamento.tipo);
+    updateCustomSelect('planejamentoMes', planejamento.mes);
+    updateCustomSelect('planejamentoAno', planejamento.ano);
     
     // Controle de visibilidade do mês
     const mesGroup = document.getElementById('mesGroup');
@@ -468,10 +594,59 @@ function editPlanejamento(id) {
         lastPost.querySelector('textarea[name="postDescricao"]').value = post.descricao;
         lastPost.querySelector('textarea[name="postLegenda"]').value = post.legenda || '';
         lastPost.querySelector('textarea[name="postInspiracao"]').value = post.inspiracao || '';
+        
+        // Atualizar selects customizados
+        updateCustomSelectInElement(lastPost, 'postTipo', post.tipo);
+        updateCustomSelectInElement(lastPost, 'postStatus', post.status || 'rascunho');
+        updateCustomSelectInElement(lastPost, 'postPrioridade', post.prioridade);
+        updateCustomSelectInElement(lastPost, 'postResponsavel', post.responsavel);
+        updateCustomSelectInElement(lastPost, 'postDestino', post.destino || '');
     });
     
     planejamentoModal.style.display = 'flex';
     setTimeout(() => planejamentoModal.classList.add('show'), 10);
+}
+
+// Função auxiliar para atualizar selects customizados
+function updateCustomSelect(selectId, value) {
+    const hiddenSelect = document.getElementById(selectId);
+    const customSelect = hiddenSelect.closest('.custom-select');
+    const selectedSpan = customSelect.querySelector('.select-selected span');
+    const options = customSelect.querySelectorAll('.select-option');
+    
+    if (hiddenSelect && selectedSpan) {
+        hiddenSelect.value = value;
+        
+        // Encontrar o texto correspondente ao valor
+        const selectedOption = Array.from(options).find(opt => 
+            opt.getAttribute('data-value') === value
+        );
+        
+        if (selectedOption) {
+            selectedSpan.textContent = selectedOption.textContent;
+        }
+    }
+}
+
+// Função para atualizar selects dentro de um elemento específico
+function updateCustomSelectInElement(element, selectName, value) {
+    const hiddenSelect = element.querySelector(`select[name="${selectName}"]`);
+    if (!hiddenSelect) return;
+    
+    const customSelect = hiddenSelect.closest('.custom-select');
+    const selectedSpan = customSelect.querySelector('.select-selected span');
+    const options = customSelect.querySelectorAll('.select-option');
+    
+    hiddenSelect.value = value;
+    
+    // Encontrar o texto correspondente ao valor
+    const selectedOption = Array.from(options).find(opt => 
+        opt.getAttribute('data-value') === value
+    );
+    
+    if (selectedOption) {
+        selectedSpan.textContent = selectedOption.textContent;
+    }
 }
 
 function savePlanejamento() {
@@ -780,7 +955,9 @@ function getTipoNome(tipo) {
         'video': 'Vídeo',
         'carrossel': 'Carrossel',
         'storys': 'Storys',
-        'foto': 'Foto'
+        'foto': 'Foto',
+        'videos': 'Vídeos',
+        'fotos': 'Fotos'
     };
     return tipos[tipo] || tipo;
 }
