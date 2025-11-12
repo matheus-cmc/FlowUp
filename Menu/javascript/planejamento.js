@@ -43,17 +43,20 @@ let postCounter = 1;
 
 // Elementos DOM
 const planejamentoList = document.getElementById('planejamentoList');
-const planejamentoDetail = document.getElementById('planejamentoDetail');
-const detailPlaceholder = document.getElementById('detailPlaceholder');
 const planejamentoModal = document.getElementById('planejamentoModal');
+const detailModal = document.getElementById('detailModal');
 const actionsModal = document.getElementById('actionsModal');
 const confirmModal = document.getElementById('confirmModal');
 const planejamentoForm = document.getElementById('planejamentoForm');
 const postsContainer = document.getElementById('postsContainer');
+const detailModalContent = document.getElementById('detailModalContent');
 const novoPlanejamentoBtn = document.getElementById('novoPlanejamentoBtn');
 const addPostBtn = document.getElementById('addPostBtn');
 const savePlanejamentoBtn = document.getElementById('savePlanejamentoBtn');
 const cancelBtn = document.getElementById('cancelBtn');
+const closeDetailBtn = document.getElementById('closeDetailBtn');
+const editPlanejamentoBtn = document.getElementById('editPlanejamentoBtn');
+const detailActionsBtn = document.getElementById('detailActionsBtn');
 const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
 
@@ -69,6 +72,9 @@ function setupEventListeners() {
     addPostBtn.addEventListener('click', addPost);
     savePlanejamentoBtn.addEventListener('click', savePlanejamento);
     cancelBtn.addEventListener('click', closeModal);
+    closeDetailBtn.addEventListener('click', closeDetailModal);
+    editPlanejamentoBtn.addEventListener('click', editCurrentPlanejamento);
+    detailActionsBtn.addEventListener('click', openActionsModal);
     confirmDeleteBtn.addEventListener('click', deletePlanejamento);
     cancelDeleteBtn.addEventListener('click', closeConfirmModal);
     
@@ -92,8 +98,19 @@ function setupEventListeners() {
     // Fechar modais ao clicar fora
     window.addEventListener('click', function(event) {
         if (event.target === planejamentoModal) closeModal();
+        if (event.target === detailModal) closeDetailModal();
         if (event.target === actionsModal) closeActionsModal();
         if (event.target === confirmModal) closeConfirmModal();
+    });
+    
+    // Fechar modais com ESC
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeModal();
+            closeDetailModal();
+            closeActionsModal();
+            closeConfirmModal();
+        }
     });
 }
 
@@ -118,7 +135,7 @@ function renderPlanejamentoList() {
     if (filteredPlanejamentos.length === 0) {
         planejamentoList.innerHTML = `
             <div class="empty-state">
-                <div class="empty-icon"></div>
+                <div class="empty-icon">📋</div>
                 <h4>Nenhum planejamento encontrado</h4>
                 <p>Crie seu primeiro planejamento clicando no botão "Novo Planejamento"</p>
             </div>
@@ -126,82 +143,80 @@ function renderPlanejamentoList() {
         return;
     }
 
-    planejamentoList.innerHTML = filteredPlanejamentos.map(planejamento => `
-        <div class="planejamento-item ${currentPlanejamentoId === planejamento.id ? 'active' : ''}" 
-             onclick="selectPlanejamento(${planejamento.id})">
-            <div class="planejamento-item-header">
-                <h4 class="planejamento-item-title">${planejamento.titulo}</h4>
-                <span class="posts-count">${planejamento.posts.length} posts</span>
+    planejamentoList.innerHTML = filteredPlanejamentos.map(planejamento => {
+        const stats = calcularEstatisticas(planejamento.posts);
+        return `
+            <div class="planejamento-card" onclick="openDetailModal(${planejamento.id})">
+                <div class="planejamento-card-header">
+                    <h3 class="planejamento-card-title">${planejamento.titulo}</h3>
+                    <span class="posts-count">${planejamento.posts.length}</span>
+                </div>
+                <div class="planejamento-card-meta">
+                    <span>${planejamento.tipo === 'especial' ? 'Planejamento Especial' : `${getMesNome(planejamento.mes)} ${planejamento.ano}`}</span>
+                </div>
+                <p class="planejamento-card-description">${planejamento.descricao}</p>
+                <div class="planejamento-card-footer">
+                    <div class="planejamento-card-stats">
+                        <div class="planejamento-stat">
+                            <span class="planejamento-stat-icon"></span>
+                            <span>${stats.aprovados} aprovados</span>
+                        </div>
+                        <div class="planejamento-stat">
+                            <span class="planejamento-stat-icon"></span>
+                            <span>${stats.emRevisao} em revisão</span>
+                        </div>
+                    </div>
+                    <div class="planejamento-card-date">
+                        ${formatDate(planejamento.updatedAt)}
+                    </div>
+                </div>
             </div>
-            <div class="planejamento-meta">
-                ${getMesNome(planejamento.mes)} ${planejamento.ano} • ${planejamento.tipo === 'especial' ? 'Planejamento Especial' : 'Mensal'}
-            </div>
-            <p class="planejamento-item-description">${planejamento.descricao}</p>
-            <div class="planejamento-stats">
-                <span class="planejamento-date">${formatDate(planejamento.updatedAt)}</span>
-                <span class="planejamento-type">${planejamento.tipo === 'especial' ? ' Especial' : ' Mensal'}</span>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
-function selectPlanejamento(id) {
-    currentPlanejamentoId = id;
-    renderPlanejamentoList();
-    showPlanejamentoDetail(id);
-}
-
-function showPlanejamentoDetail(id) {
+function openDetailModal(id) {
     const planejamento = planejamentos.find(p => p.id === id);
     if (!planejamento) return;
 
-    detailPlaceholder.style.display = 'none';
-    planejamentoDetail.style.display = 'block';
-
+    currentPlanejamentoId = id;
+    
     // Calcular estatísticas
     const stats = calcularEstatisticas(planejamento.posts);
 
-    planejamentoDetail.innerHTML = `
+    detailModalContent.innerHTML = `
         <div class="detail-header">
             <div class="detail-title-section">
                 <h2>${planejamento.titulo}</h2>
                 <div class="detail-meta">
-                    ${planejamento.tipo === 'especial' ? 'Planejamento Especial' : ` ${getMesNome(planejamento.mes)} ${planejamento.ano}`}
+                    ${planejamento.tipo === 'especial' ? 'Planejamento Especial' : `${getMesNome(planejamento.mes)} ${planejamento.ano}`}
                     • ${planejamento.posts.length} publicações programadas
                 </div>
-                <div class="stats-row" style="display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap;">
-                    <div class="stat-badge" style="background: #d1fae5; color: #059669; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                <div class="stats-row">
+                    <div class="stat-badge" style="background: #d1fae5; color: #059669;">
                         ✅ ${stats.aprovados} aprovados
                     </div>
-                    <div class="stat-badge" style="background: #fef3c7; color: #d97706; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                    <div class="stat-badge" style="background: #fef3c7; color: #d97706;">
                         🔄 ${stats.emRevisao} em revisão
                     </div>
-                    <div class="stat-badge" style="background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                    <div class="stat-badge" style="background: #dbeafe; color: #1e40af;">
                         ⏳ ${stats.emProducao} em produção
                     </div>
+                    <div class="stat-badge" style="background: #f3f4f6; color: #6b7280;">
+                        📝 ${stats.rascunhos} rascunhos
+                    </div>
                 </div>
-            </div>
-            <div class="detail-actions">
-                <button class="btn-secondary" onclick="editPlanejamento(${planejamento.id})">
-                     Editar
-                </button>
-                <button class="btn-info" onclick="openActionsModal(${planejamento.id})">
-                     Ações
-                </button>
-                <button class="btn-danger" onclick="confirmDelete(${planejamento.id})">
-                     Excluir
-                </button>
             </div>
         </div>
 
         <div class="detail-content">
             <div class="form-section" style="border: none; margin: 0; padding: 0;">
-                <h3> Descrição</h3>
+                <h3>📝 Descrição</h3>
                 <p style="color: var(--muted); line-height: 1.6; margin: 0;">${planejamento.descricao || 'Sem descrição'}</p>
             </div>
 
             <div class="detail-posts">
-                <h3> Publicações Programadas (${planejamento.posts.length})</h3>
+                <h3>📋 Publicações Programadas (${planejamento.posts.length})</h3>
                 ${planejamento.posts.map((post, index) => `
                     <div class="detail-post">
                         <div class="detail-post-header">
@@ -250,6 +265,23 @@ function showPlanejamentoDetail(id) {
             </div>
         </div>
     `;
+
+    detailModal.style.display = 'flex';
+    setTimeout(() => detailModal.classList.add('show'), 10);
+}
+
+function closeDetailModal() {
+    detailModal.classList.remove('show');
+    setTimeout(() => {
+        detailModal.style.display = 'none';
+    }, 300);
+}
+
+function editCurrentPlanejamento() {
+    if (currentPlanejamentoId) {
+        closeDetailModal();
+        editPlanejamento(currentPlanejamentoId);
+    }
 }
 
 function calcularEstatisticas(posts) {
@@ -282,7 +314,107 @@ function openNewPlanejamentoModal() {
 
 function addPost() {
     const template = document.getElementById('postTemplate');
-    const postElement = template.content.cloneNode(true);
+    if (!template) {
+        // Criar template dinamicamente se não existir
+        const postTemplate = document.createElement('template');
+        postTemplate.id = 'postTemplate';
+        postTemplate.innerHTML = `
+            <div class="post-item">
+                <div class="post-header">
+                    <div class="post-title-section">
+                        <input type="text" class="post-titulo" name="postTitulo" placeholder="Título da publicação (ex: Lançamento Produto X)" required>
+                    </div>
+                    <button type="button" class="btn-remove-post">&times;</button>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tipo de Conteúdo *</label>
+                        <select name="postTipo" required>
+                            <option value="">Selecione</option>
+                            <option value="reels">Reels</option>
+                            <option value="video">Vídeo</option>
+                            <option value="carrossel">Carrossel</option>
+                            <option value="storys">Storys</option>
+                            <option value="foto">Foto</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="postStatus">
+                            <option value="rascunho">Rascunho</option>
+                            <option value="em_producao">Em Produção</option>
+                            <option value="em_revisao">Em Revisão</option>
+                            <option value="aprovado">Aprovado</option>
+                            <option value="agendado">Agendado</option>
+                            <option value="publicado">Publicado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Prioridade</label>
+                        <select name="postPrioridade">
+                            <option value="baixa">Baixa</option>
+                            <option value="media">Média</option>
+                            <option value="alta">Alta</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Data de Postagem *</label>
+                        <input type="date" name="postData" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Responsável *</label>
+                        <select name="postResponsavel" required>
+                            <option value="">Selecione</option>
+                            <option value="alone">Alone Souza</option>
+                            <option value="maria">Maria Silva</option>
+                            <option value="joao">João Santos</option>
+                            <option value="ana">Ana Costa</option>
+                            <option value="carlos">Carlos Oliveira</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Destino da Tarefa</label>
+                        <select name="postDestino">
+                            <option value="">Selecione o destino</option>
+                            <option value="design">Design</option>
+                            <option value="gravacao">Gravação</option>
+                            <option value="edicao">Edição</option>
+                            <option value="revisao">Revisão</option>
+                            <option value="publicacao">Publicação</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Descrição da Publicação *</label>
+                    <textarea name="postDescricao" required placeholder="Descreva o conteúdo desta publicação..." rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Texto da Legenda</label>
+                    <textarea name="postLegenda" placeholder="Texto que acompanhará a publicação..." rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Inspirações (Links, imagens, vídeos)</label>
+                    <textarea name="postInspiracao" placeholder="Cole links de referência, inspirações ou observações..." rows="2"></textarea>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(postTemplate);
+    }
+    
+    const postElement = document.getElementById('postTemplate').content.cloneNode(true);
     
     // Configurar remoção do post
     const removeBtn = postElement.querySelector('.btn-remove-post');
@@ -416,9 +548,6 @@ function savePlanejamento() {
     }
 
     renderPlanejamentoList();
-    if (currentPlanejamentoId) {
-        showPlanejamentoDetail(currentPlanejamentoId);
-    }
     closeModal();
     
     showNotification(`Planejamento ${currentPlanejamentoId ? 'atualizado' : 'criado'} com sucesso!`, 'success');
@@ -616,9 +745,8 @@ function confirmDelete(id) {
 function deletePlanejamento() {
     planejamentos = planejamentos.filter(p => p.id !== currentPlanejamentoId);
     renderPlanejamentoList();
-    detailPlaceholder.style.display = 'flex';
-    planejamentoDetail.style.display = 'none';
     closeConfirmModal();
+    closeDetailModal();
     showNotification('Planejamento excluído com sucesso!', 'success');
 }
 
@@ -710,6 +838,7 @@ function showNotification(message, type = 'info') {
         border: 1px solid ${type === 'success' ? '#c3e6cb' : '#f5c6cb'};
         z-index: 10000;
         font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     `;
     notification.textContent = message;
     
