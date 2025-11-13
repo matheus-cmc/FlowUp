@@ -213,7 +213,7 @@
   <div class="post-item">
     <div class="post-header">
       <div class="post-title-section">
-        <input type="text" class="post-titulo" name="postTitulo" placeholder="Título da publicação (ex: Lançamento Produto X)" required>
+        <input type="text" class="post-titulo" name="postTitulo" placeholder="Título da publicação " required>
       </div>
       <button type="button" class="btn-remove-post">&times;</button>
     </div>
@@ -370,134 +370,145 @@
   </div>
 </template>
 
-  <!-- Modal de Novo/Editar Planejamento -->
-  <div class="modal" id="planejamentoModal">
-    <div class="modal-content extra-large-modal">
-      <div class="modal-header">
-        <h3 id="modalTitle">Novo Planejamento</h3>
-        <button class="modal-close" id="modalClose">&times;</button>
+ <!-- Modal de Novo/Editar Planejamento -->
+<div class="modal" id="planejamentoModal">
+  <div class="modal-content extra-large-modal planning-modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Novo Planejamento</h3>
+      <button class="modal-close" id="modalClose">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <form id="planejamentoForm">
+      <!-- Nova seção única – Detalhes do Planejamento -->
+<div class="form-section">
+  <h4 class="section-title">
+    Detalhes do Planejamento
+  </h4>
+
+  <!-- Linha com Tipo, Mês e Ano -->
+  <div class="form-row">
+    <div class="form-group">
+      <label for="planejamentoTipo">Tipo de Planejamento *</label>
+      <div class="custom-select">
+        <div class="select-selected">
+          <span>Selecione o tipo</span>
+          <div class="select-arrow"></div>
+        </div>
+        <div class="select-items">
+          <div class="select-option" data-value="">Selecione o tipo</div>
+          <div class="select-option" data-value="mensal">Planejamento Mensal</div>
+          <div class="select-option" data-value="especial">Planejamento Especial</div>
+        </div>
+        <select id="planejamentoTipo" name="tipo" required style="display: none;">
+          <option value="">Selecione o tipo</option>
+          <option value="mensal">Planejamento Mensal</option>
+          <option value="especial">Planejamento Especial</option>
+        </select>
       </div>
-      <div class="modal-body">
-        <form id="planejamentoForm">
-          <!-- Informações Básicas -->
-          <div class="form-section">
-            <h4 class="section-title">
-              <span class="section-emoji"></span> Informações do Planejamento
-            </h4>
-            
-            <div class="form-row">
-              <div class="form-group">
-                <label for="planejamentoTipo">Tipo de Planejamento *</label>
-                <div class="custom-select">
-                  <div class="select-selected">
-                    <span>Selecione o tipo</span>
-                    <div class="select-arrow"></div>
-                  </div>
-                  <div class="select-items">
-                    <div class="select-option" data-value="">Selecione o tipo</div>
-                    <div class="select-option" data-value="mensal">Planejamento Mensal</div>
-                    <div class="select-option" data-value="especial">Planejamento Especial</div>
-                  </div>
-                  <select id="planejamentoTipo" name="tipo" required style="display: none;">
-                    <option value="">Selecione o tipo</option>
-                    <option value="mensal">Planejamento Mensal</option>
-                    <option value="especial">Planejamento Especial</option>
-                  </select>
-                </div>
-              </div>
+    </div>
 
-              <div class="form-group" id="mesGroup">
-                <label for="planejamentoMes">Mês *</label>
-                <div class="custom-select">
-                  <div class="select-selected">
-                    <span>Selecione o mês</span>
-                    <div class="select-arrow"></div>
-                  </div>
-                  <div class="select-items">
-                    <div class="select-option" data-value="">Selecione o mês</div>
-                    <div class="select-option" data-value="1">Janeiro</div>
-                    <div class="select-option" data-value="2">Fevereiro</div>
-                    <div class="select-option" data-value="3">Março</div>
-                    <div class="select-option" data-value="4">Abril</div>
-                    <div class="select-option" data-value="5">Maio</div>
-                    <div class="select-option" data-value="6">Junho</div>
-                    <div class="select-option" data-value="7">Julho</div>
-                    <div class="select-option" data-value="8">Agosto</div>
-                    <div class="select-option" data-value="9">Setembro</div>
-                    <div class="select-option" data-value="10">Outubro</div>
-                    <div class="select-option" data-value="11">Novembro</div>
-                    <div class="select-option" data-value="12">Dezembro</div>
-                  </div>
-                  <select id="planejamentoMes" name="mes" style="display: none;">
-                    <option value="">Selecione o mês</option>
-                    <option value="1">Janeiro</option>
-                    <option value="2">Fevereiro</option>
-                    <option value="3">Março</option>
-                    <option value="4">Abril</option>
-                    <option value="5">Maio</option>
-                    <option value="6">Junho</option>
-                    <option value="7">Julho</option>
-                    <option value="8">Agosto</option>
-                    <option value="9">Setembro</option>
-                    <option value="10">Outubro</option>
-                    <option value="11">Novembro</option>
-                    <option value="12">Dezembro</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="planejamentoAno">Ano *</label>
-                <div class="custom-select">
-                  <div class="select-selected">
-                    <span>2024</span>
-                    <div class="select-arrow"></div>
-                  </div>
-                  <div class="select-items">
-                    <div class="select-option" data-value="2024">2024</div>
-                    <div class="select-option" data-value="2025">2025</div>
-                  </div>
-                  <select id="planejamentoAno" name="ano" required style="display: none;">
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="planejamentoTitulo">Título do Planejamento *</label>
-              <input type="text" id="planejamentoTitulo" name="titulo" required placeholder="Ex: Campanha Verão 2024">
-            </div>
-
-            <div class="form-group">
-              <label for="planejamentoDescricao">Descrição</label>
-              <textarea id="planejamentoDescricao" name="descricao" placeholder="Descreva o objetivo deste planejamento..." rows="3"></textarea>
-            </div>
-          </div>
-
-          <!-- Posts/Publicações -->
-          <div class="form-section">
-            <h4 class="section-title">
-              <span class="section-emoji"></span> Publicações Programadas
-            </h4>
-            
-            <div class="posts-container" id="postsContainer">
-              <!-- Posts serão adicionados dinamicamente usando o template -->
-            </div>
-
-            <button type="button" class="btn-secondary btn-add-post" id="addPostBtn">
-              <span class="btn-icon">+</span> Adicionar Publicação
-            </button>
-          </div>
-        </form>
+    <div class="form-group" id="mesGroup">
+      <label for="planejamentoMes">Mês *</label>
+      <div class="custom-select">
+        <div class="select-selected">
+          <span>Selecione o mês</span>
+          <div class="select-arrow"></div>
+        </div>
+        <div class="select-items">
+          <div class="select-option" data-value="">Selecione o mês</div>
+          <div class="select-option" data-value="1">Janeiro</div>
+          <div class="select-option" data-value="2">Fevereiro</div>
+          <div class="select-option" data-value="3">Março</div>
+          <div class="select-option" data-value="4">Abril</div>
+          <div class="select-option" data-value="5">Maio</div>
+          <div class="select-option" data-value="6">Junho</div>
+          <div class="select-option" data-value="7">Julho</div>
+          <div class="select-option" data-value="8">Agosto</div>
+          <div class="select-option" data-value="9">Setembro</div>
+          <div class="select-option" data-value="10">Outubro</div>
+          <div class="select-option" data-value="11">Novembro</div>
+          <div class="select-option" data-value="12">Dezembro</div>
+        </div>
+        <select id="planejamentoMes" name="mes" required style="display: none;">
+          <option value="">Selecione o mês</option>
+          <option value="1">Janeiro</option>
+          <option value="2">Fevereiro</option>
+          <option value="3">Março</option>
+          <option value="4">Abril</option>
+          <option value="5">Maio</option>
+          <option value="6">Junho</option>
+          <option value="7">Julho</option>
+          <option value="8">Agosto</option>
+          <option value="9">Setembro</option>
+          <option value="10">Outubro</option>
+          <option value="11">Novembro</option>
+          <option value="12">Dezembro</option>
+        </select>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-secondary" id="cancelBtn">Cancelar</button>
-        <button type="button" class="btn-primary" id="savePlanejamentoBtn">Salvar Planejamento</button>
+    </div>
+
+    <div class="form-group">
+      <label for="planejamentoAno">Ano *</label>
+      <div class="custom-select">
+        <div class="select-selected">
+          <span>2024</span>
+          <div class="select-arrow"></div>
+        </div>
+        <div class="select-items">
+          <div class="select-option" data-value="2024">2024</div>
+          <div class="select-option" data-value="2025">2025</div>
+        </div>
+        <select id="planejamentoAno" name="ano" required style="display: none;">
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+        </select>
       </div>
     </div>
   </div>
+
+  <!-- Título -->
+  <div class="form-group">
+    <label for="planejamentoTitulo">Título do Planejamento *</label>
+    <input type="text" id="planejamentoTitulo" name="titulo" required
+           placeholder="Ex: Campanha Verão 2024">
+  </div>
+
+  <!-- Descrição -->
+  <div class="form-group">
+    <label for="planejamentoDescricao">Descrição</label>
+    <textarea id="planejamentoDescricao" name="descricao"
+              placeholder="Descreva o objetivo deste planejamento..."
+              rows="3"></textarea>
+  </div>
+</div>
+
+
+        <!-- Seção 3 – Publicações -->
+        <div class="form-section">
+          <h4 class="section-title">
+            <span class="section-emoji">📌</span>
+            Publicações Programadas
+          </h4>
+
+          <div class="posts-container" id="postsContainer">
+            <!-- Posts serão adicionados dinamicamente usando o template -->
+          </div>
+
+          <button type="button" class="btn-secondary btn-add-post" id="addPostBtn">
+            <span class="btn-icon">+</span> Adicionar Publicação
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" id="cancelBtn">Cancelar</button>
+      <button type="button" class="btn-primary" id="savePlanejamentoBtn">Salvar Planejamento</button>
+    </div>
+  </div>
+</div>
+
 
   <!-- Modal de Detalhes do Planejamento -->
   <div class="modal" id="detailModal">

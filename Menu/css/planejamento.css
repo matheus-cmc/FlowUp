@@ -450,15 +450,18 @@
 .modal-content {
     background-color: white;
     margin: 2% auto;
-    border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
     position: relative;
     transform: translateY(-20px);
     transition: transform 0.3s ease;
-    max-height: 90vh;
+    max-height: 90vh;          /* limita ao tamanho da tela */
     display: flex;
     flex-direction: column;
+    /* sem overflow aqui */
 }
+
+
 
 .modal.show .modal-content {
     transform: translateY(0);
@@ -485,19 +488,33 @@
     max-width: 500px;
 }
 
+/* Modal principal de planejamento com carinha "FlowUp" */
+.planning-modal {
+    padding-top: 4px;
+}
+
+.planning-modal::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
+}
+
+/* Header do modal */
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 24px 30px 0;
+    padding: 24px 32px 12px;
     margin-bottom: 0;
     flex-shrink: 0;
 }
 
-.modal-header h3 {
+.planning-modal .modal-header h3 {
     margin: 0;
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 22px;
+    font-weight: 800;
     color: var(--text);
 }
 
@@ -522,45 +539,56 @@
 }
 
 .modal-body {
-    padding: 24px 30px;
-    overflow-y: auto;
+    padding: 24px 32px;
+    overflow-y: auto;   /* é isso que faz rolar */
     flex-grow: 1;
 }
+
+.planning-modal .modal-body {
+    background: #f3f4f6;
+}
+
 
 .modal-footer {
     display: flex;
     justify-content: flex-end;
     gap: 12px;
-    padding: 20px 30px;
+    padding: 20px 32px;
     border-top: 1px solid var(--line);
     flex-shrink: 0;
 }
 
 /* Formulários */
 .form-section {
-    margin-bottom: 30px;
+    margin-bottom: 24px;
     padding-bottom: 20px;
     border-bottom: 1px solid var(--line);
 }
 
-.form-section:last-of-type {
+/* dentro do modal de planejamento vira "card" */
+.planning-modal .form-section {
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+    padding: 22px 24px 20px;
+    margin-bottom: 24px;
     border-bottom: none;
+}
+
+.planning-modal .form-section:last-of-type {
     margin-bottom: 0;
 }
 
-.section-title {
-    margin: 0 0 20px;
-    color: var(--text);
-    font-size: 16px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+/* remover emoji/quadradinho das seções do modal */
+.section-emoji {
+    display: none;
 }
 
-.section-emoji {
-    font-size: 18px;
+.section-title {
+    gap: 0;          /* já que não vai ter ícone, tira o espaço */
 }
+
 
 .form-row {
     display: grid;
@@ -585,7 +613,7 @@
     width: 100%;
     padding: 12px 16px;
     border: 1px solid var(--line);
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 14px;
     background: white;
     transition: all 0.2s;
@@ -595,26 +623,38 @@
 .form-group textarea:focus {
     outline: none;
     border-color: var(--g1);
-    box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.1);
+    box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12);
 }
 
-/* Posts no formulário */
+/* Posts no formulário (cards das publicações) */
 .posts-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin-bottom: 20px;
-    max-height: 400px;
-    overflow-y: auto;
-    padding: 10px;
+    /* sem limite de altura, deixa o modal-body cuidar do scroll */
+    max-height: none;
+    overflow-y: visible;
+    padding: 10px 4px 0;
 }
 
+
 .post-item {
-    background: #f8fafc;
+    background: #ffffff;
     padding: 20px;
-    border-radius: 12px;
+    border-radius: 16px;
     border: 1px solid var(--line);
     position: relative;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    overflow: hidden;
+}
+
+.post-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
 }
 
 .post-header {
@@ -634,7 +674,7 @@
     width: 100%;
     padding: 12px 16px;
     border: 1px solid var(--line);
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 16px;
     font-weight: 600;
     background: white;
@@ -644,27 +684,29 @@
 .post-titulo:focus {
     outline: none;
     border-color: var(--g1);
-    box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.1);
+    box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12);
 }
 
 .btn-remove-post {
-  background: linear-gradient(90deg, var(--g1), var(--g2));
-  color: #fff;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 10px;
-  font-weight: 700;
-  cursor: pointer;
-  font-size: 14px;
-  transition: transform .2s, box-shadow .2s, filter .2s;
+    background: linear-gradient(90deg, var(--g1), var(--g2));
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform .2s, box-shadow .2s, filter .2s;
 }
 
 .btn-remove-post:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(109, 40, 217, 0.25); /* leve glow no tom do g1 */
-  filter: brightness(0.97);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(109, 40, 217, 0.25);
+    filter: brightness(0.97);
 }
-
 
 .btn-add-post {
     width: 100%;
@@ -688,7 +730,7 @@
     background: rgba(109, 40, 217, 0.05);
 }
 
-/* Detalhes no modal */
+/* Detalhes no modal (mantidos) */
 .detail-header {
     display: flex;
     justify-content: space-between;
@@ -752,6 +794,9 @@
     border-radius: 12px;
     border: 1px solid var(--line);
 }
+
+
+
 
 .detail-post-header {
     display: flex;
@@ -1046,3 +1091,52 @@
   color: var(--muted, #6b7280);
 }
 
+/* ===============================
+   CUSTOM SELECT – REFINADO
+   =============================== */
+
+/* Impede quebra de linha em TODOS os selects principais */
+.modal .custom-select .select-selected span,
+.modal .custom-select .select-option {
+    white-space: nowrap !important; /* não quebra nunca */
+}
+
+/* Ajuste na área do select para caber textos grandes */
+.modal .custom-select {
+    min-width: 220px; /* aumenta a área, mantendo o layout */
+}
+
+/* Mantém espaçamento correto e garante alinhamento perfeito */
+.modal .custom-select .select-selected {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+}
+
+/* Ícone de seta centralizado sempre */
+.modal .custom-select .select-arrow {
+    flex-shrink: 0;
+}
+
+/* Caixa de opções */
+.modal .custom-select .select-items .select-option {
+    padding: 12px 16px;
+    font-size: 14px;
+}
+
+/* Deixa lista abrir alinhada corretamente */
+.modal .custom-select .select-items {
+    min-width: 100%;
+}
+
+/* Remove quebra de linha no placeholder */
+.modal .custom-select .select-selected span::before {
+    white-space: nowrap !important;
+}
+
+/* Corrige comportamento quando texto é longo */
+.modal .custom-select .select-selected span {
+    overflow: hidden;
+    text-overflow: ellipsis; /* se ficar MUITO grande, vira "..." mas não quebra */
+}

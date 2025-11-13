@@ -85,16 +85,13 @@ function setupEventListeners() {
     document.getElementById('searchPlanejamento').addEventListener('input', renderPlanejamentoList);
     
     // Controle do tipo de planejamento
+    // Tipo de planejamento – agora o mês SEMPRE aparece
     document.getElementById('planejamentoTipo').addEventListener('change', function() {
-        const mesGroup = document.getElementById('mesGroup');
-        if (this.value === 'especial') {
-            mesGroup.style.display = 'none';
-            document.getElementById('planejamentoMes').required = false;
-        } else {
-            mesGroup.style.display = 'block';
-            document.getElementById('planejamentoMes').required = true;
-        }
+    const mesGroup = document.getElementById('mesGroup');
+    mesGroup.style.display = 'block';
+    document.getElementById('planejamentoMes').required = true;
     });
+
     
     // Fechar modais ao clicar fora
     window.addEventListener('click', function(event) {
@@ -328,12 +325,11 @@ function closeDetailModal() {
     }, 300);
 }
 
-function editCurrentPlanejamento() {
-    if (currentPlanejamentoId) {
-        closeDetailModal();
-        editPlanejamento(currentPlanejamentoId);
-    }
-}
+// Mês sempre visível, independente do tipo
+    const mesGroup = document.getElementById('mesGroup');
+    mesGroup.style.display = 'block';
+    document.getElementById('planejamentoMes').required = true;
+
 
 function calcularEstatisticas(posts) {
     return {
@@ -372,7 +368,7 @@ function addPost() {
     postElement.innerHTML = `
         <div class="post-header">
             <div class="post-title-section">
-                <input type="text" class="post-titulo" name="postTitulo" placeholder="Título da publicação (ex: Lançamento Produto X)" required>
+                <input type="text" class="post-titulo" name="postTitulo" placeholder="Título da publicação" required>
             </div>
             <button type="button" class="btn-remove-post">
                 <span></span> Excluir
@@ -696,10 +692,11 @@ function savePlanejamento() {
         return;
     }
     
-    if (formData.get('tipo') === 'mensal' && !formData.get('mes')) {
-        alert('Selecione o mês para planejamentos mensais.');
-        return;
+    if (!formData.get('mes')) {
+    alert('Selecione o mês do planejamento.');
+    return;
     }
+
 
     const planejamentoData = {
         titulo: formData.get('titulo'),
