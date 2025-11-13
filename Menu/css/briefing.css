@@ -318,8 +318,8 @@
 }
 
 .btn-secondary {
-    background: #fff;
-    color: var(--text);
+    background: linear-gradient(90deg, var(--g1), var(--g2));
+    color: white;
     border: 1px solid var(--line);
     padding: 12px 24px;
     border-radius: 12px;
@@ -332,7 +332,26 @@
 }
 
 .btn-secondary:hover {
-    background: #f8fafc;
+    background: #d611d6;
+    border-color: var(--g1);
+}
+
+.btn-danger {
+    background: linear-gradient(90deg, var(--g1), var(--g2));
+    color: white;
+    border: 1px solid var(--line);
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-danger:hover {
+    background: #c81212;
     border-color: var(--g1);
 }
 
