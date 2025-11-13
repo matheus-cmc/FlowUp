@@ -46,8 +46,6 @@ let currentBriefingId = null;
 
 // Elementos DOM
 const briefingList = document.getElementById('briefingList');
-const briefingDetail = document.getElementById('briefingDetail');
-const detailPlaceholder = document.getElementById('detailPlaceholder');
 const briefingModal = document.getElementById('briefingModal');
 const confirmModal = document.getElementById('confirmModal');
 const briefingForm = document.getElementById('briefingForm');
@@ -57,10 +55,19 @@ const cancelBtn = document.getElementById('cancelBtn');
 const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
 
+// Modal de detalhes
+const briefingDetailModal = document.getElementById('briefingDetailModal');
+const briefingDetailBody = document.getElementById('briefingDetailBody');
+const closeBriefingDetailBtn = document.getElementById('closeBriefingDetailBtn');
+const detailEditBtn = document.getElementById('detailEditBtn');
+const detailDeleteBtn = document.getElementById('detailDeleteBtn');
+
 // Inicialização
 document.addEventListener('DOMContentLoaded', function() {
     renderBriefingList();
     setupEventListeners();
+    initializeUserMenu();
+    initializeCustomSelects();
 });
 
 function setupEventListeners() {
@@ -69,17 +76,53 @@ function setupEventListeners() {
     cancelBtn.addEventListener('click', closeModal);
     confirmDeleteBtn.addEventListener('click', deleteBriefing);
     cancelDeleteBtn.addEventListener('click', closeConfirmModal);
-    
+
     // Filtros
     document.getElementById('statusFilter').addEventListener('change', renderBriefingList);
     document.getElementById('searchBriefing').addEventListener('input', renderBriefingList);
-    
+
+    // BOTÃO X DO MODAL DE DETALHES
+    const closeBriefingDetailBtn = document.getElementById('closeBriefingDetailBtn');
+    if (closeBriefingDetailBtn) {
+        closeBriefingDetailBtn.addEventListener('click', closeDetailModal);
+    }
+
+    // BOTÃO EDITAR (DENTRO DO MODAL DE DETALHES)
+    const detailEditBtn = document.getElementById('detailEditBtn');
+    if (detailEditBtn) {
+        detailEditBtn.addEventListener('click', function () {
+            if (!currentBriefingId) return;
+            closeDetailModal();
+            editBriefing(currentBriefingId);
+        });
+    }
+
+    // BOTÃO EXCLUIR (DENTRO DO MODAL DE DETALHES)
+    const detailDeleteBtn = document.getElementById('detailDeleteBtn');
+    if (detailDeleteBtn) {
+        detailDeleteBtn.addEventListener('click', function () {
+        if (!currentBriefingId) return;
+            confirmDelete(currentBriefingId);
+        });
+    }
+
     // Fechar modais ao clicar fora
-    window.addEventListener('click', function(event) {
+    window.addEventListener('click', function (event) {
         if (event.target === briefingModal) closeModal();
         if (event.target === confirmModal) closeConfirmModal();
+        if (event.target === briefingDetailModal) closeDetailModal();
+    });
+
+    // Fechar com ESC
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeModal();
+            closeConfirmModal();
+            closeDetailModal();
+        }
     });
 }
+
 
 function renderBriefingList() {
     const statusFilter = document.getElementById('statusFilter').value;
@@ -87,18 +130,18 @@ function renderBriefingList() {
 
     let filteredBriefings = briefings.filter(briefing => {
         const matchesStatus = statusFilter === 'all' || briefing.status === statusFilter;
-        const matchesSearch = briefing.title.toLowerCase().includes(searchTerm) || 
-                            briefing.description.toLowerCase().includes(searchTerm);
+        const matchesSearch =
+            briefing.title.toLowerCase().includes(searchTerm) ||
+            briefing.description.toLowerCase().includes(searchTerm);
         return matchesStatus && matchesSearch;
     });
 
-    // Ordenar por data de atualização
     filteredBriefings.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
     if (filteredBriefings.length === 0) {
         briefingList.innerHTML = `
             <div class="empty-state">
-                <div class="empty-icon"></div>
+                <div class="empty-icon">📝</div>
                 <h4>Nenhum briefing encontrado</h4>
                 <p>Crie seu primeiro briefing clicando no botão "Novo Briefing"</p>
             </div>
@@ -107,17 +150,18 @@ function renderBriefingList() {
     }
 
     briefingList.innerHTML = filteredBriefings.map(briefing => `
-        <div class="briefing-item ${currentBriefingId === briefing.id ? 'active' : ''}" 
-             onclick="selectBriefing(${briefing.id})">
+        <div class="briefing-item" onclick="openBriefingDetail(${briefing.id})">
             <div class="briefing-item-header">
                 <h4 class="briefing-item-title">${briefing.title}</h4>
-                <span class="briefing-status ${briefing.status}">${getStatusText(briefing.status)}</span>
+                <span class="briefing-status ${briefing.status}">
+                    ${getStatusText(briefing.status)}
+                </span>
             </div>
             <p class="briefing-item-description">${briefing.description}</p>
             <div class="briefing-item-meta">
                 <span class="briefing-date">${formatDate(briefing.updatedAt)}</span>
                 <span class="briefing-channels">
-                    ${briefing.channels.map(channel => 
+                    ${briefing.channels.map(channel =>
                         `<span class="channel-tag">${getChannelName(channel)}</span>`
                     ).join('')}
                 </span>
@@ -126,39 +170,26 @@ function renderBriefingList() {
     `).join('');
 }
 
-function selectBriefing(id) {
-    currentBriefingId = id;
-    renderBriefingList();
-    showBriefingDetail(id);
-}
-
-function showBriefingDetail(id) {
+// Abre modal de DETALHES ao clicar no card
+function openBriefingDetail(id) {
     const briefing = briefings.find(b => b.id === id);
     if (!briefing) return;
 
-    detailPlaceholder.style.display = 'none';
-    briefingDetail.style.display = 'block';
+    currentBriefingId = id;
 
-    briefingDetail.innerHTML = `
+    
+
+    briefingDetailBody.innerHTML = `
         <div class="detail-header">
             <div class="detail-title-section">
                 <h2>${briefing.title}</h2>
                 <span class="briefing-status ${briefing.status}">${getStatusText(briefing.status)}</span>
             </div>
-            <div class="detail-actions">
-                <button class="btn-secondary" onclick="editBriefing(${briefing.id})">
-                     Editar
-                </button>
-                <button class="btn-danger" onclick="confirmDelete(${briefing.id})">
-                     Excluir
-                </button>
-            </div>
         </div>
 
         <div class="detail-content">
-            <!-- Sobre o Projeto -->
             <div class="detail-section">
-                <h3> Sobre o Projeto</h3>
+                <h3>Sobre o Projeto</h3>
                 <div class="detail-grid">
                     <div class="detail-item">
                         <label>Descrição</label>
@@ -175,9 +206,8 @@ function showBriefingDetail(id) {
                 </div>
             </div>
 
-            <!-- Sobre o Mercado e Público -->
             <div class="detail-section">
-                <h3> Sobre o Mercado e Público</h3>
+                <h3>Sobre o Mercado e Público</h3>
                 <div class="detail-grid">
                     <div class="detail-item">
                         <label>Público-Alvo</label>
@@ -194,9 +224,8 @@ function showBriefingDetail(id) {
                 </div>
             </div>
 
-            <!-- Sobre a Comunicação -->
             <div class="detail-section">
-                <h3> Sobre a Comunicação</h3>
+                <h3>Sobre a Comunicação</h3>
                 <div class="detail-grid">
                     <div class="detail-item">
                         <label>Principais Mensagens</label>
@@ -209,7 +238,7 @@ function showBriefingDetail(id) {
                     <div class="detail-item">
                         <label>Canais de Distribuição</label>
                         <div class="channels-list">
-                            ${briefing.channels.map(channel => 
+                            ${briefing.channels.map(channel =>
                                 `<span class="channel-badge">${getChannelName(channel)}</span>`
                             ).join('')}
                         </div>
@@ -217,9 +246,8 @@ function showBriefingDetail(id) {
                 </div>
             </div>
 
-            <!-- Sobre a Execução -->
             <div class="detail-section">
-                <h3> Sobre a Execução</h3>
+                <h3>Execução</h3>
                 <div class="detail-grid">
                     <div class="detail-item">
                         <label>Orçamento</label>
@@ -237,22 +265,33 @@ function showBriefingDetail(id) {
             </div>
         </div>
     `;
+
+    briefingDetailModal.style.display = 'flex';
+    setTimeout(() => briefingDetailModal.classList.add('show'), 10);
 }
 
+function closeDetailModal() {
+    if (!briefingDetailModal) return;
+    briefingDetailModal.classList.remove('show');
+    setTimeout(() => {
+        briefingDetailModal.style.display = 'none';
+    }, 300);
+}
+
+
+// Modal Novo/Editar
 function openNewBriefingModal() {
     currentBriefingId = null;
     document.getElementById('modalTitle').textContent = 'Novo Briefing';
     briefingForm.reset();
-    
-    // Resetar checkboxes
+
     document.querySelectorAll('input[name="channels"]').forEach(checkbox => {
         checkbox.checked = false;
     });
-    
-    // Setar data padrão
+
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('briefingStartDate').value = today;
-    
+
     briefingModal.style.display = 'flex';
     setTimeout(() => briefingModal.classList.add('show'), 10);
 }
@@ -263,8 +302,7 @@ function editBriefing(id) {
 
     currentBriefingId = id;
     document.getElementById('modalTitle').textContent = 'Editar Briefing';
-    
-    // Preencher formulário
+
     document.getElementById('briefingTitle').value = briefing.title;
     document.getElementById('briefingDescription').value = briefing.description;
     document.getElementById('briefingObjectives').value = briefing.objectives;
@@ -279,25 +317,24 @@ function editBriefing(id) {
     document.getElementById('briefingTimeline').value = briefing.timeline || '';
     document.getElementById('briefingStartDate').value = briefing.startDate || '';
     document.getElementById('briefingEndDate').value = briefing.endDate || '';
-    
-    // Marcar canais
+
     document.querySelectorAll('input[name="channels"]').forEach(checkbox => {
         checkbox.checked = briefing.channels.includes(checkbox.value);
     });
-    
+
     briefingModal.style.display = 'flex';
     setTimeout(() => briefingModal.classList.add('show'), 10);
 }
 
 function saveBriefing() {
     const formData = new FormData(briefingForm);
-    const channels = Array.from(document.querySelectorAll('input[name="channels"]:checked'))
-                         .map(checkbox => checkbox.value);
+    const channels = Array.from(
+        document.querySelectorAll('input[name="channels"]:checked')
+    ).map(checkbox => checkbox.value);
 
-    // Validação básica
     const requiredFields = ['title', 'description', 'objectives', 'cta', 'target', 'messages', 'tone'];
     const missingFields = requiredFields.filter(field => !formData.get(field));
-    
+
     if (missingFields.length > 0) {
         alert('Por favor, preencha todos os campos obrigatórios.');
         return;
@@ -328,23 +365,16 @@ function saveBriefing() {
     };
 
     if (currentBriefingId) {
-        // Editar briefing existente
         const index = briefings.findIndex(b => b.id === currentBriefingId);
         briefings[index] = { ...briefings[index], ...briefingData };
     } else {
-        // Novo briefing
         briefingData.id = briefings.length > 0 ? Math.max(...briefings.map(b => b.id)) + 1 : 1;
         briefingData.createdAt = new Date().toISOString().split('T')[0];
         briefings.push(briefingData);
     }
 
     renderBriefingList();
-    if (currentBriefingId) {
-        showBriefingDetail(currentBriefingId);
-    }
     closeModal();
-    
-    // Feedback visual
     showNotification(`Briefing ${currentBriefingId ? 'atualizado' : 'criado'} com sucesso!`, 'success');
 }
 
@@ -357,9 +387,8 @@ function confirmDelete(id) {
 function deleteBriefing() {
     briefings = briefings.filter(b => b.id !== currentBriefingId);
     renderBriefingList();
-    detailPlaceholder.style.display = 'flex';
-    briefingDetail.style.display = 'none';
     closeConfirmModal();
+    closeDetailModal();
     showNotification('Briefing excluído com sucesso!', 'success');
 }
 
@@ -377,7 +406,50 @@ function closeConfirmModal() {
     }, 300);
 }
 
-// Funções auxiliares
+// ------ Custom Select (para filtros na topbar) ------
+function initializeCustomSelects() {
+    const customSelects = document.querySelectorAll('.custom-select');
+
+    customSelects.forEach(select => {
+        const selected = select.querySelector('.select-selected');
+        const items = select.querySelector('.select-items');
+        const options = items ? items.querySelectorAll('.select-option') : [];
+        const hiddenSelect = select.querySelector('select');
+
+        if (!selected || !items || !hiddenSelect) return;
+
+        selected.addEventListener('click', function (e) {
+            e.stopPropagation();
+            closeAllSelects(this);
+            items.classList.toggle('select-show');
+        });
+
+        options.forEach(option => {
+            option.addEventListener('click', function () {
+                const value = this.getAttribute('data-value');
+                const text = this.textContent;
+
+                selected.querySelector('span').textContent = text;
+                hiddenSelect.value = value;
+                hiddenSelect.dispatchEvent(new Event('change'));
+
+                items.classList.remove('select-show');
+            });
+        });
+    });
+
+    document.addEventListener('click', closeAllSelects);
+}
+
+function closeAllSelects(elmnt) {
+    const selects = document.querySelectorAll('.select-items');
+    selects.forEach(select => {
+        if (elmnt && select.contains(elmnt)) return;
+        select.classList.remove('select-show');
+    });
+}
+
+// ------ Auxiliares ------
 function getStatusText(status) {
     const statusMap = {
         'draft': 'Rascunho',
@@ -416,7 +488,6 @@ function formatDate(dateString) {
 }
 
 function showNotification(message, type = 'info') {
-    // Criar notificação simples
     const notification = document.createElement('div');
     notification.style.cssText = `
         position: fixed;
@@ -429,47 +500,34 @@ function showNotification(message, type = 'info') {
         border: 1px solid ${type === 'success' ? '#c3e6cb' : '#f5c6cb'};
         z-index: 10000;
         font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     `;
     notification.textContent = message;
-    
+
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
         notification.remove();
     }, 3000);
 }
 
-// Inicializar menu
-if (typeof initializeMenu === 'function') {
-    initializeMenu();
-}
-
-// Inicializar menu do usuário
+// Menu do usuário
 function initializeUserMenu() {
     const userMenuTrigger = document.getElementById('user-menu-trigger');
     const userMenu = document.getElementById('user-menu');
-    
+
     if (userMenuTrigger && userMenu) {
-        userMenuTrigger.addEventListener('click', function(e) {
+        userMenuTrigger.addEventListener('click', function (e) {
             e.stopPropagation();
             userMenu.classList.toggle('user-menu-show');
         });
-        
-        // Fechar menu ao clicar fora
-        document.addEventListener('click', function() {
+
+        document.addEventListener('click', function () {
             userMenu.classList.remove('user-menu-show');
         });
-        
-        // Prevenir fechamento ao clicar no menu
-        userMenu.addEventListener('click', function(e) {
+
+        userMenu.addEventListener('click', function (e) {
             e.stopPropagation();
         });
     }
 }
-
-// Inicializar quando o DOM carregar
-document.addEventListener('DOMContentLoaded', function() {
-    renderBriefingList();
-    setupEventListeners();
-    initializeUserMenu(); // Adicionar esta linha
-});
