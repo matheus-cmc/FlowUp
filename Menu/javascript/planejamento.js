@@ -43,17 +43,20 @@ let postCounter = 1;
 
 // Elementos DOM
 const planejamentoList = document.getElementById('planejamentoList');
-const planejamentoDetail = document.getElementById('planejamentoDetail');
-const detailPlaceholder = document.getElementById('detailPlaceholder');
 const planejamentoModal = document.getElementById('planejamentoModal');
+const detailModal = document.getElementById('detailModal');
 const actionsModal = document.getElementById('actionsModal');
 const confirmModal = document.getElementById('confirmModal');
 const planejamentoForm = document.getElementById('planejamentoForm');
 const postsContainer = document.getElementById('postsContainer');
+const detailModalContent = document.getElementById('detailModalContent');
 const novoPlanejamentoBtn = document.getElementById('novoPlanejamentoBtn');
 const addPostBtn = document.getElementById('addPostBtn');
 const savePlanejamentoBtn = document.getElementById('savePlanejamentoBtn');
 const cancelBtn = document.getElementById('cancelBtn');
+const closeDetailBtn = document.getElementById('closeDetailBtn');
+const editPlanejamentoBtn = document.getElementById('editPlanejamentoBtn');
+const detailActionsBtn = document.getElementById('detailActionsBtn');
 const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
 
@@ -62,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     renderPlanejamentoList();
     setupEventListeners();
     initializeUserMenu();
+    initializeCustomSelects();
 });
 
 function setupEventListeners() {
@@ -69,6 +73,9 @@ function setupEventListeners() {
     addPostBtn.addEventListener('click', addPost);
     savePlanejamentoBtn.addEventListener('click', savePlanejamento);
     cancelBtn.addEventListener('click', closeModal);
+    closeDetailBtn.addEventListener('click', closeDetailModal);
+    editPlanejamentoBtn.addEventListener('click', editCurrentPlanejamento);
+    detailActionsBtn.addEventListener('click', openActionsModal);
     confirmDeleteBtn.addEventListener('click', deletePlanejamento);
     cancelDeleteBtn.addEventListener('click', closeConfirmModal);
     
@@ -78,22 +85,80 @@ function setupEventListeners() {
     document.getElementById('searchPlanejamento').addEventListener('input', renderPlanejamentoList);
     
     // Controle do tipo de planejamento
+    // Tipo de planejamento – agora o mês SEMPRE aparece
     document.getElementById('planejamentoTipo').addEventListener('change', function() {
-        const mesGroup = document.getElementById('mesGroup');
-        if (this.value === 'especial') {
-            mesGroup.style.display = 'none';
-            document.getElementById('planejamentoMes').required = false;
-        } else {
-            mesGroup.style.display = 'block';
-            document.getElementById('planejamentoMes').required = true;
-        }
+    const mesGroup = document.getElementById('mesGroup');
+    mesGroup.style.display = 'block';
+    document.getElementById('planejamentoMes').required = true;
     });
+
     
     // Fechar modais ao clicar fora
     window.addEventListener('click', function(event) {
         if (event.target === planejamentoModal) closeModal();
+        if (event.target === detailModal) closeDetailModal();
         if (event.target === actionsModal) closeActionsModal();
         if (event.target === confirmModal) closeConfirmModal();
+    });
+    
+    // Fechar modais com ESC
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeModal();
+            closeDetailModal();
+            closeActionsModal();
+            closeConfirmModal();
+        }
+    });
+}
+
+// Inicializar selects customizados
+function initializeCustomSelects() {
+    const customSelects = document.querySelectorAll('.custom-select');
+    
+    customSelects.forEach(select => {
+        const selected = select.querySelector('.select-selected');
+        const items = select.querySelector('.select-items');
+        const options = items.querySelectorAll('.select-option');
+        const hiddenSelect = select.querySelector('select');
+        
+        // Fechar outros selects quando abrir um
+        selected.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeAllSelects(this);
+            items.classList.toggle('select-show');
+        });
+        
+        // Configurar opções
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                const value = this.getAttribute('data-value');
+                const text = this.textContent;
+                
+                // Atualizar texto selecionado
+                selected.querySelector('span').textContent = text;
+                
+                // Atualizar select oculto
+                if (hiddenSelect) {
+                    hiddenSelect.value = value;
+                    hiddenSelect.dispatchEvent(new Event('change'));
+                }
+                
+                // Fechar dropdown
+                items.classList.remove('select-show');
+            });
+        });
+    });
+    
+    // Fechar selects ao clicar fora
+    document.addEventListener('click', closeAllSelects);
+}
+
+function closeAllSelects(elmnt) {
+    const selects = document.querySelectorAll('.select-items');
+    selects.forEach(select => {
+        if (elmnt && select.contains(elmnt)) return;
+        select.classList.remove('select-show');
     });
 }
 
@@ -118,7 +183,7 @@ function renderPlanejamentoList() {
     if (filteredPlanejamentos.length === 0) {
         planejamentoList.innerHTML = `
             <div class="empty-state">
-                <div class="empty-icon"></div>
+                <div class="empty-icon">📋</div>
                 <h4>Nenhum planejamento encontrado</h4>
                 <p>Crie seu primeiro planejamento clicando no botão "Novo Planejamento"</p>
             </div>
@@ -126,82 +191,80 @@ function renderPlanejamentoList() {
         return;
     }
 
-    planejamentoList.innerHTML = filteredPlanejamentos.map(planejamento => `
-        <div class="planejamento-item ${currentPlanejamentoId === planejamento.id ? 'active' : ''}" 
-             onclick="selectPlanejamento(${planejamento.id})">
-            <div class="planejamento-item-header">
-                <h4 class="planejamento-item-title">${planejamento.titulo}</h4>
-                <span class="posts-count">${planejamento.posts.length} posts</span>
+    planejamentoList.innerHTML = filteredPlanejamentos.map(planejamento => {
+        const stats = calcularEstatisticas(planejamento.posts);
+        return `
+            <div class="planejamento-card" onclick="openDetailModal(${planejamento.id})">
+                <div class="planejamento-card-header">
+                    <h3 class="planejamento-card-title">${planejamento.titulo}</h3>
+                    <span class="posts-count">${planejamento.posts.length}</span>
+                </div>
+                <div class="planejamento-card-meta">
+                    <span>${planejamento.tipo === 'especial' ? 'Planejamento Especial' : `${getMesNome(planejamento.mes)} ${planejamento.ano}`}</span>
+                </div>
+                <p class="planejamento-card-description">${planejamento.descricao}</p>
+                <div class="planejamento-card-footer">
+                    <div class="planejamento-card-stats">
+                        <div class="planejamento-stat">
+                            <span class="planejamento-stat-icon"></span>
+                            <span>${stats.aprovados} aprovados</span>
+                        </div>
+                        <div class="planejamento-stat">
+                            <span class="planejamento-stat-icon"></span>
+                            <span>${stats.emRevisao} em revisão</span>
+                        </div>
+                    </div>
+                    <div class="planejamento-card-date">
+                        ${formatDate(planejamento.updatedAt)}
+                    </div>
+                </div>
             </div>
-            <div class="planejamento-meta">
-                ${getMesNome(planejamento.mes)} ${planejamento.ano} • ${planejamento.tipo === 'especial' ? 'Planejamento Especial' : 'Mensal'}
-            </div>
-            <p class="planejamento-item-description">${planejamento.descricao}</p>
-            <div class="planejamento-stats">
-                <span class="planejamento-date">${formatDate(planejamento.updatedAt)}</span>
-                <span class="planejamento-type">${planejamento.tipo === 'especial' ? ' Especial' : ' Mensal'}</span>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
-function selectPlanejamento(id) {
-    currentPlanejamentoId = id;
-    renderPlanejamentoList();
-    showPlanejamentoDetail(id);
-}
-
-function showPlanejamentoDetail(id) {
+function openDetailModal(id) {
     const planejamento = planejamentos.find(p => p.id === id);
     if (!planejamento) return;
 
-    detailPlaceholder.style.display = 'none';
-    planejamentoDetail.style.display = 'block';
-
+    currentPlanejamentoId = id;
+    
     // Calcular estatísticas
     const stats = calcularEstatisticas(planejamento.posts);
 
-    planejamentoDetail.innerHTML = `
+    detailModalContent.innerHTML = `
         <div class="detail-header">
             <div class="detail-title-section">
                 <h2>${planejamento.titulo}</h2>
                 <div class="detail-meta">
-                    ${planejamento.tipo === 'especial' ? 'Planejamento Especial' : ` ${getMesNome(planejamento.mes)} ${planejamento.ano}`}
+                    ${planejamento.tipo === 'especial' ? 'Planejamento Especial' : `${getMesNome(planejamento.mes)} ${planejamento.ano}`}
                     • ${planejamento.posts.length} publicações programadas
                 </div>
-                <div class="stats-row" style="display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap;">
-                    <div class="stat-badge" style="background: #d1fae5; color: #059669; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                <div class="stats-row">
+                    <div class="stat-badge" style="background: #d1fae5; color: #059669;">
                         ✅ ${stats.aprovados} aprovados
                     </div>
-                    <div class="stat-badge" style="background: #fef3c7; color: #d97706; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                    <div class="stat-badge" style="background: #fef3c7; color: #d97706;">
                         🔄 ${stats.emRevisao} em revisão
                     </div>
-                    <div class="stat-badge" style="background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                    <div class="stat-badge" style="background: #dbeafe; color: #1e40af;">
                         ⏳ ${stats.emProducao} em produção
                     </div>
+                    <div class="stat-badge" style="background: #f3f4f6; color: #6b7280;">
+                        📝 ${stats.rascunhos} rascunhos
+                    </div>
                 </div>
-            </div>
-            <div class="detail-actions">
-                <button class="btn-secondary" onclick="editPlanejamento(${planejamento.id})">
-                     Editar
-                </button>
-                <button class="btn-info" onclick="openActionsModal(${planejamento.id})">
-                     Ações
-                </button>
-                <button class="btn-danger" onclick="confirmDelete(${planejamento.id})">
-                     Excluir
-                </button>
             </div>
         </div>
 
         <div class="detail-content">
             <div class="form-section" style="border: none; margin: 0; padding: 0;">
-                <h3> Descrição</h3>
+                <h3>📝 Descrição</h3>
                 <p style="color: var(--muted); line-height: 1.6; margin: 0;">${planejamento.descricao || 'Sem descrição'}</p>
             </div>
 
             <div class="detail-posts">
-                <h3> Publicações Programadas (${planejamento.posts.length})</h3>
+                <h3>📋 Publicações Programadas (${planejamento.posts.length})</h3>
                 ${planejamento.posts.map((post, index) => `
                     <div class="detail-post">
                         <div class="detail-post-header">
@@ -250,7 +313,23 @@ function showPlanejamentoDetail(id) {
             </div>
         </div>
     `;
+
+    detailModal.style.display = 'flex';
+    setTimeout(() => detailModal.classList.add('show'), 10);
 }
+
+function closeDetailModal() {
+    detailModal.classList.remove('show');
+    setTimeout(() => {
+        detailModal.style.display = 'none';
+    }, 300);
+}
+
+// Mês sempre visível, independente do tipo
+    const mesGroup = document.getElementById('mesGroup');
+    mesGroup.style.display = 'block';
+    document.getElementById('planejamentoMes').required = true;
+
 
 function calcularEstatisticas(posts) {
     return {
@@ -276,13 +355,180 @@ function openNewPlanejamentoModal() {
     // Mostrar grupo do mês por padrão
     document.getElementById('mesGroup').style.display = 'block';
     
+    // Inicializar selects customizados no modal
+    initializeCustomSelects();
+    
     planejamentoModal.style.display = 'flex';
     setTimeout(() => planejamentoModal.classList.add('show'), 10);
 }
 
 function addPost() {
-    const template = document.getElementById('postTemplate');
-    const postElement = template.content.cloneNode(true);
+    const postElement = document.createElement('div');
+    postElement.className = 'post-item';
+    postElement.innerHTML = `
+        <div class="post-header">
+            <div class="post-title-section">
+                <input type="text" class="post-titulo" name="postTitulo" placeholder="Título da publicação" required>
+            </div>
+            <button type="button" class="btn-remove-post">
+                <span></span> Excluir
+            </button>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label>Tipo de Conteúdo *</label>
+                <div class="custom-select">
+                    <div class="select-selected">
+                        <span>Selecione</span>
+                        <div class="select-arrow"></div>
+                    </div>
+                    <div class="select-items">
+                        <div class="select-option" data-value="">Selecione</div>
+                        <div class="select-option" data-value="reels">Reels</div>
+                        <div class="select-option" data-value="video">Vídeo</div>
+                        <div class="select-option" data-value="carrossel">Carrossel</div>
+                        <div class="select-option" data-value="storys">Storys</div>
+                        <div class="select-option" data-value="foto">Foto</div>
+                        <div class="select-option" data-value="videos">Vídeos</div>
+                        <div class="select-option" data-value="fotos">Fotos</div>
+                    </div>
+                    <select name="postTipo" required style="display: none;">
+                        <option value="">Selecione</option>
+                        <option value="reels">Reels</option>
+                        <option value="video">Vídeo</option>
+                        <option value="carrossel">Carrossel</option>
+                        <option value="storys">Storys</option>
+                        <option value="foto">Foto</option>
+                        <option value="videos">Vídeos</option>
+                        <option value="fotos">Fotos</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+                <div class="custom-select">
+                    <div class="select-selected">
+                        <span>Rascunho</span>
+                        <div class="select-arrow"></div>
+                    </div>
+                    <div class="select-items">
+                        <div class="select-option" data-value="rascunho">Rascunho</div>
+                        <div class="select-option" data-value="em_producao">Em Produção</div>
+                        <div class="select-option" data-value="em_revisao">Em Revisão</div>
+                        <div class="select-option" data-value="aprovado">Aprovado</div>
+                        <div class="select-option" data-value="agendado">Agendado</div>
+                        <div class="select-option" data-value="publicado">Publicado</div>
+                    </div>
+                    <select name="postStatus" style="display: none;">
+                        <option value="rascunho">Rascunho</option>
+                        <option value="em_producao">Em Produção</option>
+                        <option value="em_revisao">Em Revisão</option>
+                        <option value="aprovado">Aprovado</option>
+                        <option value="agendado">Agendado</option>
+                        <option value="publicado">Publicado</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Prioridade</label>
+                <div class="custom-select">
+                    <div class="select-selected">
+                        <span>Baixa</span>
+                        <div class="select-arrow"></div>
+                    </div>
+                    <div class="select-items">
+                        <div class="select-option" data-value="baixa">Baixa</div>
+                        <div class="select-option" data-value="media">Média</div>
+                        <div class="select-option" data-value="alta">Alta</div>
+                    </div>
+                    <select name="postPrioridade" style="display: none;">
+                        <option value="baixa">Baixa</option>
+                        <option value="media">Média</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Data de Postagem *</label>
+                <input type="date" name="postData" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Responsável *</label>
+                <div class="custom-select">
+                    <div class="select-selected">
+                        <span>Selecione</span>
+                        <div class="select-arrow"></div>
+                    </div>
+                    <div class="select-items">
+                        <div class="select-option" data-value="">Selecione</div>
+                        <div class="select-option" data-value="alone">Alone Souza</div>
+                        <div class="select-option" data-value="maria">Maria Silva</div>
+                        <div class="select-option" data-value="joao">João Santos</div>
+                        <div class="select-option" data-value="ana">Ana Costa</div>
+                        <div class="select-option" data-value="carlos">Carlos Oliveira</div>
+                    </div>
+                    <select name="postResponsavel" required style="display: none;">
+                        <option value="">Selecione</option>
+                        <option value="alone">Alone Souza</option>
+                        <option value="maria">Maria Silva</option>
+                        <option value="joao">João Santos</option>
+                        <option value="ana">Ana Costa</option>
+                        <option value="carlos">Carlos Oliveira</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Destino da Tarefa</label>
+                <div class="custom-select">
+                    <div class="select-selected">
+                        <span>Selecione o destino</span>
+                        <div class="select-arrow"></div>
+                    </div>
+                    <div class="select-items">
+                        <div class="select-option" data-value="">Selecione o destino</div>
+                        <div class="select-option" data-value="design">Design</div>
+                        <div class="select-option" data-value="gravacao">Gravação</div>
+                        <div class="select-option" data-value="edicao">Edição</div>
+                        <div class="select-option" data-value="revisao">Revisão</div>
+                        <div class="select-option" data-value="publicacao">Publicação</div>
+                    </div>
+                    <select name="postDestino" style="display: none;">
+                        <option value="">Selecione o destino</option>
+                        <option value="design">Design</option>
+                        <option value="gravacao">Gravação</option>
+                        <option value="edicao">Edição</option>
+                        <option value="revisao">Revisão</option>
+                        <option value="publicacao">Publicação</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Descrição da Publicação *</label>
+            <textarea name="postDescricao" required placeholder="Descreva o conteúdo desta publicação..." rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Texto da Legenda</label>
+            <textarea name="postLegenda" placeholder="Texto que acompanhará a publicação..." rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Inspirações (Links, imagens, vídeos)</label>
+            <textarea name="postInspiracao" placeholder="Cole links de referência, inspirações ou observações..." rows="2"></textarea>
+        </div>
+    `;
     
     // Configurar remoção do post
     const removeBtn = postElement.querySelector('.btn-remove-post');
@@ -291,6 +537,9 @@ function addPost() {
     });
     
     postsContainer.appendChild(postElement);
+    
+    // Inicializar selects customizados no novo post
+    initializeCustomSelects();
     postCounter++;
 }
 
@@ -307,6 +556,11 @@ function editPlanejamento(id) {
     document.getElementById('planejamentoAno').value = planejamento.ano;
     document.getElementById('planejamentoTitulo').value = planejamento.titulo;
     document.getElementById('planejamentoDescricao').value = planejamento.descricao || '';
+    
+    // Atualizar selects customizados
+    updateCustomSelect('planejamentoTipo', planejamento.tipo);
+    updateCustomSelect('planejamentoMes', planejamento.mes);
+    updateCustomSelect('planejamentoAno', planejamento.ano);
     
     // Controle de visibilidade do mês
     const mesGroup = document.getElementById('mesGroup');
@@ -336,10 +590,59 @@ function editPlanejamento(id) {
         lastPost.querySelector('textarea[name="postDescricao"]').value = post.descricao;
         lastPost.querySelector('textarea[name="postLegenda"]').value = post.legenda || '';
         lastPost.querySelector('textarea[name="postInspiracao"]').value = post.inspiracao || '';
+        
+        // Atualizar selects customizados
+        updateCustomSelectInElement(lastPost, 'postTipo', post.tipo);
+        updateCustomSelectInElement(lastPost, 'postStatus', post.status || 'rascunho');
+        updateCustomSelectInElement(lastPost, 'postPrioridade', post.prioridade);
+        updateCustomSelectInElement(lastPost, 'postResponsavel', post.responsavel);
+        updateCustomSelectInElement(lastPost, 'postDestino', post.destino || '');
     });
     
     planejamentoModal.style.display = 'flex';
     setTimeout(() => planejamentoModal.classList.add('show'), 10);
+}
+
+// Função auxiliar para atualizar selects customizados
+function updateCustomSelect(selectId, value) {
+    const hiddenSelect = document.getElementById(selectId);
+    const customSelect = hiddenSelect.closest('.custom-select');
+    const selectedSpan = customSelect.querySelector('.select-selected span');
+    const options = customSelect.querySelectorAll('.select-option');
+    
+    if (hiddenSelect && selectedSpan) {
+        hiddenSelect.value = value;
+        
+        // Encontrar o texto correspondente ao valor
+        const selectedOption = Array.from(options).find(opt => 
+            opt.getAttribute('data-value') === value
+        );
+        
+        if (selectedOption) {
+            selectedSpan.textContent = selectedOption.textContent;
+        }
+    }
+}
+
+// Função para atualizar selects dentro de um elemento específico
+function updateCustomSelectInElement(element, selectName, value) {
+    const hiddenSelect = element.querySelector(`select[name="${selectName}"]`);
+    if (!hiddenSelect) return;
+    
+    const customSelect = hiddenSelect.closest('.custom-select');
+    const selectedSpan = customSelect.querySelector('.select-selected span');
+    const options = customSelect.querySelectorAll('.select-option');
+    
+    hiddenSelect.value = value;
+    
+    // Encontrar o texto correspondente ao valor
+    const selectedOption = Array.from(options).find(opt => 
+        opt.getAttribute('data-value') === value
+    );
+    
+    if (selectedOption) {
+        selectedSpan.textContent = selectedOption.textContent;
+    }
 }
 
 function savePlanejamento() {
@@ -389,10 +692,11 @@ function savePlanejamento() {
         return;
     }
     
-    if (formData.get('tipo') === 'mensal' && !formData.get('mes')) {
-        alert('Selecione o mês para planejamentos mensais.');
-        return;
+    if (!formData.get('mes')) {
+    alert('Selecione o mês do planejamento.');
+    return;
     }
+
 
     const planejamentoData = {
         titulo: formData.get('titulo'),
@@ -416,9 +720,6 @@ function savePlanejamento() {
     }
 
     renderPlanejamentoList();
-    if (currentPlanejamentoId) {
-        showPlanejamentoDetail(currentPlanejamentoId);
-    }
     closeModal();
     
     showNotification(`Planejamento ${currentPlanejamentoId ? 'atualizado' : 'criado'} com sucesso!`, 'success');
@@ -616,9 +917,8 @@ function confirmDelete(id) {
 function deletePlanejamento() {
     planejamentos = planejamentos.filter(p => p.id !== currentPlanejamentoId);
     renderPlanejamentoList();
-    detailPlaceholder.style.display = 'flex';
-    planejamentoDetail.style.display = 'none';
     closeConfirmModal();
+    closeDetailModal();
     showNotification('Planejamento excluído com sucesso!', 'success');
 }
 
@@ -652,7 +952,9 @@ function getTipoNome(tipo) {
         'video': 'Vídeo',
         'carrossel': 'Carrossel',
         'storys': 'Storys',
-        'foto': 'Foto'
+        'foto': 'Foto',
+        'videos': 'Vídeos',
+        'fotos': 'Fotos'
     };
     return tipos[tipo] || tipo;
 }
@@ -710,6 +1012,7 @@ function showNotification(message, type = 'info') {
         border: 1px solid ${type === 'success' ? '#c3e6cb' : '#f5c6cb'};
         z-index: 10000;
         font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     `;
     notification.textContent = message;
     
@@ -740,3 +1043,4 @@ function initializeUserMenu() {
         });
     }
 }
+
