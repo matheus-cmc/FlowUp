@@ -580,3 +580,34 @@ function initializeUserMenu() {
         });
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const kanbanView = document.getElementById('kanbanView');
+  const listaView  = document.getElementById('listaView');
+  const toggleBtns = document.querySelectorAll('.view-toggle .toggle-btn');
+
+  if (kanbanView && listaView && toggleBtns.length) {
+    toggleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // tira "active" de todos os botões
+        toggleBtns.forEach(b => b.classList.remove('active'));
+        // coloca só no clicado
+        btn.classList.add('active');
+
+        const view = btn.dataset.view;
+
+        if (view === 'kanban') {
+          kanbanView.classList.add('active');
+          listaView.classList.remove('active');
+        } else {
+          listaView.classList.add('active');
+          kanbanView.classList.remove('active');
+        }
+      });
+    });
+
+    // garante estado inicial (kanban)
+    kanbanView.classList.add('active');
+    listaView.classList.remove('active');
+  }
+});
