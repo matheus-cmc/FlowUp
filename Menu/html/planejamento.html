@@ -144,27 +144,59 @@
           </div>
           
           <div class="filters">
-            <select class="filter-select" id="monthFilter">
-              <option value="all">Todos os Meses</option>
-              <option value="1">Janeiro</option>
-              <option value="2">Fevereiro</option>
-              <option value="3">Março</option>
-              <option value="4">Abril</option>
-              <option value="5">Maio</option>
-              <option value="6">Junho</option>
-              <option value="7">Julho</option>
-              <option value="8">Agosto</option>
-              <option value="9">Setembro</option>
-              <option value="10">Outubro</option>
-              <option value="11">Novembro</option>
-              <option value="12">Dezembro</option>
-              <option value="special">Planejamento Especial</option>
-            </select>
+            <div class="custom-select">
+              <div class="select-selected">
+                <span>Todos os Meses</span>
+                <div class="select-arrow"></div>
+              </div>
+              <div class="select-items">
+                <div class="select-option" data-value="all">Todos os Meses</div>
+                <div class="select-option" data-value="1">Janeiro</div>
+                <div class="select-option" data-value="2">Fevereiro</div>
+                <div class="select-option" data-value="3">Março</div>
+                <div class="select-option" data-value="4">Abril</div>
+                <div class="select-option" data-value="5">Maio</div>
+                <div class="select-option" data-value="6">Junho</div>
+                <div class="select-option" data-value="7">Julho</div>
+                <div class="select-option" data-value="8">Agosto</div>
+                <div class="select-option" data-value="9">Setembro</div>
+                <div class="select-option" data-value="10">Outubro</div>
+                <div class="select-option" data-value="11">Novembro</div>
+                <div class="select-option" data-value="12">Dezembro</div>
+                <div class="select-option" data-value="special">Planejamento Especial</div>
+              </div>
+              <select id="monthFilter" style="display: none;">
+                <option value="all">Todos os Meses</option>
+                <option value="1">Janeiro</option>
+                <option value="2">Fevereiro</option>
+                <option value="3">Março</option>
+                <option value="4">Abril</option>
+                <option value="5">Maio</option>
+                <option value="6">Junho</option>
+                <option value="7">Julho</option>
+                <option value="8">Agosto</option>
+                <option value="9">Setembro</option>
+                <option value="10">Outubro</option>
+                <option value="11">Novembro</option>
+                <option value="12">Dezembro</option>
+                <option value="special">Planejamento Especial</option>
+              </select>
+            </div>
             
-            <select class="filter-select" id="yearFilter">
-              <option value="2024">2024</option>
-              <option value="2025">2025</option>
-            </select>
+            <div class="custom-select">
+              <div class="select-selected">
+                <span>2024</span>
+                <div class="select-arrow"></div>
+              </div>
+              <div class="select-items">
+                <div class="select-option" data-value="2024">2024</div>
+                <div class="select-option" data-value="2025">2025</div>
+              </div>
+              <select id="yearFilter" style="display: none;">
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -176,92 +208,307 @@
     </main>
   </div>
 
-  <!-- Modal de Novo/Editar Planejamento -->
-  <div class="modal" id="planejamentoModal">
-    <div class="modal-content large-modal">
-      <div class="modal-header">
-        <h3 id="modalTitle">Novo Planejamento</h3>
-        <button class="modal-close" id="modalClose">&times;</button>
+  <!-- Template de Post (usado no JavaScript) -->
+<template id="postTemplate">
+  <div class="post-item">
+    <div class="post-header">
+      <div class="post-title-section">
+        <input type="text" class="post-titulo" name="postTitulo" placeholder="Título da publicação " required>
       </div>
-      <div class="modal-body">
-        <form id="planejamentoForm">
-          <!-- Informações Básicas -->
-          <div class="form-section">
-            <h4 class="section-title">
-              <span class="section-emoji"></span> Informações do Planejamento
-            </h4>
-            
-            <div class="form-row">
-              <div class="form-group">
-                <label for="planejamentoTipo">Tipo de Planejamento *</label>
-                <select id="planejamentoTipo" name="tipo" required>
-                  <option value="">Selecione o tipo</option>
-                  <option value="mensal">Planejamento Mensal</option>
-                  <option value="especial">Planejamento Especial</option>
-                </select>
-              </div>
-
-              <div class="form-group" id="mesGroup">
-                <label for="planejamentoMes">Mês *</label>
-                <select id="planejamentoMes" name="mes">
-                  <option value="">Selecione o mês</option>
-                  <option value="1">Janeiro</option>
-                  <option value="2">Fevereiro</option>
-                  <option value="3">Março</option>
-                  <option value="4">Abril</option>
-                  <option value="5">Maio</option>
-                  <option value="6">Junho</option>
-                  <option value="7">Julho</option>
-                  <option value="8">Agosto</option>
-                  <option value="9">Setembro</option>
-                  <option value="10">Outubro</option>
-                  <option value="11">Novembro</option>
-                  <option value="12">Dezembro</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="planejamentoAno">Ano *</label>
-                <select id="planejamentoAno" name="ano" required>
-                  <option value="2024">2024</option>
-                  <option value="2025">2025</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="planejamentoTitulo">Título do Planejamento *</label>
-              <input type="text" id="planejamentoTitulo" name="titulo" required placeholder="Ex: Campanha Verão 2024">
-            </div>
-
-            <div class="form-group">
-              <label for="planejamentoDescricao">Descrição</label>
-              <textarea id="planejamentoDescricao" name="descricao" placeholder="Descreva o objetivo deste planejamento..." rows="3"></textarea>
-            </div>
+      <button type="button" class="btn-remove-post">&times;</button>
+    </div>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label>Tipo de Conteúdo *</label>
+        <div class="custom-select">
+          <div class="select-selected">
+            <span>Selecione</span>
+            <div class="select-arrow"></div>
           </div>
-
-          <!-- Posts/Publicações -->
-          <div class="form-section">
-            <h4 class="section-title">
-              <span class="section-emoji"></span> Publicações Programadas
-            </h4>
-            
-            <div class="posts-container" id="postsContainer">
-              <!-- Posts serão adicionados dinamicamente -->
-            </div>
-
-            <button type="button" class="btn-secondary btn-add-post" id="addPostBtn">
-              <span class="btn-icon">+</span> Adicionar Publicação
-            </button>
+          <div class="select-items">
+            <div class="select-option" data-value="">Selecione</div>
+            <div class="select-option" data-value="reels">Reels</div>
+            <div class="select-option" data-value="video">Vídeo</div>
+            <div class="select-option" data-value="carrossel">Carrossel</div>
+            <div class="select-option" data-value="storys">Storys</div>
+            <div class="select-option" data-value="foto">Foto</div>
           </div>
-        </form>
+          <select name="postTipo" required style="display: none;">
+            <option value="">Selecione</option>
+            <option value="reels">Reels</option>
+            <option value="video">Vídeo</option>
+            <option value="carrossel">Carrossel</option>
+            <option value="storys">Storys</option>
+            <option value="foto">Foto</option>
+          </select>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-secondary" id="cancelBtn">Cancelar</button>
-        <button type="button" class="btn-primary" id="savePlanejamentoBtn">Salvar Planejamento</button>
+
+      <div class="form-group">
+        <label>Status</label>
+        <div class="custom-select">
+          <div class="select-selected">
+            <span>Rascunho</span>
+            <div class="select-arrow"></div>
+          </div>
+          <div class="select-items">
+            <div class="select-option" data-value="rascunho">Rascunho</div>
+            <div class="select-option" data-value="em_producao">Em Produção</div>
+            <div class="select-option" data-value="em_revisao">Em Revisão</div>
+            <div class="select-option" data-value="aprovado">Aprovado</div>
+            <div class="select-option" data-value="agendado">Agendado</div>
+            <div class="select-option" data-value="publicado">Publicado</div>
+          </div>
+          <select name="postStatus" style="display: none;">
+            <option value="rascunho">Rascunho</option>
+            <option value="em_producao">Em Produção</option>
+            <option value="em_revisao">Em Revisão</option>
+            <option value="aprovado">Aprovado</option>
+            <option value="agendado">Agendado</option>
+            <option value="publicado">Publicado</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Prioridade</label>
+        <div class="custom-select">
+          <div class="select-selected">
+            <span>Baixa</span>
+            <div class="select-arrow"></div>
+          </div>
+          <div class="select-items">
+            <div class="select-option" data-value="baixa">Baixa</div>
+            <div class="select-option" data-value="media">Média</div>
+            <div class="select-option" data-value="alta">Alta</div>
+          </div>
+          <select name="postPrioridade" style="display: none;">
+            <option value="baixa">Baixa</option>
+            <option value="media">Média</option>
+            <option value="alta">Alta</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Data de Postagem *</label>
+        <input type="date" name="postData" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Responsável *</label>
+        <div class="custom-select">
+          <div class="select-selected">
+            <span>Selecione</span>
+            <div class="select-arrow"></div>
+          </div>
+          <div class="select-items">
+            <div class="select-option" data-value="">Selecione</div>
+            <div class="select-option" data-value="alone">Alone Souza</div>
+            <div class="select-option" data-value="maria">Maria Silva</div>
+            <div class="select-option" data-value="joao">João Santos</div>
+            <div class="select-option" data-value="ana">Ana Costa</div>
+            <div class="select-option" data-value="carlos">Carlos Oliveira</div>
+          </div>
+          <select name="postResponsavel" required style="display: none;">
+            <option value="">Selecione</option>
+            <option value="alone">Alone Souza</option>
+            <option value="maria">Maria Silva</option>
+            <option value="joao">João Santos</option>
+            <option value="ana">Ana Costa</option>
+            <option value="carlos">Carlos Oliveira</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Destino da Tarefa</label>
+        <div class="custom-select">
+          <div class="select-selected">
+            <span>Selecione o destino</span>
+            <div class="select-arrow"></div>
+          </div>
+          <div class="select-items">
+            <div class="select-option" data-value="">Selecione o destino</div>
+            <div class="select-option" data-value="design">Design</div>
+            <div class="select-option" data-value="gravacao">Gravação</div>
+            <div class="select-option" data-value="edicao">Edição</div>
+            <div class="select-option" data-value="revisao">Revisão</div>
+            <div class="select-option" data-value="publicacao">Publicação</div>
+          </div>
+          <select name="postDestino" style="display: none;">
+            <option value="">Selecione o destino</option>
+            <option value="design">Design</option>
+            <option value="gravacao">Gravação</option>
+            <option value="edicao">Edição</option>
+            <option value="revisao">Revisão</option>
+            <option value="publicacao">Publicação</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Descrição da Publicação *</label>
+      <textarea name="postDescricao" required placeholder="Descreva o conteúdo desta publicação..." rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Texto da Legenda</label>
+      <textarea name="postLegenda" placeholder="Texto que acompanhará a publicação..." rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Inspirações (Links, imagens, vídeos)</label>
+      <textarea name="postInspiracao" placeholder="Cole links de referência, inspirações ou observações..." rows="2"></textarea>
+    </div>
+  </div>
+</template>
+
+ <!-- Modal de Novo/Editar Planejamento -->
+<div class="modal" id="planejamentoModal">
+  <div class="modal-content extra-large-modal planning-modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Novo Planejamento</h3>
+      <button class="modal-close" id="modalClose">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <form id="planejamentoForm">
+      <!-- Nova seção única – Detalhes do Planejamento -->
+<div class="form-section">
+  <h4 class="section-title">
+    Detalhes do Planejamento
+  </h4>
+
+  <!-- Linha com Tipo, Mês e Ano -->
+  <div class="form-row">
+    <div class="form-group">
+      <label for="planejamentoTipo">Tipo de Planejamento *</label>
+      <div class="custom-select">
+        <div class="select-selected">
+          <span>Selecione o tipo</span>
+          <div class="select-arrow"></div>
+        </div>
+        <div class="select-items">
+          <div class="select-option" data-value="">Selecione o tipo</div>
+          <div class="select-option" data-value="mensal">Planejamento Mensal</div>
+          <div class="select-option" data-value="especial">Planejamento Especial</div>
+        </div>
+        <select id="planejamentoTipo" name="tipo" required style="display: none;">
+          <option value="">Selecione o tipo</option>
+          <option value="mensal">Planejamento Mensal</option>
+          <option value="especial">Planejamento Especial</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group" id="mesGroup">
+      <label for="planejamentoMes">Mês *</label>
+      <div class="custom-select">
+        <div class="select-selected">
+          <span>Selecione o mês</span>
+          <div class="select-arrow"></div>
+        </div>
+        <div class="select-items">
+          <div class="select-option" data-value="">Selecione o mês</div>
+          <div class="select-option" data-value="1">Janeiro</div>
+          <div class="select-option" data-value="2">Fevereiro</div>
+          <div class="select-option" data-value="3">Março</div>
+          <div class="select-option" data-value="4">Abril</div>
+          <div class="select-option" data-value="5">Maio</div>
+          <div class="select-option" data-value="6">Junho</div>
+          <div class="select-option" data-value="7">Julho</div>
+          <div class="select-option" data-value="8">Agosto</div>
+          <div class="select-option" data-value="9">Setembro</div>
+          <div class="select-option" data-value="10">Outubro</div>
+          <div class="select-option" data-value="11">Novembro</div>
+          <div class="select-option" data-value="12">Dezembro</div>
+        </div>
+        <select id="planejamentoMes" name="mes" required style="display: none;">
+          <option value="">Selecione o mês</option>
+          <option value="1">Janeiro</option>
+          <option value="2">Fevereiro</option>
+          <option value="3">Março</option>
+          <option value="4">Abril</option>
+          <option value="5">Maio</option>
+          <option value="6">Junho</option>
+          <option value="7">Julho</option>
+          <option value="8">Agosto</option>
+          <option value="9">Setembro</option>
+          <option value="10">Outubro</option>
+          <option value="11">Novembro</option>
+          <option value="12">Dezembro</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="planejamentoAno">Ano *</label>
+      <div class="custom-select">
+        <div class="select-selected">
+          <span>2024</span>
+          <div class="select-arrow"></div>
+        </div>
+        <div class="select-items">
+          <div class="select-option" data-value="2024">2024</div>
+          <div class="select-option" data-value="2025">2025</div>
+        </div>
+        <select id="planejamentoAno" name="ano" required style="display: none;">
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+        </select>
       </div>
     </div>
   </div>
+
+  <!-- Título -->
+  <div class="form-group">
+    <label for="planejamentoTitulo">Título do Planejamento *</label>
+    <input type="text" id="planejamentoTitulo" name="titulo" required
+           placeholder="Ex: Campanha Verão 2024">
+  </div>
+
+  <!-- Descrição -->
+  <div class="form-group">
+    <label for="planejamentoDescricao">Descrição</label>
+    <textarea id="planejamentoDescricao" name="descricao"
+              placeholder="Descreva o objetivo deste planejamento..."
+              rows="3"></textarea>
+  </div>
+</div>
+
+
+        <!-- Seção 3 – Publicações -->
+        <div class="form-section">
+          <h4 class="section-title">
+            <span class="section-emoji">📌</span>
+            Publicações Programadas
+          </h4>
+
+          <div class="posts-container" id="postsContainer">
+            <!-- Posts serão adicionados dinamicamente usando o template -->
+          </div>
+
+          <button type="button" class="btn-secondary btn-add-post" id="addPostBtn">
+            <span class="btn-icon">+</span> Adicionar Publicação
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" id="cancelBtn">Cancelar</button>
+      <button type="button" class="btn-primary" id="savePlanejamentoBtn">Salvar Planejamento</button>
+    </div>
+  </div>
+</div>
+
 
   <!-- Modal de Detalhes do Planejamento -->
   <div class="modal" id="detailModal">
