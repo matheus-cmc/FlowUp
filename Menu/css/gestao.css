@@ -1420,3 +1420,224 @@
   font-size: 12px;
   color: #4b5563;
 }
+
+
+/* ===== CARD DE PROJETO (KANBAN) – LAYOUT ORGANIZADO ===== */
+
+.kanban-column .projeto-card {
+  position: relative;
+  flex: 1 1 calc(20% - 10px);
+  max-width: calc(20% - 10px);
+  min-width: 220px;
+
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 16px 18px;
+  border: 1px solid #e5e7eb;
+  cursor: grab;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* faixa lateral (fica colorida quando atrasado) */
+.kanban-column .projeto-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  border-radius: 999px;
+  background: #e5e7eb;
+}
+
+/* bolinha de alerta se atrasado */
+.projeto-card.atrasado::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #ef4444;
+}
+
+/* hover */
+.kanban-column .projeto-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+  border-color: rgba(37, 99, 235, 0.4);
+}
+
+/* quando atrasado, pinta a faixa */
+.projeto-card.atrasado::before {
+  background: #ef4444;
+}
+
+/* topo do card: tipo + título + prioridade */
+.projeto-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.card-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-tipo {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.projeto-card .card-titulo {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* bolinha de prioridade */
+.card-prioridade {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+/* você pode usar classes .alta, .media, .baixa pra cores diferentes */
+.card-prioridade.alta  { background: #ef4444; }
+.card-prioridade.media { background: #f59e0b; }
+.card-prioridade.baixa { background: #10b981; }
+
+/* área central: status + mês */
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* badge de status já usa .status-badge / .status-xxx que você tinha */
+.card-status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* pill de mês */
+.card-chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  font-size: 11px;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+/* rodapé: responsável + próximo destino + data */
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.card-bottom-left,
+.card-bottom-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.card-responsavel,
+.card-deadline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ícones (pessoa / calendário) */
+.card-responsavel::before,
+.card-deadline::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  background: #4b5563;
+}
+
+/* ícone de pessoa */
+.card-responsavel::before {
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-3.314 0-6 1.79-6 4v1h12v-1c0-2.21-2.686-4-6-4Z'/></svg>") no-repeat center/contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-3.314 0-6 1.79-6 4v1h12v-1c0-2.21-2.686-4-6-4Z'/></svg>") no-repeat center/contain;
+}
+
+/* ícone de calendário */
+.card-deadline::before {
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 4V3m10 1V3M5 8h14M6 5h12a1 1 0 0 1 1 1v13H5V6a1 1 0 0 1 1-1Z'/></svg>") no-repeat center/contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 4V3m10 1V3M5 8h14M6 5h12a1 1 0 0 1 1 1v13H5V6a1 1 0 0 1 1-1Z'/></svg>") no-repeat center/contain;
+}
+
+/* atrasado: deadline vermelha */
+.projeto-card.atrasado .card-deadline {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* texto do próximo destino */
+.card-proximo {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.card-proximo strong {
+  color: #111827;
+}
+
+/* responsivo: menos cards por linha */
+@media (max-width: 1200px) {
+  .kanban-column .projeto-card {
+    flex: 1 1 calc(25% - 10px);
+    max-width: calc(25% - 10px);
+  }
+}
+@media (max-width: 900px) {
+  .kanban-column .projeto-card {
+    flex: 1 1 calc(33.33% - 10px);
+    max-width: calc(33.33% - 10px);
+  }
+}
+@media (max-width: 700px) {
+  .kanban-column .projeto-card {
+    flex: 1 1 calc(50% - 10px);
+    max-width: calc(50% - 10px);
+  }
+}
+@media (max-width: 480px) {
+  .kanban-column .projeto-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
