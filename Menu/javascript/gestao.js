@@ -1001,3 +1001,6 @@ function injectMockData() {
 // Expor funções para uso global
 window.openProjetoModal = openProjetoModal;
 window.ingestFromPlanejamento = ingestFromPlanejamento;
+
+
+//pre
