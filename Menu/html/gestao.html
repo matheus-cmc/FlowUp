@@ -291,83 +291,142 @@
 </div>
 
         <!-- Conteúdo -->
-        <div class="gestao-content">
-          <!-- Visualização Kanban -->
-          <div class="kanban-view active" id="kanbanView">
-            <div class="kanban-columns">
-              <div class="kanban-column" data-status="redacao">
-                <div class="column-header">
-                  <h3>Redação</h3>
-                  <span class="column-count">0</span>
-                </div>
-                <div class="column-content" data-status="redacao"></div>
-              </div>
-              
-              <div class="kanban-column" data-status="gravacao">
-                <div class="column-header">
-                  <h3>Gravação</h3>
-                  <span class="column-count">0</span>
-                </div>
-                <div class="column-content" data-status="gravacao"></div>
-              </div>
-              
-              <div class="kanban-column" data-status="edicao_video">
-                <div class="column-header">
-                  <h3>Edição de Vídeo</h3>
-                  <span class="column-count">0</span>
-                </div>
-                <div class="column-content" data-status="edicao_video"></div>
-              </div>
-              
-              <div class="kanban-column" data-status="design">
-                <div class="column-header">
-                  <h3>Design</h3>
-                  <span class="column-count">0</span>
-                </div>
-                <div class="column-content" data-status="design"></div>
-              </div>
-              
-              <div class="kanban-column" data-status="revisao">
-                <div class="column-header">
-                  <h3>Revisão</h3>
-                  <span class="column-count">0</span>
-                </div>
-                <div class="column-content" data-status="revisao"></div>
-              </div>
-              
-              <div class="kanban-column" data-status="fotografia">
-                <div class="column-header">
-                  <h3>Fotografia</h3>
-                  <span class="column-count">0</span>
-                </div>
-                <div class="column-content" data-status="fotografia"></div>
-              </div>
-              
-              <div class="kanban-column" data-status="aprovacao">
-                <div class="column-header">
-                  <h3>Aprovação</h3>
-                  <span class="column-count">0</span>
-                </div>
-                <div class="column-content" data-status="aprovacao"></div>
-              </div>
-              
-              <div class="kanban-column" data-status="aguardando_aprovacao">
-                <div class="column-header">
-                  <h3>Aguardando Aprovação</h3>
-                  <span class="column-count">0</span>
-                </div>
-                <div class="column-content" data-status="aguardando_aprovacao"></div>
-              </div>
-              
-              <div class="kanban-column" data-status="pronto_postar">
-                <div class="column-header">
-                  <h3>Pronto pra Postar</h3>
-                  <span class="column-count">0</span>
-                </div>
-                <div class="column-content" data-status="pronto_postar"></div>
-              </div>
+        <!-- Conteúdo -->
+<div class="gestao-content">
+  <!-- Visualização Kanban -->
+  <div class="kanban-view active" id="kanbanView">
+    <div class="kanban-columns">
+
+      <div class="kanban-column" data-status="redacao">
+        <div class="column-header">
+          <div class="column-title">
+            <div class="column-icon"></div>
+            <div class="column-text">
+              <h3>Redação</h3>
+              <span class="column-subtitle">Textos, roteiros e legendas</span>
             </div>
           </div>
+          <span class="column-count">0</span>
+        </div>
+        <div class="column-content" data-status="redacao"></div>
+      </div>
+
+      <div class="kanban-column" data-status="gravacao">
+        <div class="column-header">
+          <div class="column-title">
+            <div class="column-icon"></div>
+            <div class="column-text">
+              <h3>Gravação</h3>
+              <span class="column-subtitle">Captação de vídeos e áudios</span>
+            </div>
+          </div>
+          <span class="column-count">0</span>
+        </div>
+        <div class="column-content" data-status="gravacao"></div>
+      </div>
+
+      <div class="kanban-column" data-status="edicao_video">
+        <div class="column-header">
+          <div class="column-title">
+            <div class="column-icon"></div>
+            <div class="column-text">
+              <h3>Edição de Vídeo</h3>
+              <span class="column-subtitle">Montagem, cortes e finalização</span>
+            </div>
+          </div>
+          <span class="column-count">0</span>
+        </div>
+        <div class="column-content" data-status="edicao_video"></div>
+      </div>
+
+      <div class="kanban-column" data-status="design">
+        <div class="column-header">
+          <div class="column-title">
+            <div class="column-icon"></div>
+            <div class="column-text">
+              <h3>Design</h3>
+              <span class="column-subtitle">Artes, layouts e ajustes visuais</span>
+            </div>
+          </div>
+          <span class="column-count">0</span>
+        </div>
+        <div class="column-content" data-status="design"></div>
+      </div>
+
+      <div class="kanban-column" data-status="revisao">
+        <div class="column-header">
+          <div class="column-title">
+            <div class="column-icon"></div>
+            <div class="column-text">
+              <h3>Revisão</h3>
+              <span class="column-subtitle">Ortografia, ajustes e aprovação interna</span>
+            </div>
+          </div>
+          <span class="column-count">0</span>
+        </div>
+        <div class="column-content" data-status="revisao"></div>
+      </div>
+
+      <div class="kanban-column" data-status="fotografia">
+        <div class="column-header">
+          <div class="column-title">
+            <div class="column-icon"></div>
+            <div class="column-text">
+              <h3>Fotografia</h3>
+              <span class="column-subtitle">Sessões de fotos e registros</span>
+            </div>
+          </div>
+          <span class="column-count">0</span>
+        </div>
+        <div class="column-content" data-status="fotografia"></div>
+      </div>
+
+      <div class="kanban-column" data-status="aprovacao">
+        <div class="column-header">
+          <div class="column-title">
+            <div class="column-icon"></div>
+            <div class="column-text">
+              <h3>Aprovação</h3>
+              <span class="column-subtitle">Validação final com o cliente</span>
+            </div>
+          </div>
+          <span class="column-count">0</span>
+        </div>
+        <div class="column-content" data-status="aprovacao"></div>
+      </div>
+
+      <div class="kanban-column" data-status="aguardando_aprovacao">
+        <div class="column-header">
+          <div class="column-title">
+            <div class="column-icon"></div>
+            <div class="column-text">
+              <h3>Aguardando Aprovação</h3>
+              <span class="column-subtitle">Aguardando retorno do cliente</span>
+            </div>
+          </div>
+          <span class="column-count">0</span>
+        </div>
+        <div class="column-content" data-status="aguardando_aprovacao"></div>
+      </div>
+
+      <div class="kanban-column" data-status="pronto_postar">
+        <div class="column-header">
+          <div class="column-title">
+            <div class="column-icon"></div>
+            <div class="column-text">
+              <h3>Pronto pra Postar</h3>
+              <span class="column-subtitle">Conteúdos finalizados e aprovados</span>
+            </div>
+          </div>
+          <span class="column-count">0</span>
+        </div>
+        <div class="column-content" data-status="pronto_postar"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
           <!-- Visualização Lista -->
           <div class="lista-view" id="listaView">

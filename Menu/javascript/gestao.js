@@ -51,12 +51,64 @@ function setupEventListeners() {
   // Botão de injetar mock
   document.getElementById('injetarMockBtn').addEventListener('click', injectMockData);
 
-  // Configurar dropdown de filtros
+  // Filtros
   setupFilterDropdown();
 
   // Modais
   setupModalEvents();
+
+  // Drag & Drop nas colunas do Kanban
+  setupDragAndDropColumns();
 }
+
+/* ================== DRAG & DROP ENTRE CARDZÕES ================== */
+
+function setupDragAndDropColumns() {
+  const columns = document.querySelectorAll('.column-content');
+
+  columns.forEach(column => {
+    // permitir arrastar por cima
+    column.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = 'move';
+      }
+    });
+
+    // soltar card na coluna
+    column.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const id = e.dataTransfer.getData('text/plain');
+      if (!id) return;
+
+      const projetoId = parseInt(id, 10);
+      const projeto = projetos.find(p => p.id === projetoId);
+      if (!projeto) return;
+
+      const novoStatus = column.dataset.status;
+      if (!novoStatus || novoStatus === projeto.status) return;
+
+      // Atualizar status + histórico
+      projeto.status = novoStatus;
+      projeto.updatedAt = new Date().toISOString();
+      projeto.historico.push({
+        status: novoStatus,
+        at: new Date().toISOString(),
+        by: 'Alone Souza' // depois você pega do usuário logado
+      });
+
+      saveToStorage();
+      renderViews();
+
+      // Se o modal desse projeto estiver aberto, recarrega
+      if (currentProjetoId === projetoId && projetoModal.style.display === 'flex') {
+        openProjetoModal(projetoId);
+      }
+    });
+  });
+}
+
+/* ================== FILTROS E CUSTOM SELECT ================== */
 
 // Nova função para o sistema de filtros com dropdown customizado
 function setupFilterDropdown() {
@@ -106,24 +158,6 @@ function setupFilterDropdown() {
       closeAllCustomSelects();
     }
   });
-
-  // Atualizar badge de filtros ativos
-  function updateFilterBadge() {
-    if (!filterBadge) return;
-    
-    const activeFilters = Array.from(document.querySelectorAll('.filter-custom-select .select-selected span'))
-      .filter(span => {
-        const text = span.textContent.trim();
-        return !text.includes('Todos os') && !text.includes('Todas as');
-      }).length;
-    
-    if (activeFilters > 0) {
-      filterBadge.textContent = activeFilters;
-      filterBadge.style.display = 'block';
-    } else {
-      filterBadge.style.display = 'none';
-    }
-  }
 
   // Limpar filtros
   if (clearFiltersBtn) {
@@ -182,11 +216,7 @@ function initializeCustomSelects() {
     // Configurar evento de clique no selected
     selected.addEventListener('click', (e) => {
       e.stopPropagation();
-      
-      // Fechar outros selects abertos
       closeOtherCustomSelects(select);
-      
-      // Toggle este select
       select.classList.toggle('open');
     });
     
@@ -196,23 +226,18 @@ function initializeCustomSelects() {
         const value = option.dataset.value;
         const text = option.textContent;
         
-        // Atualizar visual
         selected.querySelector('span').textContent = text;
         
-        // Atualizar select nativo
         if (nativeSelect) {
           nativeSelect.value = value;
           nativeSelect.dispatchEvent(new Event('change', { bubbles: true }));
         }
         
-        // Atualizar seleção visual
         options.forEach(opt => opt.classList.remove('selected'));
         option.classList.add('selected');
         
-        // Fechar select
         select.classList.remove('open');
         
-        // Atualizar badge e renderizar
         updateFilterBadge();
         renderViews();
       });
@@ -223,7 +248,6 @@ function initializeCustomSelects() {
       select.classList.remove('open');
     });
     
-    // Prevenir propagação dentro do select
     select.addEventListener('click', (e) => {
       e.stopPropagation();
     });
@@ -244,7 +268,7 @@ function closeOtherCustomSelects(currentSelect) {
   });
 }
 
-// Atualizar badge de filtros ativos (função auxiliar)
+// Atualizar badge de filtros ativos
 function updateFilterBadge() {
   const filterBadge = document.getElementById('filterBadge');
   if (!filterBadge) return;
@@ -262,6 +286,8 @@ function updateFilterBadge() {
     filterBadge.style.display = 'none';
   }
 }
+
+/* ================== MODAIS ================== */
 
 function setupModalEvents() {
   // Modal principal
@@ -296,6 +322,8 @@ function setupModalEvents() {
     if (event.target === deadlineModal) closeDeadlineModal();
   });
 }
+
+/* ================== INTEGRAÇÃO COM PLANEJAMENTO ================== */
 
 // Função principal de integração com Planejamento Mensal
 export function ingestFromPlanejamento(payloadArray) {
@@ -361,7 +389,8 @@ function generateId() {
   return Math.max(0, ...projetos.map(p => p.id)) + 1;
 }
 
-// Renderização das visualizações
+/* ================== RENDERIZAÇÃO ================== */
+
 function renderViews() {
   const filteredProjetos = filterProjetos();
   renderKanbanView(filteredProjetos);
@@ -378,7 +407,7 @@ function filterProjetos() {
 
   return projetos.filter(projeto => {
     const matchesSearch = projeto.titulo.toLowerCase().includes(searchTerm) ||
-                         projeto.descricao.toLowerCase().includes(searchTerm);
+                         (projeto.descricao || '').toLowerCase().includes(searchTerm);
     const matchesResponsavel = responsavelFilter === 'all' || projeto.responsavel === responsavelFilter;
     const matchesTipo = tipoFilter === 'all' || projeto.tipo === tipoFilter;
     const matchesPrioridade = prioridadeFilter === 'all' || projeto.prioridade === prioridadeFilter;
@@ -440,43 +469,77 @@ function renderListView(projetosFiltrados) {
   `).join('');
 }
 
+/* ====== AQUI É ONDE O CARD É MONTADO ====== */
+
 function createProjetoCard(projeto) {
   const card = document.createElement('div');
   card.className = `projeto-card ${projeto.concluido ? 'concluido' : ''} ${isAtrasado(projeto) ? 'atrasado' : ''}`;
+  card.dataset.id = projeto.id;
+  card.setAttribute('draggable', 'true');
+
+  const proximoDestino = getDestinoNome(projeto.destino) || '-';
+  const temDeadline = !!projeto.deadline;
+
   card.innerHTML = `
     <div class="card-header">
-      <h4 class="card-titulo">${projeto.titulo}</h4>
+      <div class="card-header-left">
+        <div class="card-tipo">${getTipoNome(projeto.tipo)}</div>
+        <h4 class="card-titulo">${projeto.titulo}</h4>
+      </div>
       <div class="card-prioridade ${projeto.prioridade}"></div>
     </div>
+
     <div class="card-meta">
-      <span class="card-status status-${projeto.status}">${getStatusNome(projeto.status)}</span>
-      <div class="card-responsavel">👤 ${getResponsavelNome(projeto.responsavel)}</div>
-      ${projeto.deadline ? `
-        <div class="card-deadline ${isAtrasado(projeto) ? 'atrasado' : ''}">
-          📅 ${formatDate(projeto.deadline)}
-        </div>
-      ` : ''}
-      <div class="card-mes">${getMesNome(projeto.mes)}</div>
-    </div>
-    ${projeto.historico.length > 1 ? `
-      <div class="card-history">
-        ${projeto.historico.slice(-3).map(item => `
-          <div class="history-item ${item.status !== projeto.status ? 'anterior' : ''}">
-            <span>${getStatusNome(item.status)}</span>
-          </div>
-        `).join('')}
+      <div class="card-row chips-row">
+        <span class="card-status status-${projeto.status}">
+          ${getStatusNome(projeto.status)}
+        </span>
+        <span class="card-chip">
+          ${getMesNome(projeto.mes)}
+        </span>
       </div>
-    ` : ''}
+
+      <div class="card-bottom">
+        <div class="card-bottom-left">
+          <div class="card-responsavel">
+            ${getResponsavelNome(projeto.responsavel)}
+          </div>
+          <div class="card-proximo">
+            Próx. destino: <strong>${proximoDestino}</strong>
+          </div>
+        </div>
+
+        <div class="card-bottom-right">
+          <div class="card-deadline ${isAtrasado(projeto) ? 'atrasado' : ''}">
+            ${temDeadline ? formatDate(projeto.deadline) : 'Sem data limite'}
+          </div>
+        </div>
+      </div>
+    </div>
   `;
-  
+
+  // abrir modal ao clicar
   card.addEventListener('click', () => openProjetoModal(projeto.id));
+
+  // eventos de drag
+  card.addEventListener('dragstart', (e) => {
+    e.dataTransfer.setData('text/plain', String(projeto.id));
+    e.dataTransfer.effectAllowed = 'move';
+    card.classList.add('dragging');
+  });
+
+  card.addEventListener('dragend', () => {
+    card.classList.remove('dragging');
+  });
+
   return card;
 }
 
 function updateColumnCounts() {
   document.querySelectorAll('.kanban-column').forEach(column => {
     const status = column.dataset.status;
-    const count = projetos.filter(p => p.status === status && filterProjetos().includes(p)).length;
+    const filtrados = filterProjetos();
+    const count = filtrados.filter(p => p.status === status).length;
     column.querySelector('.column-count').textContent = count;
   });
 }
@@ -491,14 +554,14 @@ function switchView(view) {
   }
 }
 
-// Modal de Detalhes do Projeto
+/* ================== MODAL DETALHES / PROGRESSO ================== */
+
 function openProjetoModal(id) {
   const projeto = projetos.find(p => p.id === id);
   if (!projeto) return;
 
   currentProjetoId = id;
   
-  // Preencher dados
   document.getElementById('modalProjetoTitulo').textContent = projeto.titulo;
   document.getElementById('detailTitulo').textContent = projeto.titulo;
   document.getElementById('detailTipo').textContent = getTipoNome(projeto.tipo);
@@ -512,13 +575,9 @@ function openProjetoModal(id) {
   document.getElementById('detailLegenda').value = projeto.legenda || '';
   document.getElementById('detailInspiracao').value = projeto.inspiracao || '';
   
-  // Atualizar progresso
   updateProgressBar(projeto);
-  
-  // Atualizar histórico
   updateHistoryTimeline(projeto);
   
-  // Mostrar modal
   projetoModal.style.display = 'flex';
   setTimeout(() => projetoModal.classList.add('show'), 10);
 }
@@ -557,7 +616,8 @@ function updateHistoryTimeline(projeto) {
   `).reverse().join('');
 }
 
-// Ações do Projeto
+/* ================== AÇÕES DO PROJETO ================== */
+
 function marcarConcluido() {
   const projeto = projetos.find(p => p.id === currentProjetoId);
   if (!projeto) return;
@@ -567,7 +627,7 @@ function marcarConcluido() {
   
   saveToStorage();
   renderViews();
-  openProjetoModal(currentProjetoId); // Recarregar modal
+  openProjetoModal(currentProjetoId);
   showNotification(`Projeto ${projeto.concluido ? 'marcado como concluído' : 'reaberto'}!`, 'success');
 }
 
@@ -592,11 +652,10 @@ function saveStatus() {
   const projeto = projetos.find(p => p.id === currentProjetoId);
   
   if (projeto && projeto.status !== novoStatus) {
-    // Adicionar ao histórico
     projeto.historico.push({
       status: novoStatus,
       at: new Date().toISOString(),
-      by: 'Alone Souza' // Em produção, pegar do usuário logado
+      by: 'Alone Souza'
     });
     
     projeto.status = novoStatus;
@@ -605,7 +664,7 @@ function saveStatus() {
     saveToStorage();
     renderViews();
     closeStatusModal();
-    openProjetoModal(currentProjetoId); // Recarregar modal
+    openProjetoModal(currentProjetoId);
     showNotification('Status atualizado com sucesso!', 'success');
   }
 }
@@ -688,7 +747,8 @@ function saveContent() {
   }
 }
 
-// Funções auxiliares
+/* ================== HELPERS ================== */
+
 function getStatusNome(status) {
   const statusMap = {
     'redacao': 'Redação',
@@ -763,7 +823,8 @@ function isAtrasado(projeto) {
   return new Date(projeto.deadline) < new Date();
 }
 
-// Persistência
+/* ================== STORAGE / UI ================== */
+
 function saveToStorage() {
   localStorage.setItem('flowup_gestao_v1', JSON.stringify(projetos));
 }
@@ -775,7 +836,6 @@ function loadFromStorage() {
   }
 }
 
-// Notificações
 function showNotification(message, type = 'info') {
   const notification = document.createElement('div');
   notification.style.cssText = `
@@ -820,7 +880,8 @@ function initializeUserMenu() {
   }
 }
 
-// Mock data para demonstração
+/* ================== MOCK DATA ================== */
+
 function injectMockData() {
   const mockData = [
     {
@@ -940,3 +1001,6 @@ function injectMockData() {
 // Expor funções para uso global ok
 window.openProjetoModal = openProjetoModal;
 window.ingestFromPlanejamento = ingestFromPlanejamento;
+
+
+//pre
