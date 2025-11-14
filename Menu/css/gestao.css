@@ -459,200 +459,97 @@
   box-shadow: var(--shadow);
 }
 
-/* Visualização Kanban */
-.kanban-view {
-  display: none;
-}
+/* ===== NOVO ESTILO: COLUNA COMO CARDZÃO DE SEÇÃO ===== */
 
-.kanban-view.active {
-  display: block;
-}
-
+/* Em vez de várias colunas lado a lado, agora é uma coluna embaixo da outra */
 .kanban-columns {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
+/* Cada status vira um card grande, estilo "Operating System" */
 .kanban-column {
-  background: #f8fafc;
-  border-radius: 12px;
-  padding: 16px;
-  min-height: 600px;
-  border: 1px solid var(--line);
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px 24px;
+  border: none;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  min-height: auto;
 }
 
+/* Cabeçalho do card de status */
 .column-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
 }
 
 .column-header h3 {
   margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
 }
 
 .column-count {
-  background: var(--g1);
-  color: white;
-  padding: 2px 8px;
-  border-radius: 12px;
+  background: rgba(109, 40, 217, 0.1);
+  color: var(--g1);
+  padding: 4px 10px;
+  border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
 }
 
-.column-content {
+
+/* Container dos cards dentro da seção (Redação, Gravação...) */
+.kanban-column .column-content {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 12px;
-  min-height: 500px;
+  min-height: auto;
 }
 
-/* Cards do Kanban */
-.projeto-card {
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 16px;
+/* Cada projeto vira um "mini card" que ocupa 1/5 da largura (até 5 por linha) */
+.kanban-column .projeto-card {
+  flex: 1 1 calc(20% - 10px);  /* 5 por linha */
+  max-width: calc(20% - 10px);
+  min-width: 180px;            /* pra não ficar minúsculo em telas pequenas */
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
   cursor: pointer;
   transition: all 0.2s;
-  position: relative;
 }
 
-.projeto-card:hover {
+/* Hover mais suave, estilo UI moderna */
+.kanban-column .projeto-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--g1);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+  border-color: rgba(109, 40, 217, 0.6);
+  background: #ffffff;
 }
 
-.projeto-card.atrasado {
-  border-left: 4px solid #dc3545;
+/* Ajustes internos pra ficarem mais compactos */
+.projeto-card .card-titulo {
+  font-size: 13px;
+  margin-bottom: 4px;
 }
 
-.projeto-card.concluido {
-  opacity: 0.7;
-  background: #f0fdf4;
+.projeto-card .card-meta {
+  margin-bottom: 6px;
 }
 
-.projeto-card.concluido::after {
-  content: "✅";
-  position: absolute;
-  top: 8px;
-  right: 8px;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 8px;
-  gap: 8px;
-}
-
-.card-titulo {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  line-height: 1.4;
-  flex: 1;
-}
-
-.card-prioridade {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.card-prioridade.alta {
-  background: #dc3545;
-}
-
-.card-prioridade.media {
-  background: #fd7e14;
-}
-
-.card-prioridade.baixa {
-  background: #20c997;
-}
-
-.card-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-
-.card-status {
-  padding: 4px 8px;
-  border-radius: 6px;
+.projeto-card .card-responsavel,
+.projeto-card .card-deadline,
+.projeto-card .card-mes {
   font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  width: fit-content;
 }
 
-.card-responsavel {
-  font-size: 12px;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.card-deadline {
-  font-size: 11px;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.card-deadline.atrasado {
-  color: #dc3545;
-  font-weight: 600;
-}
-
-.card-mes {
-  font-size: 11px;
-  color: var(--muted);
-  background: #f3f4f6;
-  padding: 2px 6px;
-  border-radius: 4px;
-  width: fit-content;
-}
-
-.card-history {
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid var(--line);
-}
-
-.history-item {
-  font-size: 10px;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-bottom: 2px;
-}
-
-.history-item:last-child {
-  margin-bottom: 0;
-}
-
-.history-item.anterior {
-  opacity: 0.6;
-}
 
 /* Visualização Lista */
 .lista-view {
@@ -1154,5 +1051,593 @@
   .toggle-btn {
     flex: 1;
     text-align: center;
+  }
+}
+
+
+/* ===== SEÇÕES DO KANBAN COMO CARDS GRANDES ===== */
+
+.gestao-content {
+  margin-top: 16px;
+}
+
+/* containers das views (garante que só a active aparece) */
+.kanban-view {
+  display: none;
+}
+
+.kanban-view.active {
+  display: block;
+}
+
+.lista-view {
+  display: none;
+}
+
+.lista-view.active {
+  display: block;
+}
+
+/* cada status (Redação, Gravação...) vira um cardzão */
+.kanban-columns {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.kanban-column {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px 24px 18px;
+  border: none;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  min-height: auto;
+}
+
+/* ===== HEADER DO CARD DE SEÇÃO ===== */
+
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.column-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.column-text h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.column-subtitle {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.column-count {
+  background: rgba(109, 40, 217, 0.08);
+  color: var(--g1);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+/* ===== CARDS INTERNOS (PROJETOS) EM LINHA ===== */
+
+.kanban-column .column-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  min-height: 0;
+}
+
+/* até 5 cards por linha em desktop */
+.kanban-column .projeto-card {
+  flex: 1 1 calc(20% - 10px);   /* 5 por linha */
+  max-width: calc(20% - 10px);
+  min-width: 180px;
+
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.kanban-column .projeto-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+  border-color: rgba(109, 40, 217, 0.6);
+  background: #ffffff;
+}
+
+/* topo do mini-card: tipo + prioridade */
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-tipo {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+/* prioridade já existia, só deixo aqui se quiser reforçar */
+.card-prioridade {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+/* título */
+.projeto-card .card-titulo {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+  margin: 2px 0 0;
+}
+
+/* rodapé do card */
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.card-bottom-left,
+.card-bottom-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.card-chip {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  font-size: 11px;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* ===== RESPONSIVO: DIMINUINDO QUANTIDADE POR LINHA ===== */
+
+@media (max-width: 1200px) {
+  .kanban-column .projeto-card {
+    flex: 1 1 calc(25% - 10px);   /* 4 por linha */
+    max-width: calc(25% - 10px);
+  }
+}
+
+@media (max-width: 900px) {
+  .kanban-column .projeto-card {
+    flex: 1 1 calc(33.33% - 10px); /* 3 por linha */
+    max-width: calc(33.33% - 10px);
+  }
+}
+
+@media (max-width: 700px) {
+  .kanban-column .projeto-card {
+    flex: 1 1 calc(50% - 10px);    /* 2 por linha */
+    max-width: calc(50% - 10px);
+  }
+}
+
+@media (max-width: 480px) {
+  .kanban-column .projeto-card {
+    flex: 1 1 100%;                /* 1 por linha */
+    max-width: 100%;
+  }
+}
+
+/* ===== CARD DE TAREFA ESTILO PRINT ===== */
+
+/* layout geral do card */
+.kanban-column .projeto-card {
+  position: relative;
+  flex: 1 1 calc(20% - 10px);
+  max-width: calc(20% - 10px);
+  min-width: 220px;
+
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 16px 18px;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* faixa colorida à esquerda */
+.kanban-column .projeto-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  border-radius: 999px;
+  background: #e5e7eb; /* padrão */
+}
+
+/* bolinha no canto superior direito (pra atrasado, por ex.) */
+.projeto-card.atrasado::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #ef4444;
+}
+
+/* hover bonitinho */
+.kanban-column .projeto-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+  border-color: rgba(37, 99, 235, 0.4);
+}
+
+/* ===== topo: título ===== */
+
+.projeto-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 0;
+  gap: 8px;
+}
+
+.projeto-card .card-titulo {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* prioridade como bolinha pequena (se você usar) */
+.card-prioridade {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+/* ===== meta: status, responsável, data, mês ===== */
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+}
+
+/* tag de status (GRAVAÇÃO, REDAÇÃO, etc.) */
+.card-status,
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: #e0edff;
+  color: #1d4ed8;
+}
+
+/* se você já usa essas classes de status, mantemos as cores baseadas nelas */
+.status-redacao     { background:#e5e7eb; color:#111827; }
+.status-gravacao    { background:#dbeafe; color:#1d4ed8; }
+.status-edicao_video{ background:#e0e7ff; color:#3730a3; }
+/* pode manter os outros se quiser… */
+
+/* linha com ícone + texto (responsável, data) */
+.card-responsavel,
+.card-deadline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #4b5563;
+}
+
+/* ícone genérico de pessoa e calendário usando mask (opcional) */
+.card-responsavel::before,
+.card-deadline::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  background: #4b5563;
+}
+
+/* ícone de pessoa */
+.card-responsavel::before {
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-3.314 0-6 1.79-6 4v1h12v-1c0-2.21-2.686-4-6-4Z'/></svg>") no-repeat center/contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-3.314 0-6 1.79-6 4v1h12v-1c0-2.21-2.686-4-6-4Z'/></svg>") no-repeat center/contain;
+}
+
+/* ícone de calendário + data em vermelho quando atrasado */
+.card-deadline::before {
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 4V3m10 1V3M5 8h14M6 5h12a1 1 0 0 1 1 1v13H5V6a1 1 0 0 1 1-1Z'/></svg>") no-repeat center/contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 4V3m10 1V3M5 8h14M6 5h12a1 1 0 0 1 1 1v13H5V6a1 1 0 0 1 1-1Z'/></svg>") no-repeat center/contain;
+}
+
+/* data padrão */
+.card-deadline {
+  color: #4b5563;
+}
+
+/* data e faixa vermelha se estiver atrasado */
+.projeto-card.atrasado::before {
+  background: #ef4444;
+}
+
+.projeto-card.atrasado .card-deadline {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* mês como pill cinzinha */
+.card-mes {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  font-size: 12px;
+  color: #4b5563;
+}
+
+
+/* ===== CARD DE PROJETO (KANBAN) – LAYOUT ORGANIZADO ===== */
+
+.kanban-column .projeto-card {
+  position: relative;
+  flex: 1 1 calc(20% - 10px);
+  max-width: calc(20% - 10px);
+  min-width: 220px;
+
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 16px 18px;
+  border: 1px solid #e5e7eb;
+  cursor: grab;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* faixa lateral (fica colorida quando atrasado) */
+.kanban-column .projeto-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  border-radius: 999px;
+  background: #e5e7eb;
+}
+
+/* bolinha de alerta se atrasado */
+.projeto-card.atrasado::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #ef4444;
+}
+
+/* hover */
+.kanban-column .projeto-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+  border-color: rgba(37, 99, 235, 0.4);
+}
+
+/* quando atrasado, pinta a faixa */
+.projeto-card.atrasado::before {
+  background: #ef4444;
+}
+
+/* topo do card: tipo + título + prioridade */
+.projeto-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.card-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-tipo {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.projeto-card .card-titulo {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* bolinha de prioridade */
+.card-prioridade {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+/* você pode usar classes .alta, .media, .baixa pra cores diferentes */
+.card-prioridade.alta  { background: #ef4444; }
+.card-prioridade.media { background: #f59e0b; }
+.card-prioridade.baixa { background: #10b981; }
+
+/* área central: status + mês */
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* badge de status já usa .status-badge / .status-xxx que você tinha */
+.card-status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* pill de mês */
+.card-chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  font-size: 11px;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+/* rodapé: responsável + próximo destino + data */
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.card-bottom-left,
+.card-bottom-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.card-responsavel,
+.card-deadline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ícones (pessoa / calendário) */
+.card-responsavel::before,
+.card-deadline::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  background: #4b5563;
+}
+
+/* ícone de pessoa */
+.card-responsavel::before {
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-3.314 0-6 1.79-6 4v1h12v-1c0-2.21-2.686-4-6-4Z'/></svg>") no-repeat center/contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-3.314 0-6 1.79-6 4v1h12v-1c0-2.21-2.686-4-6-4Z'/></svg>") no-repeat center/contain;
+}
+
+/* ícone de calendário */
+.card-deadline::before {
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 4V3m10 1V3M5 8h14M6 5h12a1 1 0 0 1 1 1v13H5V6a1 1 0 0 1 1-1Z'/></svg>") no-repeat center/contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 4V3m10 1V3M5 8h14M6 5h12a1 1 0 0 1 1 1v13H5V6a1 1 0 0 1 1-1Z'/></svg>") no-repeat center/contain;
+}
+
+/* atrasado: deadline vermelha */
+.projeto-card.atrasado .card-deadline {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* texto do próximo destino */
+.card-proximo {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.card-proximo strong {
+  color: #111827;
+}
+
+/* responsivo: menos cards por linha */
+@media (max-width: 1200px) {
+  .kanban-column .projeto-card {
+    flex: 1 1 calc(25% - 10px);
+    max-width: calc(25% - 10px);
+  }
+}
+@media (max-width: 900px) {
+  .kanban-column .projeto-card {
+    flex: 1 1 calc(33.33% - 10px);
+    max-width: calc(33.33% - 10px);
+  }
+}
+@media (max-width: 700px) {
+  .kanban-column .projeto-card {
+    flex: 1 1 calc(50% - 10px);
+    max-width: calc(50% - 10px);
+  }
+}
+@media (max-width: 480px) {
+  .kanban-column .projeto-card {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
 }

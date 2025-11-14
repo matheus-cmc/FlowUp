@@ -64,6 +64,8 @@ const detailDeleteBtn = document.getElementById('detailDeleteBtn');
 
 // Inicialização
 document.addEventListener('DOMContentLoaded', function() {
+
+     
     renderBriefingList();
     setupEventListeners();
     initializeUserMenu();
@@ -71,24 +73,37 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function setupEventListeners() {
+    // Botões principais
     newBriefingBtn.addEventListener('click', openNewBriefingModal);
     saveBriefingBtn.addEventListener('click', saveBriefing);
     cancelBtn.addEventListener('click', closeModal);
-    confirmDeleteBtn.addEventListener('click', deleteBriefing);
-    cancelDeleteBtn.addEventListener('click', closeConfirmModal);
+    
+    // Botão de fechar do modal principal
+    const modalClose = document.getElementById('modalClose');
+    if (modalClose) {
+        modalClose.addEventListener('click', closeModal);
+    }
 
     // Filtros
-    document.getElementById('statusFilter').addEventListener('change', renderBriefingList);
-    document.getElementById('searchBriefing').addEventListener('input', renderBriefingList);
+    const statusFilter = document.getElementById('statusFilter');
+    const searchBriefing = document.getElementById('searchBriefing');
+    
+    if (statusFilter) {
+        statusFilter.addEventListener('change', renderBriefingList);
+    }
+    if (searchBriefing) {
+        searchBriefing.addEventListener('input', renderBriefingList);
+    }
 
-    // BOTÃO X DO MODAL DE DETALHES
+    // Modal de Detalhes
     const closeBriefingDetailBtn = document.getElementById('closeBriefingDetailBtn');
+    const detailEditBtn = document.getElementById('detailEditBtn');
+    const detailDeleteBtn = document.getElementById('detailDeleteBtn');
+
     if (closeBriefingDetailBtn) {
         closeBriefingDetailBtn.addEventListener('click', closeDetailModal);
     }
 
-    // BOTÃO EDITAR (DENTRO DO MODAL DE DETALHES)
-    const detailEditBtn = document.getElementById('detailEditBtn');
     if (detailEditBtn) {
         detailEditBtn.addEventListener('click', function () {
             if (!currentBriefingId) return;
@@ -97,13 +112,29 @@ function setupEventListeners() {
         });
     }
 
-    // BOTÃO EXCLUIR (DENTRO DO MODAL DE DETALHES)
-    const detailDeleteBtn = document.getElementById('detailDeleteBtn');
     if (detailDeleteBtn) {
         detailDeleteBtn.addEventListener('click', function () {
-        if (!currentBriefingId) return;
+            if (!currentBriefingId) return;
+            closeDetailModal();
             confirmDelete(currentBriefingId);
         });
+    }
+
+    // Modal de Confirmação (se existir)
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+    const cancelConfirmBtn = document.getElementById('cancelConfirmBtn');
+
+    if (confirmDeleteBtn) {
+        confirmDeleteBtn.addEventListener('click', deleteBriefing);
+    }
+    
+    if (cancelDeleteBtn) {
+        cancelDeleteBtn.addEventListener('click', closeConfirmModal);
+    }
+    
+    if (cancelConfirmBtn) {
+        cancelConfirmBtn.addEventListener('click', closeConfirmModal);
     }
 
     // Fechar modais ao clicar fora
@@ -123,6 +154,24 @@ function setupEventListeners() {
     });
 }
 
+function confirmDelete(id) {
+    currentBriefingId = id;
+    const confirmModal = document.getElementById('confirmModal');
+    if (confirmModal) {
+        confirmModal.style.display = 'flex';
+        setTimeout(() => confirmModal.classList.add('show'), 10);
+    }
+}
+
+function closeConfirmModal() {
+    const confirmModal = document.getElementById('confirmModal');
+    if (confirmModal) {
+        confirmModal.classList.remove('show');
+        setTimeout(() => {
+            confirmModal.style.display = 'none';
+        }, 300);
+    }
+}
 
 function renderBriefingList() {
     const statusFilter = document.getElementById('statusFilter').value;
@@ -531,3 +580,34 @@ function initializeUserMenu() {
         });
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const kanbanView = document.getElementById('kanbanView');
+  const listaView  = document.getElementById('listaView');
+  const toggleBtns = document.querySelectorAll('.view-toggle .toggle-btn');
+
+  if (kanbanView && listaView && toggleBtns.length) {
+    toggleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // tira "active" de todos os botões
+        toggleBtns.forEach(b => b.classList.remove('active'));
+        // coloca só no clicado
+        btn.classList.add('active');
+
+        const view = btn.dataset.view;
+
+        if (view === 'kanban') {
+          kanbanView.classList.add('active');
+          listaView.classList.remove('active');
+        } else {
+          listaView.classList.add('active');
+          kanbanView.classList.remove('active');
+        }
+      });
+    });
+
+    // garante estado inicial (kanban)
+    kanbanView.classList.add('active');
+    listaView.classList.remove('active');
+  }
+});
