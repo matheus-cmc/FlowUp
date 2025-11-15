@@ -1,525 +1,111 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FlowUp • Calendário de Postagem</title>
-    <link rel="stylesheet" href="/Menu/css/menu.css"> 
-    <link rel="stylesheet" href="/Menu/css/calendario.css"> 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlowUp • Calendário de Postagem</title>
+  <link rel="stylesheet" href="/Menu/css/menu.css">
+  <link rel="stylesheet" href="/Menu/css/calendario.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="app">
-        <aside class="sidebar">
-            <div class="brand"><span>FlowUp</span></div>
-            <nav class="nav">
-                <a href="/Menu/html/menu.html"><div class="ico i-analytics"></div><span>Mapa Geral</span></a>
-                <a href="/Menu/html/planejamento.html"><div class="ico i-planning"></div><span>Planejamento Mensal</span></a>
-                <a href="/Menu/html/agendamento.html"><div class="ico i-post"></div><span>Agendamento de Postagem</span></a>
-                <a href="/Menu/html/calendario.html" class="active"><div class="ico i-calendar"></div><span>Calendário de Postagem</span></a>
-                <a href="/Menu/html/gestao.html"><div class="ico i-manage"></div><span>Gestão de Projetos</span></a>
-                <a href="/Menu/html/briefing.html"><div class="ico i-briefing"></div><span>Briefing</span></a>
-                <a href="/Menu/html/equipe.html"><div class="ico i-team"></div><span>Equipe</span></a>
-            </nav>
-        </aside>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand"><span>FlowUp</span></div>
+      <nav class="nav">
+        <a href="/Menu/html/menu.html"><div class="ico i-analytics"></div><span>Mapa Geral</span></a>
+        <a href="/Menu/html/planejamento.html"><div class="ico i-planning"></div><span>Planejamento Mensal</span></a>
+        <a href="/Menu/html/agendamento.html"><div class="ico i-post"></div><span>Agendamento de Postagem</span></a>
+        <a href="/Menu/html/calendario.html" class="active"><div class="ico i-calendar"></div><span>Calendário de Postagem</span></a>
+        <a href="/Menu/html/gestao.html"><div class="ico i-manage"></div><span>Gestão de Projetos</span></a>
+        <a href="/Menu/html/briefing.html"><div class="ico i-briefing"></div><span>Briefing</span></a>
+        <a href="/Menu/html/equipe.html"><div class="ico i-team"></div><span>Equipe</span></a>
+      </nav>
+    </aside>
 
-        <header class="topbar">
-            <div class="company">
-                <div class="avatar" title="Logo da Empresa"></div>
-                <div class="custom-select">
-                    <div class="select-selected">
-                        <div class="option-avatar"></div>
-                        <span>Empresa A</span>
-                        <div class="select-arrow"></div>
-                    </div>
-                    <div class="select-items select-hide">
-                        <div class="select-option" data-value="Empresa A">
-                            <div class="option-avatar"></div>
-                            <span>Empresa A</span>
-                        </div>
-                        <div class="select-option" data-value="Empresa B">
-                            <div class="option-avatar"></div>
-                            <span>Empresa B</span>
-                        </div>
-                        <div class="select-divider"></div>
-                        <div class="select-option select-new-company" data-value="new">
-                            <div class="option-avatar new-company-icon"></div>
-                            <span>Cadastrar empresa nova</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="company">
+        <div class="avatar"></div>
+        <div class="custom-select">
+          <div class="select-selected">
+            <span>Empresa A</span>
+            <div class="select-arrow"></div>
+          </div>
+          <!-- (Dropdown omitido para foco na página) -->
+        </div>
+      </div>
+
+      <div class="page-title"><h1>Calendário de Postagem</h1></div>
+
+      <div class="user" id="user-menu-trigger">
+        <div>
+          <div class="name">Alone Souza</div>
+          <div class="role">Profissional</div>
+        </div>
+        <div class="avatar"></div>
+        <div class="user-menu" id="user-menu"></div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="main calendario-main">
+      <div class="calendario-container">
+
+        <!-- Barra superior: mês/ano + filtros -->
+        <div class="cal-header">
+          <div class="cal-nav">
+            <button class="cal-btn" id="prevMonthBtn">◀</button>
+            <h2 id="calTitle">Novembro 2025</h2>
+            <button class="cal-btn" id="nextMonthBtn">▶</button>
+          </div>
+
+          <div class="filters-right">
+            <div class="filter-group">
+              <select class="filter-select" id="tipoFilter">
+                <option value="all">Todos os Tipos</option>
+                <option value="reels">Reels</option>
+                <option value="video">Vídeo</option>
+                <option value="carrossel">Carrossel</option>
+                <option value="storys">Storys</option>
+                <option value="foto">Foto</option>
+              </select>
+
+              <select class="filter-select" id="statusFilter">
+                <option value="all">Todos os Status</option>
+                <option value="rascunho">Rascunho</option>
+                <option value="em_producao">Em Produção</option>
+                <option value="em_revisao">Em Revisão</option>
+                <option value="aprovado">Aprovado</option>
+                <option value="agendado">Agendado</option>
+                <option value="publicado">Publicado</option>
+              </select>
             </div>
 
-            <div class="page-title"><h1>Calendário de Postagem</h1></div>
+            <button class="btn-clear-filters" id="clearFiltersBtn">Limpar filtros</button>
+          </div>
+        </div>
 
-            <div class="user" id="user-menu-trigger">
-                <div>
-                    <div class="name">Alone Souza</div>
-                    <div class="role">Profissional</div>
-                </div>
-                <div class="avatar"></div>
-                <div class="user-menu" id="user-menu"></div>
-            </div>
-        </header>
+        <!-- Grade do calendário -->
+        <div class="calendar-grid" id="calendarGrid">
+          <!-- Renderizado via JS -->
+        </div>
 
-        <main class="main calendario-main">
-            <div class="calendario-container">
-                <!-- Header Melhorado -->
-                <div class="cal-header-improved">
-                    <div class="cal-nav-section">
-                        <button class="cal-btn-improved" id="prevMonthBtn">
-                            <span class="btn-icon">←</span>
-                            <span class="btn-text">Mês Anterior</span>
-                        </button>
-                    </div>
+        <!-- Lista do dia selecionado -->
+        <div class="day-panel" id="dayPanel">
+          <div class="day-panel-header">
+            <h3 id="dayPanelTitle">Posts do dia</h3>
+            <button class="btn-secondary" id="closeDayPanel">Fechar</button>
+          </div>
+          <div class="day-list" id="dayList"></div>
+        </div>
 
-                    <div class="cal-title-section">
-                        <h2 id="calTitle" onclick="openMonthYearSelector()">Janeiro 2024</h2>
-                        <div class="cal-subtitle">Calendário de Postagens</div>
-                    </div>
+      </div>
+    </main>
+  </div>
 
-                    <div class="cal-nav-section">
-                        <button class="cal-btn-improved" id="nextMonthBtn">
-                            <span class="btn-text">Próximo Mês</span>
-                            <span class="btn-icon">→</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Tabela do calendário CORRIGIDA -->
-                <div class="calendar-table-improved">
-                    <div class="table-header-improved">
-                        <div class="header-cell-improved">
-                            <span class="header-text">Dom</span>
-                        </div>
-                        <div class="header-cell-improved">
-                            <span class="header-text">Seg</span>
-                        </div>
-                        <div class="header-cell-improved">
-                            <span class="header-text">Ter</span>
-                        </div>
-                        <div class="header-cell-improved">
-                            <span class="header-text">Qua</span>
-                        </div>
-                        <div class="header-cell-improved">
-                            <span class="header-text">Qui</span>
-                        </div>
-                        <div class="header-cell-improved">
-                            <span class="header-text">Sex</span>
-                        </div>
-                        <div class="header-cell-improved">
-                            <span class="header-text">Sáb</span>
-                        </div>
-                    </div>
-                    <div class="table-body-improved">
-                        <!-- Semana 1 -->
-                        <div class="table-row-improved">
-                            <div class="table-cell-improved empty">
-                                <div class="cell-content">
-                                    <span class="day-number"></span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved empty">
-                                <div class="cell-content">
-                                    <span class="day-number"></span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-01')">
-                                <div class="cell-content">
-                                    <span class="day-number">1</span>
-                                    <div class="post-indicators">
-                                        <div class="post-dot reels"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-02')">
-                                <div class="cell-content">
-                                    <span class="day-number">2</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-03')">
-                                <div class="cell-content">
-                                    <span class="day-number">3</span>
-                                    <div class="post-indicators">
-                                        <div class="post-dot video"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-04')">
-                                <div class="cell-content">
-                                    <span class="day-number">4</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-05')">
-                                <div class="cell-content">
-                                    <span class="day-number">5</span>
-                                    <div class="post-indicators">
-                                        <div class="post-dot carrossel"></div>
-                                        <div class="post-dot storys"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Semana 2 -->
-                        <div class="table-row-improved">
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-06')">
-                                <div class="cell-content">
-                                    <span class="day-number">6</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-07')">
-                                <div class="cell-content">
-                                    <span class="day-number">7</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-08')">
-                                <div class="cell-content">
-                                    <span class="day-number">8</span>
-                                    <div class="post-indicators">
-                                        <div class="post-dot foto"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-09')">
-                                <div class="cell-content">
-                                    <span class="day-number">9</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-10')">
-                                <div class="cell-content">
-                                    <span class="day-number">10</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-11')">
-                                <div class="cell-content">
-                                    <span class="day-number">11</span>
-                                    <div class="post-indicators">
-                                        <div class="post-dot reels"></div>
-                                        <div class="post-dot video"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-12')">
-                                <div class="cell-content">
-                                    <span class="day-number">12</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Semana 3 -->
-                        <div class="table-row-improved">
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-13')">
-                                <div class="cell-content">
-                                    <span class="day-number">13</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-14')">
-                                <div class="cell-content">
-                                    <span class="day-number">14</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved highlight" onclick="onDayClick('2024-01-15')" id="day-15">
-                                <div class="cell-content">
-                                    <span class="day-number">15</span>
-                                    <div class="post-indicators">
-                                        <div class="post-dot reels"></div>
-                                        <div class="post-dot video"></div>
-                                        <div class="post-dot carrossel"></div>
-                                    </div>
-                                    <div class="highlight-badge">Hoje</div>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-16')">
-                                <div class="cell-content">
-                                    <span class="day-number">16</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-17')">
-                                <div class="cell-content">
-                                    <span class="day-number">17</span>
-                                    <div class="post-indicators">
-                                        <div class="post-dot storys"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-18')">
-                                <div class="cell-content">
-                                    <span class="day-number">18</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-19')">
-                                <div class="cell-content">
-                                    <span class="day-number">19</span>
-                                    <div class="post-indicators">
-                                        <div class="post-dot foto"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Semana 4 -->
-                        <div class="table-row-improved">
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-20')">
-                                <div class="cell-content">
-                                    <span class="day-number">20</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-21')">
-                                <div class="cell-content">
-                                    <span class="day-number">21</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-22')">
-                                <div class="cell-content">
-                                    <span class="day-number">22</span>
-                                    <div class="post-indicators">
-                                        <div class="post-dot video"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-23')">
-                                <div class="cell-content">
-                                    <span class="day-number">23</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-24')">
-                                <div class="cell-content">
-                                    <span class="day-number">24</span>
-                                    <div class="post-indicators">
-                                        <div class="post-dot reels"></div>
-                                        <div class="post-dot storys"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-25')">
-                                <div class="cell-content">
-                                    <span class="day-number">25</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-26')">
-                                <div class="cell-content">
-                                    <span class="day-number">26</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Semana 5 -->
-                        <div class="table-row-improved">
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-27')">
-                                <div class="cell-content">
-                                    <span class="day-number">27</span>
-                                    <div class="post-indicators">
-                                        <div class="post-dot carrossel"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-28')">
-                                <div class="cell-content">
-                                    <span class="day-number">28</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-29')">
-                                <div class="cell-content">
-                                    <span class="day-number">29</span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-30')">
-                                <div class="cell-content">
-                                    <span class="day-number">30</span>
-                                    <div class="post-indicators">
-                                        <div class="post-dot video"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved" onclick="onDayClick('2024-01-31')">
-                                <div class="cell-content">
-                                    <span class="day-number">31</span>
-                                    <div class="post-indicators">
-                                        <div class="post-dot foto"></div>
-                                        <div class="post-dot storys"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved empty">
-                                <div class="cell-content">
-                                    <span class="day-number"></span>
-                                </div>
-                            </div>
-                            <div class="table-cell-improved empty">
-                                <div class="cell-content">
-                                    <span class="day-number"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Legendas dos tipos de post -->
-                <div class="calendar-legend">
-                    <div class="legend-title">Tipos de Postagem:</div>
-                    <div class="legend-items">
-                        <div class="legend-item">
-                            <div class="legend-dot reels"></div>
-                            <span>Reels</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-dot video"></div>
-                            <span>Vídeo</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-dot carrossel"></div>
-                            <span>Carrossel</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-dot storys"></div>
-                            <span>Storys</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-dot foto"></div>
-                            <span>Foto</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Painel lateral -->
-            <div class="day-panel-improved" id="dayPanel">
-                <div class="day-panel-header-improved">
-                    <div class="header-content">
-                        <h3 id="dayPanelTitle">15 de Janeiro de 2024</h3>
-                        <div class="day-status">
-                            <span class="status-badge active">Dia Ativo</span>
-                            <span class="posts-count">3 postagens</span>
-                        </div>
-                    </div>
-                    <button class="btn-close-panel" id="closeDayPanel">
-                        <span class="close-icon">×</span>
-                    </button>
-                </div>
-
-                <div class="day-panel-filters-improved">
-                    <div class="filter-header">
-                        <span class="filter-title">Filtrar Postagens</span>
-                        <button class="btn-clear-filters-improved" id="clearFiltersBtn">
-                            <span>Limpar</span>
-                        </button>
-                    </div>
-                    <div class="filter-group-improved">
-                        <div class="filter-item">
-                            <label class="filter-label">Tipo de Conteúdo</label>
-                            <select class="filter-select-improved" id="tipoFilter">
-                                <option value="all">Todos os Tipos</option>
-                                <option value="reels">Reels</option>
-                                <option value="video">Vídeo</option>
-                                <option value="carrossel">Carrossel</option>
-                                <option value="storys">Storys</option>
-                                <option value="foto">Foto</option>
-                            </select>
-                        </div>
-                        <div class="filter-item">
-                            <label class="filter-label">Status</label>
-                            <select class="filter-select-improved" id="statusFilter">
-                                <option value="all">Todos os Status</option>
-                                <option value="rascunho">Rascunho</option>
-                                <option value="em_producao">Em Produção</option>
-                                <option value="em_revisao">Em Revisão</option>
-                                <option value="aprovado">Aprovado</option>
-                                <option value="agendado">Agendado</option>
-                                <option value="publicado">Publicado</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="day-content-improved" id="dayContent">
-                    <div class="content-section">
-                        <div class="section-header">
-                            <div class="section-icon">📱</div>
-                            <h4>3 Porta Aparência</h4>
-                        </div>
-                        <div class="publicacao-dia-improved">
-                            <div class="publicacao-item-improved">
-                                <div class="post-header">
-                                    <div class="post-type-badge design">Design</div>
-                                    <div class="post-time">10:00</div>
-                                </div>
-                                <h5>Designo</h5>
-                                <div class="post-content">
-                                    <div class="post-meta">Participação da Vista (Companhia Vista 2024)</div>
-                                    <div class="post-desc">GRAÇA DE LÍNGUA</div>
-                                </div>
-                                <div class="post-footer">
-                                    <span class="post-responsavel">👤 Alone Souza</span>
-                                    <span class="post-status approved">Aprovado</span>
-                                </div>
-                            </div>
-                            
-                            <div class="publicacao-item-improved">
-                                <div class="post-header">
-                                    <div class="post-type-badge caminho">Caminho</div>
-                                    <div class="post-time">14:00</div>
-                                </div>
-                                <h5>Caminho Responsável</h5>
-                                <div class="post-content">
-                                    <div class="post-meta">Equivalência: 25,00 punta</div>
-                                    <div class="post-desc">CAMINHO</div>
-                                </div>
-                                <div class="post-footer">
-                                    <span class="post-responsavel">👤 Equipe</span>
-                                    <span class="post-status approved">Aprovado</span>
-                                </div>
-                            </div>
-                            
-                            <div class="publicacao-item-improved">
-                                <div class="post-header">
-                                    <div class="post-type-badge brasilia">Brasília</div>
-                                    <div class="post-time">16:00</div>
-                                </div>
-                                <h5>Brasília Básia</h5>
-                                <div class="post-content">
-                                    <div class="post-meta">Embora poderá o trabalho</div>
-                                    <div class="post-desc">CAMINHO</div>
-                                </div>
-                                <div class="post-footer">
-                                    <span class="post-responsavel">👤 Equipe</span>
-                                    <span class="post-status approved">Aprovado</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="content-section agenda">
-                        <div class="section-header">
-                            <div class="section-icon">📅</div>
-                            <h4>Agenda Social</h4>
-                        </div>
-                        <div class="agenda-content">
-                            <div class="agenda-item">
-                                <div class="agenda-meta">Edital Agência</div>
-                                <div class="agenda-desc">Publicação pela manhã</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="content-section stats">
-                        <div class="stats-grid">
-                            <div class="stat-item">
-                                <div class="stat-number">3</div>
-                                <div class="stat-label">Postagens</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-number">2</div>
-                                <div class="stat-label">Tipos</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-number">100%</div>
-                                <div class="stat-label">Aprovado</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <script src="/Menu/javascript/menu.js"></script>
-    <script src="/Menu/javascript/calendario.js"></script>
+  <script src="/Menu/javascript/menu.js"></script>
+  <script src="/Menu/javascript/calendario.js"></script>
 </body>
 </html>
