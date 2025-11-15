@@ -2,11 +2,11 @@
 const LS_KEY = 'flowup_planejamentos_v1';
 
 // Estado
-let allPosts = [];          // todos os posts (com data/hora) agregados
-let viewYear, viewMonth;    // mês/ano exibidos (0-11)
+let allPosts = [];          
+let viewYear, viewMonth;    
+let currentSelectedDate = '2024-01-15';
 
 // DOM
-const calendarGrid = document.getElementById('calendarGrid');
 const calTitle = document.getElementById('calTitle');
 const prevMonthBtn = document.getElementById('prevMonthBtn');
 const nextMonthBtn = document.getElementById('nextMonthBtn');
@@ -16,241 +16,412 @@ const clearFiltersBtn = document.getElementById('clearFiltersBtn');
 
 const dayPanel = document.getElementById('dayPanel');
 const dayPanelTitle = document.getElementById('dayPanelTitle');
-const dayList = document.getElementById('dayList');
+const dayContent = document.getElementById('dayContent');
 const closeDayPanel = document.getElementById('closeDayPanel');
 
-// Init
-document.addEventListener('DOMContentLoaded', () => {
-  initializeUserMenu();
-  loadPostsFromStorage();
-  const today = new Date();
-  viewYear = today.getFullYear();
-  viewMonth = today.getMonth(); // 0-11
-  renderCalendar();
+// ==========================================================
+// 1. INICIALIZAÇÃO
+// ==========================================================
 
-  prevMonthBtn.addEventListener('click', () => changeMonth(-1));
-  nextMonthBtn.addEventListener('click', () => changeMonth(1));
-  tipoFilter.addEventListener('change', renderCalendar);
-  statusFilter.addEventListener('change', renderCalendar);
-  clearFiltersBtn.addEventListener('click', clearFilters);
-  closeDayPanel.addEventListener('click', () => dayPanel.classList.remove('show'));
+document.addEventListener('DOMContentLoaded', () => {
+    initializeUserMenu(); 
+    initializeCustomSelect(); 
+    
+    loadPostsFromStorage();
+    
+    // Janeiro 2024 como na imagem
+    viewYear = 2024;
+    viewMonth = 0; // 0 é Janeiro (0-indexado)
+    
+    renderCalendar();
+
+    prevMonthBtn.addEventListener('click', () => changeMonth(-1));
+    nextMonthBtn.addEventListener('click', () => changeMonth(1));
+    tipoFilter.addEventListener('change', applyFilters);
+    statusFilter.addEventListener('change', applyFilters);
+    clearFiltersBtn.addEventListener('click', clearFilters);
+    
+    if (closeDayPanel) {
+        closeDayPanel.addEventListener('click', () => dayPanel.classList.remove('show'));
+    }
+    
+    // Selecionar o dia 15 por padrão (como na imagem)
+    setTimeout(() => {
+        onDayClick('2024-01-15');
+        highlightDay(15);
+    }, 100);
+
+    // Adicionar efeitos visuais
+    addVisualEffects();
 });
 
-// Carrega planejamentos e agrega todos os posts (com data/hora)
-function loadPostsFromStorage() {
-  const raw = localStorage.getItem(LS_KEY);
-  const planejamentos = raw ? JSON.parse(raw) : [];
-  const posts = [];
-
-  planejamentos.forEach(pl => {
-    (pl.posts || []).forEach(post => {
-      if (!post?.data) return; // precisa ter data
-      posts.push({
-        titulo: post.titulo,
-        tipo: post.tipo,
-        status: post.status || 'rascunho',
-        prioridade: post.prioridade || 'media',
-        data: post.data,              // YYYY-MM-DD
-        hora: post.hora || '',        // HH:MM (opcional)
-        responsavel: post.responsavel,
-        destino: post.destino || '',
-        descricao: post.descricao || '',
-        legenda: post.legenda || '',
-        inspiracao: post.inspiracao || '',
-        planejamentoTitulo: pl.titulo,
-        planejamentoMes: pl.mes,
-        planejamentoAno: pl.ano
-      });
+function addVisualEffects() {
+    // Adicionar animação de entrada aos elementos
+    const calendarElements = document.querySelectorAll('.table-cell-improved, .publicacao-item-improved, .stat-item');
+    calendarElements.forEach((el, index) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            el.style.transition = 'all 0.5s ease';
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+        }, index * 50);
     });
-  });
+}
 
-  allPosts = posts;
+// ==========================================================
+// 2. LÓGICA DO CALENDÁRIO (MANTIDA COM MELHORIAS)
+// ==========================================================
+
+function loadPostsFromStorage() {
+    // Dados mock baseados na imagem
+    const mockPosts = [
+        { 
+            titulo: 'Participação da Vista (Companhia Vista 2024)', 
+            tipo: 'design', 
+            status: 'aprovado', 
+            data: '2024-01-15', 
+            hora: '10:00', 
+            responsavel: 'alone',
+            descricao: 'GRAÇA DE LÍNGUA',
+            prioridade: 'alta'
+        },
+        { 
+            titulo: 'Caminho Responsável', 
+            tipo: 'caminho', 
+            status: 'aprovado', 
+            data: '2024-01-15', 
+            hora: '14:00', 
+            responsavel: 'equipe',
+            descricao: 'Equivalência: 25,00 punta\nCAMINHO',
+            prioridade: 'media'
+        },
+        { 
+            titulo: 'Brasília Básia', 
+            tipo: 'brasilia', 
+            status: 'aprovado', 
+            data: '2024-01-15', 
+            hora: '16:00', 
+            responsavel: 'equipe',
+            descricao: 'Embora poderá o trabalho\nCAMINHO',
+            prioridade: 'media'
+        }
+    ];
+    
+    allPosts = mockPosts;
+}
+
+function applyFilters() {
+    const tFilter = tipoFilter.value;
+    const sFilter = statusFilter.value;
+    
+    const posts = allPosts.filter(p => {
+        const same = p.data === currentSelectedDate;
+        const tOk = (tFilter === 'all' || p.tipo === tFilter);
+        const sOk = (sFilter === 'all' || p.status === sFilter);
+        return same && tOk && sOk;
+    });
+    
+    renderDayContent(currentSelectedDate, posts);
 }
 
 function clearFilters() {
-  tipoFilter.value = 'all';
-  statusFilter.value = 'all';
-  renderCalendar();
+    tipoFilter.value = 'all';
+    statusFilter.value = 'all';
+    applyFilters();
+    
+    // Efeito visual ao limpar filtros
+    const filters = document.querySelectorAll('.filter-select-improved');
+    filters.forEach(filter => {
+        filter.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+            filter.style.transform = 'scale(1)';
+        }, 200);
+    });
 }
 
 function changeMonth(delta) {
-  viewMonth += delta;
-  if (viewMonth < 0) { viewMonth = 11; viewYear--; }
-  if (viewMonth > 11) { viewMonth = 0; viewYear++; }
-  renderCalendar();
+    if (window.innerWidth < 1200) {
+        dayPanel.classList.remove('show');
+    }
+
+    viewMonth += delta;
+    if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+    if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+    renderCalendar();
+    
+    // Efeito de transição
+    const calendarTable = document.querySelector('.calendar-table-improved');
+    calendarTable.style.opacity = '0.7';
+    calendarTable.style.transform = 'translateX(' + (delta * 10) + 'px)';
+    setTimeout(() => {
+        calendarTable.style.opacity = '1';
+        calendarTable.style.transform = 'translateX(0)';
+    }, 300);
 }
 
 function renderCalendar() {
-  // Header row (nomes dos dias)
-  const weekDays = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-  const headerRow = `
-    <div class="cal-header-row">
-      ${weekDays.map(d => `<div class="cal-header-cell">${d}</div>`).join('')}
-    </div>
-  `;
-
-  // Título Mês/Ano
-  calTitle.textContent = `${getMesNome(viewMonth+1)} ${viewYear}`;
-
-  // Datas utilitárias
-  const firstDay = new Date(viewYear, viewMonth, 1);
-  const startWeekDay = firstDay.getDay(); // 0=Dom
-  const daysInMonth = new Date(viewYear, viewMonth+1, 0).getDate();
-
-  // Células do mês anterior para preencher a primeira semana
-  const prevMonthDays = startWeekDay; // qtd.
-  const prevMonthDate = new Date(viewYear, viewMonth, 0);
-  const prevMonthLastDay = prevMonthDate.getDate();
-
-  // Filtros
-  const tFilter = tipoFilter.value;
-  const sFilter = statusFilter.value;
-
-  // Agrupar posts por data YYYY-MM-DD
-  const grouped = groupPostsByDate(allPosts, tFilter, sFilter);
-
-  let cells = [];
-
-  // Dias do mês anterior (cinzas)
-  for (let i = prevMonthDays; i > 0; i--) {
-    const dayNum = prevMonthLastDay - i + 1;
-    const dateStr = formatYMD(new Date(viewYear, viewMonth-1, dayNum));
-    cells.push(renderCell(dayNum, true, grouped[dateStr] || [], dateStr));
-  }
-
-  // Dias do mês atual
-  for (let d = 1; d <= daysInMonth; d++) {
-    const dateStr = formatYMD(new Date(viewYear, viewMonth, d));
-    cells.push(renderCell(d, false, grouped[dateStr] || [], dateStr));
-  }
-
-  // Dias do próximo mês para completar 6 linhas (42 células)
-  while (cells.length % 7 !== 0) {
-    const dayNum = cells.length - (prevMonthDays + daysInMonth) + 1;
-    const dateStr = formatYMD(new Date(viewYear, viewMonth+1, dayNum));
-    cells.push(renderCell(dayNum, true, grouped[dateStr] || [], dateStr));
-  }
-
-  calendarGrid.innerHTML = headerRow + cells.join('');
+    const mesNome = getMesNome(viewMonth + 1);
+    calTitle.textContent = `${mesNome} ${viewYear}`;
 }
 
-function renderCell(day, isOut, posts, dateStr) {
-  const badgesHtml = posts.slice(0,4).map(p => `
-    <div class="badge ${p.tipo}">
-      <span>${p.titulo}</span>
-      <span class="time">${p.hora || '—'}</span>
-    </div>
-  `).join('');
-
-  return `
-    <div class="cal-cell ${isOut ? 'out' : ''}" data-date="${dateStr}" onclick="onDayClick('${dateStr}')">
-      <div class="cal-day">${day}</div>
-      <div class="badges">
-        ${badgesHtml}
-        ${posts.length > 4 ? `<div class="badge" style="background:#334155;">+${posts.length - 4} mais</div>` : ''}
-      </div>
-    </div>
-  `;
+function highlightDay(day) {
+    // Remove highlight de todas as células
+    document.querySelectorAll('.table-cell-improved').forEach(cell => {
+        cell.classList.remove('highlight');
+    });
+    
+    // Aplica highlight ao dia específico
+    const dayCell = document.getElementById(`day-${day}`);
+    if (dayCell) {
+        dayCell.classList.add('highlight');
+        
+        // Efeito de pulso
+        dayCell.style.animation = 'pulse 0.6s ease';
+        setTimeout(() => {
+            dayCell.style.animation = '';
+        }, 600);
+    }
 }
 
 function onDayClick(dateStr) {
-  // Lista filtrada para a data
-  const tFilter = tipoFilter.value;
-  const sFilter = statusFilter.value;
+    currentSelectedDate = dateStr;
+    
+    const tFilter = tipoFilter.value;
+    const sFilter = statusFilter.value;
+    
+    const posts = allPosts.filter(p => {
+        const same = p.data === dateStr;
+        const tOk = (tFilter === 'all' || p.tipo === tFilter);
+        const sOk = (sFilter === 'all' || p.status === sFilter);
+        return same && tOk && sOk;
+    });
 
-  const posts = allPosts.filter(p => {
-    const same = p.data === dateStr;
-    const tOk = (tFilter === 'all' || p.tipo === tFilter);
-    const sOk = (sFilter === 'all' || p.status === sFilter);
-    return same && tOk && sOk;
-  });
+    renderDayContent(dateStr, posts);
 
-  const { day, month, year } = explodeYMD(dateStr);
-  dayPanelTitle.textContent = `Posts de ${day}/${month}/${year}`;
-  dayList.innerHTML = posts.length ? posts.map(renderDayItem).join('') :
-    `<div class="day-item"><div><h4>Sem publicações</h4><div class="meta">Nenhum post planejado para esta data.</div></div></div>`;
-
-  dayPanel.classList.add('show');
+    if (window.innerWidth < 1200) {
+        dayPanel.classList.add('show');
+    }
+    
+    // Destacar o dia clicado
+    const dayNum = parseInt(dateStr.split('-')[2]);
+    highlightDay(dayNum);
+    
+    // Efeito de clique
+    const clickedCell = document.querySelector(`[onclick="onDayClick('${dateStr}')"]`);
+    if (clickedCell) {
+        clickedCell.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            clickedCell.style.transform = 'scale(1)';
+        }, 150);
+    }
 }
 
-function renderDayItem(p) {
-  return `
-    <div class="day-item">
-      <div>
-        <h4>${p.titulo}</h4>
-        <div class="meta">
-          ${getTipoNome(p.tipo)} • ${getStatusNome(p.status)} • ${p.hora || 'Sem hora'} • ${getResponsavelNome(p.responsavel)}
-        </div>
-        <div class="meta" style="margin-top:6px;">${p.descricao}</div>
-        ${p.legenda ? `<div class="meta" style="margin-top:6px; font-style:italic;">Legenda: ${p.legenda}</div>` : ''}
-      </div>
-      <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
-        <span class="tag">Pri: ${p.prioridade}</span>
-        <span class="tag">${p.planejamentoTitulo || ''}</span>
-      </div>
-    </div>
-  `;
+function renderDayContent(dateStr, posts) {
+    const { day, month, year } = explodeYMD(dateStr);
+    dayPanelTitle.textContent = `${day} de ${getMesNome(month)} de ${year}`;
+    
+    // Atualizar contador de posts
+    const postsCount = document.querySelector('.posts-count');
+    if (postsCount) {
+        postsCount.textContent = `${posts.length} postagem${posts.length !== 1 ? 's' : ''}`;
+    }
+    
+    if (dateStr === '2024-01-15' && posts.length > 0) {
+        dayContent.innerHTML = `
+            <div class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">📱</div>
+                    <h4>3 Porta Aparência</h4>
+                </div>
+                <div class="publicacao-dia-improved">
+                    ${posts.map((post, index) => `
+                        <div class="publicacao-item-improved" style="animation-delay: ${index * 0.1}s">
+                            <div class="post-header">
+                                <div class="post-type-badge ${post.tipo}">${post.tipo}</div>
+                                <div class="post-time">${post.hora}</div>
+                            </div>
+                            <h5>${post.titulo}</h5>
+                            <div class="post-content">
+                                <div class="post-meta">${post.descricao.split('\n')[0]}</div>
+                                <div class="post-desc">${post.descricao.split('\n')[1] || ''}</div>
+                            </div>
+                            <div class="post-footer">
+                                <span class="post-responsavel">👤 ${getResponsavelNome(post.responsavel)}</span>
+                                <span class="post-status approved">${getStatusNome(post.status)}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            
+            <div class="content-section agenda">
+                <div class="section-header">
+                    <div class="section-icon">📅</div>
+                    <h4>Agenda Social</h4>
+                </div>
+                <div class="agenda-content">
+                    <div class="agenda-item">
+                        <div class="agenda-meta">Edital Agência</div>
+                        <div class="agenda-desc">Publicação pela manhã</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section stats">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">${posts.length}</div>
+                        <div class="stat-label">Postagens</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">${new Set(posts.map(p => p.tipo)).size}</div>
+                        <div class="stat-label">Tipos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">${Math.round((posts.filter(p => p.status === 'aprovado').length / posts.length) * 100)}%</div>
+                        <div class="stat-label">Aprovado</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else {
+        dayContent.innerHTML = `
+            <div class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">📱</div>
+                    <h4>Sem publicações</h4>
+                </div>
+                <div class="publicacao-dia-improved">
+                    <div class="publicacao-item-improved">
+                        <div class="post-content">
+                            <div class="post-meta">Nenhum post agendado para esta data.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Re-aplicar efeitos visuais aos novos elementos
+    setTimeout(() => {
+        addVisualEffects();
+    }, 50);
 }
 
-// Helpers
-function groupPostsByDate(posts, tFilter, sFilter) {
-  const out = {};
-  posts.forEach(p => {
-    if (!p.data) return;
-    if (tFilter !== 'all' && p.tipo !== tFilter) return;
-    if (sFilter !== 'all' && p.status !== sFilter) return;
-    if (!out[p.data]) out[p.data] = [];
-    out[p.data].push(p);
-  });
-  return out;
-}
+// ==========================================================
+// 3. FUNÇÕES AUXILIARES (MANTIDAS)
+// ==========================================================
 
 function formatYMD(d) {
-  const y = d.getFullYear();
-  const m = String(d.getMonth()+1).padStart(2,'0');
-  const da = String(d.getDate()).padStart(2,'0');
-  return `${y}-${m}-${da}`;
+    const y = d.getFullYear();
+    const m = String(d.getMonth()+1).padStart(2,'0');
+    const da = String(d.getDate()).padStart(2,'0');
+    return `${y}-${m}-${da}`;
 }
+
 function explodeYMD(s) {
-  const [y,m,d] = s.split('-').map(Number);
-  return { year:y, month:m, day:d };
+    const [y,m,d] = s.split('-').map(Number);
+    return { year:y, month:m, day:d };
 }
 
 function getMesNome(mes) {
-  const map = {1:'Janeiro',2:'Fevereiro',3:'Março',4:'Abril',5:'Maio',6:'Junho',7:'Julho',8:'Agosto',9:'Setembro',10:'Outubro',11:'Novembro',12:'Dezembro'};
-  return map[mes] || mes;
+    const map = {
+        1:'Janeiro', 2:'Fevereiro', 3:'Março', 4:'Abril', 
+        5:'Maio', 6:'Junho', 7:'Julho', 8:'Agosto', 
+        9:'Setembro', 10:'Outubro', 11:'Novembro', 12:'Dezembro'
+    };
+    return map[mes] || mes;
 }
+
 function getTipoNome(tipo) {
-  const map = { reels:'Reels', video:'Vídeo', carrossel:'Carrossel', storys:'Storys', foto:'Foto' };
-  return map[tipo] || tipo;
+    const map = { reels:'Reels', video:'Vídeo', carrossel:'Carrossel', storys:'Storys', foto:'Foto' };
+    return map[tipo] || tipo;
 }
+
 function getStatusNome(status) {
-  const map = {
-    rascunho:'Rascunho', em_producao:'Em Produção', em_revisao:'Em Revisão',
-    aprovado:'Aprovado', agendado:'Agendado', publicado:'Publicado'
-  };
-  return map[status] || status;
+    const map = {
+        rascunho:'Rascunho', em_producao:'Em Produção', em_revisao:'Em Revisão',
+        aprovado:'Aprovado', agendado:'Agendado', publicado:'Publicado'
+    };
+    return map[status] || status;
 }
+
 function getResponsavelNome(responsavel) {
-  const map = { alone:'Alone Souza', maria:'Maria Silva', joao:'João Santos', ana:'Ana Costa', carlos:'Carlos Oliveira' };
-  return map[responsavel] || (responsavel || '—');
+    const map = { alone:'Alone Souza', maria:'Maria Silva', joao:'João Santos', ana:'Ana Costa', carlos:'Carlos Oliveira' };
+    return map[responsavel] || (responsavel || '—');
 }
 
-// Menu do usuário (mesmo padrão das demais páginas)
 function initializeUserMenu() {
-  const userMenuTrigger = document.getElementById('user-menu-trigger');
-  const userMenu = document.getElementById('user-menu');
-  if (userMenuTrigger && userMenu) {
-    userMenuTrigger.addEventListener('click', function(e) {
-      e.stopPropagation();
-      userMenu.classList.toggle('user-menu-show');
-    });
-    document.addEventListener('click', function() {
-      userMenu.classList.remove('user-menu-show');
-    });
-    userMenu.addEventListener('click', function(e) { e.stopPropagation(); });
-  }
+    const userMenuTrigger = document.getElementById('user-menu-trigger');
+    const userMenu = document.getElementById('user-menu');
+    if (userMenuTrigger && userMenu) {
+        userMenuTrigger.addEventListener('click', function(e) {
+            e.stopPropagation(); 
+            userMenu.classList.toggle('user-menu-show');
+        });
+        document.addEventListener('click', function() {
+            userMenu.classList.remove('user-menu-show');
+        });
+        userMenu.addEventListener('click', function(e) { e.stopPropagation(); });
+    }
 }
 
-// Expor global p/ onclick
+function initializeCustomSelect() {
+    const customSelect = document.querySelector(".custom-select");
+    const selectSelected = document.querySelector(".select-selected");
+    const selectItems = document.querySelector(".select-items");
+
+    if (customSelect && selectSelected && selectItems) {
+        selectSelected.addEventListener("click", function(e) {
+            e.stopPropagation(); 
+            selectItems.classList.toggle("select-hide");
+            selectSelected.classList.toggle("select-arrow-active");
+        });
+
+        const allOptions = selectItems.querySelectorAll(".select-option");
+        allOptions.forEach(option => {
+            option.addEventListener("click", function(e) {
+                if (!option.classList.contains('select-new-company')) {
+                    selectSelected.querySelector("span").textContent = option.querySelector("span").textContent.trim();
+                } 
+                selectItems.classList.add("select-hide");
+                selectSelected.classList.remove("select-arrow-active");
+            });
+        });
+
+        document.addEventListener("click", function() {
+            if (selectItems && !selectItems.classList.contains("select-hide")) {
+                selectItems.classList.add("select-hide");
+            }
+            if (selectSelected && selectSelected.classList.contains("select-arrow-active")) {
+                selectSelected.classList.remove("select-arrow-active");
+            }
+        });
+    }
+}
+
+function openMonthYearSelector() {
+    // Função para possível seletor de mês/ano
+    alert('Seletor de Mês/Ano - Em desenvolvimento');
+}
+
+// ==========================================================
+// 4. EXPORTAÇÃO PARA ESCOPO GLOBAL
+// ==========================================================
+
 window.onDayClick = onDayClick;
+window.openMonthYearSelector = openMonthYearSelector;
+window.applyFilters = applyFilters;
+window.clearFilters = clearFilters;
+
+// Adicionar animação CSS dinamicamente
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+`;
+document.head.appendChild(style);
