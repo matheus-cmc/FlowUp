@@ -4,52 +4,47 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FlowUp • Agendamento de Postagem</title>
-  <link rel="stylesheet" href="/Menu/css/menu.css">
   <link rel="stylesheet" href="/Menu/css/agendamento.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="app">
-    <!-- Menu -->
+    <!-- Sidebar -->
     <aside class="sidebar">
       <div class="brand">
-        <span>FlowUp</span>
+          <span>FlowUp</span>
       </div>
 
       <nav class="nav">
-        <a href="/Menu/html/menu.html">
-          <div class="ico i-analytics"></div>
-          <span>Mapa Geral</span>
+        <a href="#">
+          <div class="ico i-analytics"></div><span>Mapa Geral</span>
         </a>
-        <a href="/Menu/html/planejamento.html">
-          <div class="ico i-planning"></div>
-          <span>Planejamento Mensal</span>
+        <a href="#">
+          <div class="ico i-planning"></div><span>Planejamento Mensal</span>
         </a>
-        <a href="/Menu/html/agendamento.html" class="active">
-          <div class="ico i-post"></div>
-          <span>Agendamento de Postagem</span>
+        <a href="#" class="active">
+          <div class="ico i-post"></div><span>Agendamento de Postagem</span>
         </a>
-        <a href="/Menu/html/calendario.html">
-          <div class="ico i-calendar"></div>
-          <span>Calendário de Postagem</span>
+        <a href="#">
+          <div class="ico i-calendar"></div><span>Calendário de Postagem</span>
         </a>
-        <a href="/Menu/html/gestao.html">
-          <div class="ico i-manage"></div>
-          <span>Gestão de Projetos</span>
+        <a href="#">
+          <div class="ico i-manage"></div><span>Gestão de Projetos</span>
         </a>
-        <a href="/Menu/html/briefing.html">
-          <div class="ico i-briefing"></div>
-          <span>Briefing</span>
+        <a href="#">
+          <div class="ico i-briefing"></div><span>Briefing</span>
         </a>
-        <a href="/Menu/html/equipe.html">
-          <div class="ico i-team"></div>
-          <span>Equipe</span>
+        <a href="#">
+          <div class="ico i-team"></div><span>Equipe</span>
         </a>
       </nav>
     </aside>
 
     <!-- Topbar -->
     <header class="topbar">
+      <!-- à esquerda: avatar da empresa + seleção -->
       <div class="company">
         <div class="avatar" title="Logo da Empresa"></div>
         <div class="custom-select">
@@ -58,13 +53,17 @@
             <div class="select-arrow"></div>
           </div>
           <div class="select-items">
-            <div class="select-option" data-value="Empresa A">
+            <div class="select-option" data-value="Dragon">
               <div class="option-avatar"></div>
               <span>Empresa A</span>
             </div>
             <div class="select-option" data-value="Empresa B">
               <div class="option-avatar"></div>
               <span>Empresa B</span>
+            </div>
+            <div class="select-option" data-value="Empresa C">
+              <div class="option-avatar"></div>
+              <span>Empresa C</span>
             </div>
             <div class="select-divider"></div>
             <div class="select-option select-new-company" data-value="new">
@@ -75,19 +74,25 @@
         </div>
       </div>
 
-      <!-- ao meio: página atual -->
+      <!-- Título da página no centro -->
       <div class="page-title">
         <h1>Agendamento de Postagem</h1>
       </div>
 
-      <!-- Menu do usuário -->
-      <div class="user" id="user-menu-trigger">
-        <div>
-          <div class="name">Alone Souza</div>
-          <div class="role">Profissional</div>
+      <!-- à direita: avatar do profissional -->
+      <div class="user-area">
+        <button class="theme-toggle-btn" id="theme-toggle-btn" title="Alternar tema">
+          <div class="theme-icon"></div>
+        </button>
+        <div class="user" id="user-menu-trigger">
+          <div class="user-info">
+            <div class="name">Alone Souza</div>
+            <div class="role">Profissional</div>
+          </div>
+          <div class="avatar" title="Seu perfil"></div>
         </div>
-        <div class="avatar" title="Seu perfil"></div>
         
+        <!-- Menu do usuário -->
         <div class="user-menu" id="user-menu">
           <div class="user-menu-header">
             <div class="user-menu-avatar"></div>
@@ -106,12 +111,12 @@
             <span>Mensagens</span>
             <span class="user-menu-badge">3</span>
           </a>
-          <a href="#" class="user-menu-item">
+          <a href="#" class="user-menu-item" id="settings-menu-btn">
             <div class="user-menu-icon i-settings"></div>
             <span>Configurações</span>
           </a>
           <div class="user-menu-divider"></div>
-          <a href="#" class="user-menu-item">
+          <a href="#" class="user-menu-item logout">
             <div class="user-menu-icon i-logout"></div>
             <span>Sair</span>
           </a>
@@ -119,308 +124,522 @@
       </div>
     </header>
 
-    <!-- Conteúdo Principal -->
-    <main class="main agendamento-main">
-      <div class="agendamento-container">
-        <!-- Header com título e botão -->
-        <div class="agendamento-header">
-          <div class="header-info">
-            <h1>Agendamento de Postagem</h1>
-            <p class="sub">Programe suas publicações para o Instagram</p>
+    <!-- Conteúdo -->
+    <main class="main-content">
+      <div class="content-header">
+        <div class="header-stats">
+          <div class="stat-card">
+            <div class="stat-icon i-calendar"></div>
+            <div class="stat-info">
+              <div class="stat-number" id="totalPosts">0</div>
+              <div class="stat-label">Total Agendado</div>
+            </div>
           </div>
-          <div class="header-actions">
-            <button class="btn-primary" id="importarProjetosBtn">
-              <span class="btn-icon">📥</span> Importar Projetos Concluídos
-            </button>
+          <div class="stat-card">
+            <div class="stat-icon i-clock"></div>
+            <div class="stat-info">
+              <div class="stat-number" id="todayPosts">0</div>
+              <div class="stat-label">Para Hoje</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon i-check"></div>
+            <div class="stat-info">
+              <div class="stat-number" id="publishedPosts">0</div>
+              <div class="stat-label">Publicados</div>
+            </div>
           </div>
         </div>
+        
+        <div class="header-actions">
+          <button class="btn-primary btn-with-icon" id="quickScheduleBtn">
+            <div class="btn-icon i-lightning"></div>
+            <span>Agendamento Rápido</span>
+          </button>
+        </div>
+      </div>
 
-        <!-- Barra de Filtros -->
-        <div class="filters-bar">
-          <div class="search-box">
-            <input type="text" id="searchProjeto" placeholder="Buscar por título...">
-            <div class="search-icon"></div>
+      <div class="content-grid">
+        <!-- Formulário de criação -->
+        <section class="card creation-form">
+          <div class="card-header">
+            <h3>Criar Nova Postagem</h3>
+            <div class="form-tabs">
+              <button class="tab-btn active" data-tab="manual">Manual</button>
+              <button class="tab-btn" data-tab="template">Template</button>
+              <button class="tab-btn" data-tab="import">Importar</button>
+            </div>
           </div>
+          
+          <form id="postForm">
+            <div class="tab-content active" id="manualTab">
+              <div class="form-section">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="postTitle" class="required">Título da Postagem</label>
+                    <input type="text" id="postTitle" name="postTitle" placeholder="Digite um título para sua postagem" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="postProject">Projeto</label>
+                    <select id="postProject" name="postProject">
+                      <option value="">Selecionar projeto...</option>
+                      <option value="campanha-verao">Campanha Verão 2024</option>
+                      <option value="lancamento">Lançamento Novo Produto</option>
+                      <option value="brand-awareness">Brand Awareness</option>
+                      <option value="engajamento">Engajamento Digital</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
 
-          <div class="filters-right">
-            <div class="filter-group">
-              <select class="filter-select" id="tipoFilter">
-                <option value="all">Todos os Tipos</option>
-                <option value="reels">Reels</option>
-                <option value="video">Vídeo</option>
-                <option value="carrossel">Carrossel</option>
-                <option value="storys">Storys</option>
-                <option value="foto">Foto</option>
-              </select>
+              <div class="form-section">
+                <div class="form-group">
+                  <label for="postContent" class="required">Conteúdo</label>
+                  <div class="content-editor">
+                    <textarea id="postContent" name="postContent" rows="4" placeholder="Digite o texto da sua publicação..." required></textarea>
+                    <div class="editor-tools">
+                      <button type="button" class="tool-btn" data-tool="bold" title="Negrito">
+                        <div class="tool-icon i-bold"></div>
+                      </button>
+                      <button type="button" class="tool-btn" data-tool="italic" title="Itálico">
+                        <div class="tool-icon i-italic"></div>
+                      </button>
+                      <button type="button" class="tool-btn" data-tool="link" title="Link">
+                        <div class="tool-icon i-link"></div>
+                      </button>
+                      <button type="button" class="tool-btn" data-tool="emoji" title="Emoji">
+                        <div class="tool-icon i-emoji"></div>
+                      </button>
+                      <div class="char-counter">
+                        <span id="charCount">0</span>/280
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-              <select class="filter-select" id="statusFilter">
-                <option value="all">Todos os Status</option>
-                <option value="pronto">Pronto para Agendar</option>
-                <option value="agendado">Agendado</option>
-                <option value="publicado">Publicado</option>
-              </select>
+              <div class="form-section">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="postDate" class="required">Data de Publicação</label>
+                    <input type="date" id="postDate" name="postDate" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="postTime" class="required">Horário</label>
+                    <input type="time" id="postTime" name="postTime" required>
+                  </div>
+                </div>
+              </div>
 
-              <select class="filter-select" id="mesFilter">
-                <option value="all">Todos os Meses</option>
-                <option value="1">Janeiro</option>
-                <option value="2">Fevereiro</option>
-                <option value="3">Março</option>
-                <option value="4">Abril</option>
-                <option value="5">Maio</option>
-                <option value="6">Junho</option>
-                <option value="7">Julho</option>
-                <option value="8">Agosto</option>
-                <option value="9">Setembro</option>
-                <option value="10">Outubro</option>
-                <option value="11">Novembro</option>
-                <option value="12">Dezembro</option>
-              </select>
+              <div class="form-section">
+                <div class="form-group">
+                  <label class="required">Plataformas</label>
+                  <div class="platform-grid">
+                    <label class="platform-card">
+                      <input type="checkbox" name="platform" value="instagram" checked>
+                      <div class="platform-content">
+                        <div class="platform-icon instagram"></div>
+                        <span class="platform-name">Instagram</span>
+                      </div>
+                    </label>
+                    <label class="platform-card">
+                      <input type="checkbox" name="platform" value="facebook" checked>
+                      <div class="platform-content">
+                        <div class="platform-icon facebook"></div>
+                        <span class="platform-name">Facebook</span>
+                      </div>
+                    </label>
+                    <label class="platform-card">
+                      <input type="checkbox" name="platform" value="twitter">
+                      <div class="platform-content">
+                        <div class="platform-icon twitter"></div>
+                        <span class="platform-name">Twitter</span>
+                      </div>
+                    </label>
+                    <label class="platform-card">
+                      <input type="checkbox" name="platform" value="linkedin">
+                      <div class="platform-content">
+                        <div class="platform-icon linkedin"></div>
+                        <span class="platform-name">LinkedIn</span>
+                      </div>
+                    </label>
+                    <label class="platform-card">
+                      <input type="checkbox" name="platform" value="tiktok">
+                      <div class="platform-content">
+                        <div class="platform-icon tiktok"></div>
+                        <span class="platform-name">TikTok</span>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <div class="form-group">
+                  <label for="postMedia">Mídia</label>
+                  <div class="media-upload">
+                    <input type="file" id="postMedia" name="postMedia" accept="image/*,video/*" multiple>
+                    <div class="upload-area" id="uploadArea">
+                      <div class="upload-icon"></div>
+                      <div class="upload-text">
+                        <strong>Clique para upload ou arraste arquivos</strong>
+                        <span>Suporte para imagens e vídeos (max. 10MB)</span>
+                      </div>
+                      <button type="button" class="btn-secondary btn-sm btn-with-icon upload-btn">
+                        <div class="btn-icon i-upload"></div>
+                        <span>Escolher arquivos</span>
+                      </button>
+                    </div>
+                    <div class="media-preview" id="mediaPreview"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn-secondary btn-with-icon" id="saveDraftBtn">
+                  <div class="btn-icon i-save"></div>
+                  <span>Salvar Rascunho</span>
+                </button>
+                <button type="submit" class="btn-primary btn-with-icon">
+                  <div class="btn-icon i-calendar"></div>
+                  <span>Agendar Postagem</span>
+                </button>
+              </div>
             </div>
 
-            <button type="button" class="btn-clear-filters" id="clearFiltersBtn">Limpar filtros</button>
-          </div>
-        </div>
+            <!-- Tab de Templates -->
+            <div class="tab-content" id="templateTab">
+              <div class="templates-grid">
+                <div class="template-card">
+                  <div class="template-preview">
+                    <div class="template-icon i-promo"></div>
+                  </div>
+                  <div class="template-info">
+                    <h4>Promoção</h4>
+                    <p>Template para posts promocionais</p>
+                  </div>
+                  <button type="button" class="btn-secondary btn-sm" data-template="promo">Usar</button>
+                </div>
+                <div class="template-card">
+                  <div class="template-preview">
+                    <div class="template-icon i-news"></div>
+                  </div>
+                  <div class="template-info">
+                    <h4>Notícia</h4>
+                    <p>Template para notícias e anúncios</p>
+                  </div>
+                  <button type="button" class="btn-secondary btn-sm" data-template="news">Usar</button>
+                </div>
+                <div class="template-card">
+                  <div class="template-preview">
+                    <div class="template-icon i-engagement"></div>
+                  </div>
+                  <div class="template-info">
+                    <h4>Engajamento</h4>
+                    <p>Template para aumentar engajamento</p>
+                  </div>
+                  <button type="button" class="btn-secondary btn-sm" data-template="engagement">Usar</button>
+                </div>
+              </div>
+            </div>
 
-        <!-- Layout Dividido -->
-        <div class="agendamento-layout">
-          <!-- Lista Lateral -->
-          <aside class="agendamento-sidebar">
-            <div class="sidebar-header">
-              <h3>Meus Agendamentos</h3>
+            <!-- Tab de Importar -->
+            <div class="tab-content" id="importTab">
+              <div class="import-options">
+                <div class="import-option">
+                  <div class="import-icon i-csv"></div>
+                  <div class="import-info">
+                    <h4>Importar CSV</h4>
+                    <p>Importe postagens de um arquivo CSV</p>
+                  </div>
+                  <button type="button" class="btn-secondary" id="importCsvBtn">Selecionar Arquivo</button>
+                </div>
+                <div class="import-option">
+                  <div class="import-icon i-json"></div>
+                  <div class="import-info">
+                    <h4>Importar JSON</h4>
+                    <p>Importe postagens de um arquivo JSON</p>
+                  </div>
+                  <button type="button" class="btn-secondary" id="importJsonBtn">Selecionar Arquivo</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <!-- Visualização prévia -->
+        <section class="card post-preview">
+          <div class="card-header">
+            <h3>Prévia da Postagem</h3>
+            <div class="preview-actions">
+              <button class="btn-secondary btn-sm btn-with-icon" id="refreshPreview">
+                <div class="btn-icon i-refresh"></div>
+                <span>Atualizar</span>
+              </button>
+            </div>
+          </div>
+          
+          <div class="preview-container">
+            <div class="preview-platforms" id="previewPlatforms">
+              <!-- Plataformas selecionadas aparecerão aqui -->
             </div>
             
-            <div class="agendamento-list" id="agendamentoList">
-              <!-- Lista será preenchida via JavaScript -->
-            </div>
-          </aside>
-
-          <!-- Painel Principal -->
-          <section class="agendamento-panel">
-            <div class="panel-placeholder" id="panelPlaceholder">
-              <div class="placeholder-content">
-                <div class="placeholder-icon">📱</div>
-                <h3>Selecione um agendamento</h3>
-                <p>Escolha um agendamento da lista ao lado para visualizar ou editar</p>
-              </div>
-            </div>
-
-            <div class="panel-content" id="panelContent" style="display: none;">
-              <div class="panel-header">
-                <h2 id="panelTitulo">Título do Projeto</h2>
-                <div class="panel-actions">
-                  <button class="btn-secondary" id="editarAgendamentoBtn">
-                    <span class="btn-icon">✏️</span> Editar
-                  </button>
-                  <button class="btn-primary" id="agendarNovamenteBtn">
-                    <span class="btn-icon">📅</span> Agendar Novamente
-                  </button>
+            <div class="preview-content">
+              <div class="preview-header">
+                <div class="preview-avatar"></div>
+                <div class="preview-info">
+                  <div class="preview-account">empresa_a</div>
+                  <div class="preview-time">Agendado para <span id="previewDateTime">--/--/---- --:--</span></div>
                 </div>
               </div>
-
-              <div class="panel-details">
-                <div class="detail-grid">
-                  <div class="detail-group">
-                    <label>Tipo de Conteúdo</label>
-                    <p id="panelTipo">-</p>
-                  </div>
-                  <div class="detail-group">
-                    <label>Status</label>
-                    <div id="panelStatus">-</div>
-                  </div>
-                  <div class="detail-group">
-                    <label>Data de Agendamento</label>
-                    <p id="panelData">-</p>
-                  </div>
-                  <div class="detail-group">
-                    <label>Plataforma</label>
-                    <p id="panelPlataforma">-</p>
+              
+              <div class="preview-body">
+                <div class="preview-text" id="previewText">Seu texto aparecerá aqui...</div>
+                <div class="preview-media" id="previewMedia">
+                  <div class="media-placeholder">
+                    <div class="placeholder-icon"></div>
+                    <span>Nenhuma mídia selecionada</span>
                   </div>
                 </div>
-
-                <div class="detail-section">
-                  <h4>Legenda</h4>
-                  <div class="legenda-content" id="panelLegenda">
-                    -
-                  </div>
-                </div>
-
-                <div class="detail-section">
-                  <h4>Hashtags</h4>
-                  <div class="hashtags-content" id="panelHashtags">
-                    -
-                  </div>
-                </div>
-
-                <div class="detail-section">
-                  <h4>Mídia</h4>
-                  <div class="media-preview-grid" id="panelMedia">
-                    <!-- Mídia será carregada aqui -->
+                
+                <div class="preview-engagement">
+                  <div class="engagement-stats">
+                    <div class="engagement-item">
+                      <div class="engagement-icon i-like"></div>
+                      <span>0</span>
+                    </div>
+                    <div class="engagement-item">
+                      <div class="engagement-icon i-comment"></div>
+                      <span>0</span>
+                    </div>
+                    <div class="engagement-item">
+                      <div class="engagement-icon i-share"></div>
+                      <span>0</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+          
+          <div class="preview-insights">
+            <h4>Insights da Postagem</h4>
+            <div class="insight-item">
+              <div class="insight-label">Alcance Estimado</div>
+              <div class="insight-value">1.2K - 2.5K</div>
+            </div>
+            <div class="insight-item">
+              <div class="insight-label">Engajamento</div>
+              <div class="insight-value">4.8%</div>
+            </div>
+            <div class="insight-item">
+              <div class="insight-label">Melhor Horário</div>
+              <div class="insight-value">✅</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Postagens agendadas -->
+        <section class="card scheduled-posts">
+          <div class="card-header">
+            <h3>Postagens Agendadas</h3>
+            <div class="card-actions">
+              <div class="search-box">
+                <div class="search-icon i-search"></div>
+                <input type="text" id="searchPosts" placeholder="Buscar postagens...">
+              </div>
+              <div class="action-buttons">
+                <button class="btn-secondary btn-sm btn-with-icon" id="filterBtn">
+                  <div class="btn-icon i-filter"></div>
+                  <span>Filtrar</span>
+                </button>
+                <button class="btn-secondary btn-sm btn-with-icon" id="exportBtn">
+                  <div class="btn-icon i-export"></div>
+                  <span>Exportar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="posts-filters">
+            <div class="filter-tabs">
+              <button class="filter-tab active" data-filter="all">Todas</button>
+              <button class="filter-tab" data-filter="scheduled">Agendadas</button>
+              <button class="filter-tab" data-filter="published">Publicadas</button>
+              <button class="filter-tab" data-filter="draft">Rascunhos</button>
+            </div>
+            <div class="sort-select">
+              <select id="sortPosts">
+                <option value="date-asc">Data: Mais Antigas</option>
+                <option value="date-desc" selected>Data: Mais Recentes</option>
+                <option value="title-asc">Título: A-Z</option>
+                <option value="title-desc">Título: Z-A</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="posts-list" id="postsList">
+            <!-- Postagens serão inseridas aqui via JavaScript -->
+          </div>
+          
+          <div class="posts-pagination">
+            <button class="pagination-btn" id="prevPage" disabled>
+              <div class="btn-icon i-chevron-left"></div>
+            </button>
+            <div class="pagination-info">
+              <span id="pageInfo">Página 1 de 3</span>
+            </div>
+            <button class="pagination-btn" id="nextPage" disabled>
+              <div class="btn-icon i-chevron-right"></div>
+            </button>
+          </div>
+        </section>
       </div>
     </main>
   </div>
 
-  <!-- Modal de Agendamento (mantido do código anterior) -->
-  <div class="modal" id="agendamentoModal">
-    <div class="modal-content large-modal">
+  <!-- Modal de Agendamento Rápido -->
+  <div class="modal" id="quickScheduleModal">
+    <div class="modal-content">
       <div class="modal-header">
-        <h3 id="modalAgendamentoTitulo">Agendar Postagem</h3>
-        <button class="modal-close" id="modalAgendamentoClose">&times;</button>
+        <h3>Agendamento Rápido</h3>
+        <button class="modal-close" id="quickModalClose">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="agendamento-detail">
-          <!-- Informações do Projeto -->
-          <div class="info-section">
-            <h4>Informações do Projeto</h4>
-            <div class="info-grid">
-              <div class="info-group">
-                <label>Título</label>
-                <p id="agendamentoTitulo">-</p>
-              </div>
-              <div class="info-group">
-                <label>Tipo de Conteúdo</label>
-                <p id="agendamentoTipo">-</p>
-              </div>
-              <div class="info-group">
-                <label>Mês do Planejamento</label>
-                <p id="agendamentoMes">-</p>
-              </div>
+        <div class="quick-options-grid">
+          <div class="quick-option" data-hours="1">
+            <div class="quick-option-icon">
+              <div class="option-icon i-clock"></div>
+            </div>
+            <div class="quick-option-content">
+              <div class="option-title">1 Hora</div>
+              <div class="option-time" id="time1h"></div>
             </div>
           </div>
-
-          <!-- Configurações de Agendamento -->
-          <div class="agendamento-section">
-            <h4>Configurações de Agendamento</h4>
-            
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="dataAgendamento">Data de Publicação</label>
-                <input type="date" id="dataAgendamento" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="horaAgendamento">Horário de Publicação</label>
-                <input type="time" id="horaAgendamento" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="plataformaAgendamento">Plataforma</label>
-                <select id="plataformaAgendamento">
-                  <option value="instagram">Instagram</option>
-                  <option value="facebook">Facebook</option>
-                  <option value="twitter">Twitter</option>
-                  <option value="linkedin">LinkedIn</option>
-                </select>
-              </div>
-              
-              <div class="form-group">
-                <label for="tipoPostagem">Tipo de Postagem</label>
-                <select id="tipoPostagem">
-                  <option value="feed">Feed</option>
-                  <option value="storys">Storys</option>
-                  <option value="reels">Reels</option>
-                  <option value="carrossel">Carrossel</option>
-                </select>
-              </div>
+          <div class="quick-option" data-hours="4">
+            <div class="quick-option-icon">
+              <div class="option-icon i-clock"></div>
+            </div>
+            <div class="quick-option-content">
+              <div class="option-title">4 Horas</div>
+              <div class="option-time" id="time4h"></div>
             </div>
           </div>
-
-          <!-- Conteúdo da Postagem -->
-          <div class="content-section">
-            <h4>Conteúdo da Postagem</h4>
-            
-            <div class="form-group">
-              <label for="legendaPostagem">Legenda</label>
-              <textarea id="legendaPostagem" rows="4" placeholder="Escreva a legenda da publicação..."></textarea>
-              <div class="char-count">
-                <span id="charCount">0</span>/2200 caracteres
-              </div>
+          <div class="quick-option" data-hours="24">
+            <div class="quick-option-icon">
+              <div class="option-icon i-sun"></div>
             </div>
-            
-            <div class="form-group">
-              <label for="hashtagsPostagem">Hashtags</label>
-              <textarea id="hashtagsPostagem" rows="2" placeholder="#exemplo #hashtags"></textarea>
-            </div>
-            
-            <div class="form-group">
-              <label for="localizacaoPostagem">Localização</label>
-              <input type="text" id="localizacaoPostagem" placeholder="Adicionar localização">
-            </div>
-            
-            <div class="form-group">
-              <label for="marcarPessoas">Marcar Pessoas</label>
-              <input type="text" id="marcarPessoas" placeholder="@nomedousuario">
+            <div class="quick-option-content">
+              <div class="option-title">Amanhã</div>
+              <div class="option-time" id="timeTomorrow"></div>
             </div>
           </div>
-
-          <!-- Mídia -->
-          <div class="media-section">
-            <h4>Mídia para Publicação</h4>
-            
-            <div class="media-preview" id="mediaPreview">
-              <!-- Prévia da mídia será carregada aqui -->
+          <div class="quick-option" data-hours="168">
+            <div class="quick-option-icon">
+              <div class="option-icon i-calendar"></div>
             </div>
-            
-            <div class="media-actions">
-              <button class="btn-secondary" id="adicionarMidiaBtn">
-                <span class="btn-icon">➕</span> Adicionar Mídia
-              </button>
-              <input type="file" id="uploadMidia" accept="image/*,video/*" multiple hidden>
-            </div>
-          </div>
-
-          <!-- Configurações Avançadas -->
-          <div class="advanced-section">
-            <h4>Configurações Avançadas</h4>
-            
-            <div class="advanced-options">
-              <div class="option-group">
-                <input type="checkbox" id="comentariosAtivos">
-                <label for="comentariosAtivos">Permitir comentários</label>
-              </div>
-              
-              <div class="option-group">
-                <input type="checkbox" id="compartilhamentoAtivo">
-                <label for="compartilhamentoAtivo">Permitir compartilhamento</label>
-              </div>
-              
-              <div class="option-group">
-                <input type="checkbox" id="salvarRascunho">
-                <label for="salvarRascunho">Salvar como rascunho</label>
-              </div>
+            <div class="quick-option-content">
+              <div class="option-title">Próxima Semana</div>
+              <div class="option-time" id="timeNextWeek"></div>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-secondary" id="cancelAgendamentoBtn">Cancelar</button>
-        <button type="button" class="btn-primary" id="salvarAgendamentoBtn">Agendar Publicação</button>
+        <button type="button" class="btn-secondary" id="cancelQuickBtn">Cancelar</button>
+        <button type="button" class="btn-primary" id="confirmQuickBtn">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Configurações -->
+  <div class="modal" id="settingsModal">
+    <div class="modal-content large">
+      <div class="modal-header">
+        <h3>Configurações</h3>
+        <button class="modal-close" id="settingsModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="settings-section">
+          <h4>Preferências Gerais</h4>
+          <p class="section-description">Personalize sua experiência</p>
+          
+          <div class="settings-group">
+            <label class="settings-label">Aparência</label>
+            <div class="theme-selector">
+              <div class="theme-option" data-theme="light">
+                <div class="theme-preview light"></div>
+                <span>Claro</span>
+              </div>
+              <div class="theme-option" data-theme="dark">
+                <div class="theme-preview dark"></div>
+                <span>Escuro</span>
+              </div>
+              <div class="theme-option active" data-theme="auto">
+                <div class="theme-preview auto"></div>
+                <span>Automático</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="settings-group">
+            <label class="settings-label">Densidade da Interface</label>
+            <div class="density-selector">
+              <button class="density-option active" data-density="compact">Compacta</button>
+              <button class="density-option" data-density="normal">Normal</button>
+              <button class="density-option" data-density="comfort">Confortável</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h4>Notificações</h4>
+          <div class="settings-group">
+            <label class="settings-toggle">
+              <input type="checkbox" id="emailNotifications" checked>
+              <span class="toggle-slider"></span>
+              <span class="toggle-label">Notificações por Email</span>
+            </label>
+            <label class="settings-toggle">
+              <input type="checkbox" id="pushNotifications" checked>
+              <span class="toggle-slider"></span>
+              <span class="toggle-label">Notificações Push</span>
+            </label>
+            <label class="settings-toggle">
+              <input type="checkbox" id="scheduleReminders">
+              <span class="toggle-slider"></span>
+              <span class="toggle-label">Lembretes de Agendamento</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="cancelSettingsBtn">Cancelar</button>
+        <button type="button" class="btn-primary" id="saveSettingsBtn">Salvar Configurações</button>
       </div>
     </div>
   </div>
 
   <!-- Modal de Confirmação -->
-  <div class="modal" id="confirmacaoModal">
-    <div class="modal-content small-modal">
+  <div class="modal" id="confirmationModal">
+    <div class="modal-content small">
       <div class="modal-header">
-        <h3>Confirmação de Agendamento</h3>
-        <button class="modal-close" id="confirmacaoModalClose">&times;</button>
+        <h3 id="confirmationTitle">Confirmação</h3>
+        <button class="modal-close" id="confirmationClose">&times;</button>
       </div>
       <div class="modal-body">
-        <p id="confirmacaoMensagem">Publicação agendada com sucesso!</p>
+        <p id="confirmationMessage">Tem certeza que deseja realizar esta ação?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-primary" id="confirmacaoOkBtn">OK</button>
+        <button type="button" class="btn-secondary" id="cancelConfirmBtn">Cancelar</button>
+        <button type="button" class="btn-primary" id="confirmActionBtn">Confirmar</button>
       </div>
     </div>
   </div>
 
-  <script src="/Menu/javascript/menu.js"></script>
+  <!-- Sistema de Notificações -->
+  <div class="notification-container" id="notificationContainer"></div>
+
   <script src="/Menu/javascript/agendamento.js"></script>
 </body>
 </html>
