@@ -11,127 +11,354 @@
   <header class="navbar">
     <div class="logo">FlowUp</div>
     <nav class="menu">
-      <a href="/Site/html/site.html">Início</a>
-      <a href="/Site/html/funcionalidade.html">Funcionalidades</a>
-      <a href="/Site/html/planos.html">Planos</a>
-      <a href="/Site/html/equipe.html">Equipe</a>
+      <a href="#inicio">Início</a>
+      <a href="#funcionalidades">Funcionalidades</a>
+      <a href="#planos">Planos</a>
+      <a href="#equipe">Equipe</a>
     </nav>
-
     <a href="/Login/html/login.html"><button class="signin">Login</button></a>
   </header>
 
-  <!-- SEÇÃO HERO -->
-<section class="hero">
-  <div class="hero-text">
-    <h1>Automatize suas <span>Postagens</span> e economize tempo</h1>
-    <p>Gerencie e programe publicações em múltiplas redes sociais com eficiência e inteligência artificial. Ideal para empresas, influenciadores e criadores de conteúdo.</p>
-    <button class="primary-btn">Saiba Mais</button>
-  </div>
+  <main id="inicio">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-text">
+        <span class="hero-kicker">
+          Gestão de produção para agências, social medias e times criativos.
+        </span>
 
-  <div class="hero-images">
-    <div class="img-card">
-      <img src="/img/mapa_geral_site.jpg" alt="Mapa" style="background: #e0e0e0;">
-    </div>
-    <div class="img-card">
-      <img src="../img/cel.png" alt="Celular" style="background: #e0e0e0;">
-    </div>
-    <div class="img-card">
-      <img src="../img/cel2.png" alt="Celular 2" style="background: #e0e0e0;">
-    </div>
+        <h1>
+          Organize sua produção de conteúdo do planejamento ao post final
+        </h1>
+
+        <p class="hero-sub">
+          Centralize tarefas, equipes e prazos em um só lugar. Tenha visibilidade
+          total da sua operação e elimine o caos da produção de conteúdo.
+        </p>
+
+        <div class="hero-actions">
+          <button class="primary-btn">Começar a organizar minha produção</button>
+          <button class="secondary-btn">Ver o fluxo de trabalho na prática</button>
+        </div>
+      </div>
+
+      <!-- LADO DIREITO: IMAGEM + CARDS -->
+      <div class="hero-visual">
+        <!-- print principal do sistema -->
+        <div class="hero-screen">
+          <!-- print maior -->
+          <img src="/img/mapa_geral_site.jpg" alt="Visão geral do FlowUp">
+        </div>
+
+        <!-- card 1 menor com imagem (ex: planejamento mensal) -->
+        <div class="hero-pill pill-1">
+          <img src="/img/equipe_site.jpg" alt="Planejamento Mensal">
+        </div>
+
+        <!-- card 2 menor com imagem (ex: calendário de postagens) -->
+        <div class="hero-pill pill-2">
+          <img src="/img/calendario_site.jpg" alt="Calendário de Postagem">
+        </div>
+      </div>
+
+    </section>
+
+    <!-- O PROBLEMA -->
+    <section class="section problems">
+      <h2>O caos da produção de conteúdo custa caro</h2>
+      <p class="section-sub">
+        Sem uma ferramenta pensada para produção, equipes perdem tempo, prazos
+        estouram e a comunicação vira um jogo de telefone sem fio.
+      </p>
+
+      <div class="card-grid grid-4">
+        <article class="info-card">
+          <div class="info-icon">💬</div>
+          <h3>Tarefas espalhadas</h3>
+          <p>Briefings no e-mail, status no WhatsApp, arquivos no Drive.</p>
+        </article>
+
+        <article class="info-card">
+          <div class="info-icon">📈</div>
+          <h3>Falta de visibilidade</h3>
+          <p>Gestor não sabe o que cada um está fazendo agora.</p>
+        </article>
+
+        <article class="info-card">
+          <div class="info-icon">⏰</div>
+          <h3>Atrasos constantes</h3>
+          <p>Ninguém sabe o que está atrasado até ser tarde demais.</p>
+        </article>
+
+        <article class="info-card">
+          <div class="info-icon">📵</div>
+          <h3>Comunicação truncada</h3>
+          <p>Informações se perdem entre mensagens e reuniões.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- PAINEL / VISÃO GERAL -->
+    <section class="section panel" id="funcionalidades">
+      <h2>Um painel para enxergar toda a sua operação de produção</h2>
+      <p class="section-sub">
+        Visualize tudo que está em produção, quem está fazendo o quê e onde estão
+        os gargalos — tudo em tempo real.
+      </p>
+
+      <div class="card-grid grid-4">
+        <article class="feature-card">
+          <div class="feature-icon bg-1">⚡</div>
+          <h3>Pipeline de produção</h3>
+          <p>Veja cada conteúdo em qual etapa está: briefing, produção, revisão ou publicado.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon bg-2">📅</div>
+          <h3>Planejamento mensal visual</h3>
+          <p>Calendário com todas as entregas previstas e status em tempo real.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon bg-3">👥</div>
+          <h3>Gestão de equipe</h3>
+          <p>Dashboard individual mostrando o que cada pessoa está fazendo e seus prazos.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon bg-4">✅</div>
+          <h3>Aprovações sem fricção</h3>
+          <p>Cliente ou gestor aprova direto na plataforma, sem e-mail ou mensagem solta.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- FLUXO -->
+    <section class="section flow">
+      <h2>Da ideia ao conteúdo publicado, em fluxo só</h2>
+      <p class="section-sub">
+        Um processo estruturado que leva sua produção do briefing inicial até a publicação final.
+      </p>
+
+      <div class="card-grid grid-5">
+        <article class="step-card">
+          <div class="step-badge">1</div>
+          <h3>Briefing estruturado</h3>
+          <p>Todas as informações necessárias organizadas em um só lugar.</p>
+        </article>
+
+        <article class="step-card">
+          <div class="step-badge">2</div>
+          <h3>Planejamento de conteúdo</h3>
+          <p>Agende e distribua tarefas pela equipe com prazos claros.</p>
+        </article>
+
+        <article class="step-card">
+          <div class="step-badge">3</div>
+          <h3>Produção e execução</h3>
+          <p>Equipe trabalha com visibilidade total do que precisa ser feito.</p>
+        </article>
+
+        <article class="step-card">
+          <div class="step-badge">4</div>
+          <h3>Revisão e aprovação</h3>
+          <p>Processo de aprovação integrado e rastreável.</p>
+        </article>
+
+        <article class="step-card">
+          <div class="step-badge">5</div>
+          <h3>Publicação e acompanhamento</h3>
+          <p>Marque como publicado e acompanhe resultados.</p>
+        </article>
+      </div>
+    </section>
+
+  <section class="section features-real">
+  <h2>Feito para a rotina real de produção de conteúdo</h2>
+  <p class="section-sub">
+    Recursos pensados para eliminar fricção e aumentar produtividade da sua equipe.
+  </p>
+
+  <div class="card-grid grid-3">
+    <article class="stack-card">
+      <div class="stack-img">
+        <img src="/img/gestao_site.jpg" alt="Gestão por status">
+      </div>
+      <div class="stack-body">
+        <h3>Gestão por status</h3>
+        <p>Cartões visuais organizados por etapa (To do, Doing, Review, Done).</p>
+      </div>
+    </article>
+
+    <article class="stack-card">
+      <div class="stack-img">
+        <img src="/img/calendario_site.jpg" alt="Planejamento mensal + calendário">
+      </div>
+      <div class="stack-body">
+        <h3>Planejamento mensal + calendário</h3>
+        <p>Visualize o mês inteiro e programe entregas com antecedência.</p>
+      </div>
+    </article>
+
+    <article class="stack-card">
+      <div class="stack-img">
+        <img src="/img/equipe_site.jpg" alt="Dashboard da equipe">
+      </div>
+      <div class="stack-body">
+        <h3>Dashboard da equipe</h3>
+        <p>Cada membro vê suas tarefas priorizadas e organizadas.</p>
+      </div>
+    </article>
+
+    <article class="stack-card">
+      <div class="stack-img">
+        <img src="/img/briefing_site.jpg" alt="Briefing integrado">
+      </div>
+      <div class="stack-body">
+        <h3>Briefing integrado</h3>
+        <p>Tudo que o time precisa saber está dentro do card da tarefa.</p>
+      </div>
+    </article>
+
+    <article class="stack-card">
+      <div class="stack-img">
+        <img src="/img/gestao_modal_site.jpg" alt="Histórico de entregas e aprovações">
+      </div>
+      <div class="stack-body">
+        <h3>Histórico de entregas e aprovações</h3>
+        <p>Rastreie quem fez o quê e quando cada etapa aconteceu.</p>
+      </div>
+    </article>
+
+    <article class="stack-card">
+      <div class="stack-img">
+        <img src="/img/briefing_modal_site.jpg" alt="Automatizações inteligentes">
+      </div>
+      <div class="stack-body">
+        <h3>Automatizações inteligentes</h3>
+        <p>Notificações, lembretes e fluxos que rodam sozinhos.</p>
+      </div>
+    </article>
   </div>
 </section>
 
->
 
 
- <!-- FUNCIONALIDADES -->
-<!-- FUNCIONALIDADES -->
-<section class="funcionalidades">
-  <h2>Principais Funcionalidades</h2>
-  <div class="funcionalidades-grid">
-    <div class="funcionalidade-card">
-      <div class="funcionalidade-img">
-        <img src="../img/homem.png" alt="Agendamento Automático">
+    <!-- PARA QUEM É -->
+    <section class="section segments">
+      <h2>Para quem vive de produzir, não de apagar incêndio</h2>
+      <p class="section-sub">
+        Seja você agência, freelancer ou time interno, FlowUp organiza sua produção de conteúdo.
+      </p>
+
+      <div class="card-grid grid-4">
+        <article class="segment-card">
+          <div class="segment-avatar"></div>
+          <h3>Agências</h3>
+          <p>Gerencie múltiplos clientes e equipes em um só lugar.</p>
+        </article>
+
+        <article class="segment-card">
+          <div class="segment-avatar"></div>
+          <h3>Social medias</h3>
+          <p>Planeje, produza e acompanhe conteúdo para redes sociais.</p>
+        </article>
+
+        <article class="segment-card">
+          <div class="segment-avatar"></div>
+          <h3>Times de marketing</h3>
+          <p>Organize campanhas e produções internas com eficiência.</p>
+        </article>
+
+        <article class="segment-card">
+          <div class="segment-avatar"></div>
+          <h3>Produtoras</h3>
+          <p>Controle projetos complexos com múltiplas entregas.</p>
+        </article>
       </div>
-      <h3>Agendamento Automático</h3>
-      <p>Programe postagens em diversas redes com os melhores horários de engajamento.</p>
-    </div>
-    <div class="funcionalidade-card">
-      <div class="funcionalidade-img">
-        <img src="../img/grafico.png" alt="Análise de Desempenho">
+    </section>
+
+    <!-- CTA PLANOS -->
+    <section class="section cta" id="planos">
+      <h2>Cresça com uma operação organizada</h2>
+      <p class="section-sub">
+        Planos flexíveis que crescem com sua equipe. Comece pequeno e escale conforme sua produção aumenta.
+      </p>
+
+      <div class="hero-actions center">
+        <button class="primary-btn">Ver planos e preços</button>
+        <button class="secondary-btn">Falar com especialista</button>
       </div>
-      <h3>Análise de Desempenho</h3>
-      <p>Acompanhe métricas de alcance, curtidas e comentários em tempo real.</p>
-    </div>
-    <div class="funcionalidade-card">
-      <div class="funcionalidade-img">
-        <img src="../img/cubo.png" alt="Integração Multiplataforma">
+    </section>
+
+    <!-- SOBRE / EQUIPE -->
+    <section class="section about" id="equipe">
+      <div class="about-wrapper">
+        <div class="about-text">
+          <h2>Criado por quem vive o dia a dia de agência</h2>
+          <p>
+            FlowUp nasceu da experiência real de gerenciar produção de conteúdo para múltiplos clientes.
+            Conhecemos suas dores porque já estivemos aí.
+          </p>
+          <p>
+            Nossa equipe combina anos de experiência em agências digitais, social media e desenvolvimento
+            de produtos para criar a ferramenta que gostaríamos de ter tido.
+          </p>
+          <button class="secondary-btn">Conheça a equipe</button>
+        </div>
+
+        <div class="about-img">
+          <div class="gradient-block">Team Photo</div>
+        </div>
       </div>
-      <h3>Integração Multiplataforma</h3>
-      <p>Gerencie Instagram, Facebook, LinkedIn e outras redes em um único painel.</p>
-    </div>
-    <div class="funcionalidade-card">
-      <div class="funcionalidade-img">
-        <img src="../img/papel.png" alt="Geração de Conteúdo">
-      </div>
-      <h3>Geração de Conteúdo</h3>
-      <p>Crie legendas automáticas com IA baseadas no público e estilo da marca.</p>
-    </div>
-  </div>
-  <button class="outline-btn">Explorar todas as funções</button>
-</section>
-  <!-- ARTIGOS -->
- <!-- ARTIGOS -->
-<section class="stories">
+    </section>
+
+    <!-- ARTIGOS -->
+    <section class="section articles">
   <h2>Últimos Artigos</h2>
-  <div class="stories-grid">
-    <div class="story large">
-      <div class="story-img">
-        <img src="../img/IA.png" alt="Automação: o futuro da gestão de redes sociais">
+
+  <div class="card-grid grid-3">
+    <article class="article-card">
+      <div class="article-thumb">
+        <img src="/img/IA.png" alt="Automação e inteligência artificial">
       </div>
-      <div class="story-content">
+      <div class="article-body">
         <h3>Automação: o futuro da gestão de redes sociais</h3>
+        <p>Como automatizar processos repetitivos e focar no que importa.</p>
+        <button class="link-btn">Ler mais →</button>
       </div>
-    </div>
-    <div class="story small">
-      <div class="story-img">
-        <img src="../img/papel2.png" alt="Melhores horários para publicar e engajar seu público">
+    </article>
+
+    <article class="article-card">
+      <div class="article-thumb">
+        <img src="/img/papel2.png" alt="Planejamento e melhores horários para publicar">
       </div>
-      <div class="story-content">
-        <h3>Melhores horários para publicar e engajar seu público</h3>
+      <div class="article-body">
+        <h3>Melhores horários para publicar</h3>
+        <p>Dados e insights sobre quando seu conteúdo tem mais engajamento.</p>
+        <button class="link-btn">Ler mais →</button>
       </div>
-    </div>
-    <div class="story small">
-      <div class="story-img">
-        <img src="../img/desempenho.png" alt="Como medir resultados de campanhas automatizadas">
+    </article>
+
+    <article class="article-card">
+      <div class="article-thumb">
+        <img src="/img/desempenho.png" alt="Métricas e resultados de campanhas">
       </div>
-      <div class="story-content">
-        <h3>Como medir resultados de campanhas automatizadas</h3>
+      <div class="article-body">
+        <h3>Como medir resultados</h3>
+        <p>Métricas essenciais para avaliar o sucesso da sua produção.</p>
+        <button class="link-btn">Ler mais →</button>
       </div>
-    </div>
+    </article>
   </div>
-  <button class="outline-btn">Ler mais artigos</button>
 </section>
 
-  <!-- DESTAQUE -->
-  <!-- DESTAQUE -->
-<section class="highlights">
-  <h2>Destaque do Projeto</h2>
-  <div class="highlight-content">
-    <div class="profile">
-      <h3>Equipe AutoPost</h3>
-      <p>O <strong>AutoPost</strong> é um projeto acadêmico que visa otimizar o marketing digital por meio da automação de postagens. A proposta é fornecer uma ferramenta prática para gerenciar conteúdos e analisar o desempenho das publicações com inteligência artificial.</p>
-      <p>O sistema integra múltiplas redes sociais e permite programar postagens de forma rápida, visual e centralizada.</p>
-    </div>
-    <div class="highlight-img">
-      <img src="../img/desenho.png" alt="Destaque do Projeto AutoPost">
-    </div>
-  </div>
-</section>
-  <!-- RODAPÉ + NEWSLETTER -->
+  </main>
+
+  <!-- RODAPÉ -->
   <footer class="footer-news">
     <div class="newsletter-combined">
-      <h2>Receba Novidades do Projeto</h2>
+      <h2>Receba novidades do FlowUp</h2>
       <form>
         <input type="email" placeholder="Digite seu e-mail">
         <button type="submit">Inscrever-se</button>
@@ -141,9 +368,9 @@
     <div class="footer-content">
       <div class="footer-logo">FlowUp</div>
       <div class="footer-links">
-        <a href="#">Sobre</a>
+        <a href="#sobre">Sobre</a>
         <a href="#">Privacidade</a>
-        <a href="#">Contato</a>
+        <a href="#contato">Contato</a>
       </div>
     </div>
     <p class="copy">&copy; 2025 FlowUp - Projeto de Automação de Postagens em Redes Sociais.</p>
