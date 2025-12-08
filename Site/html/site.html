@@ -1,152 +1,701 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlowUp - Automação de Postagens</title>
-  <link rel="stylesheet" href="/Site/css/site.css">
+  <meta charset="UTF-8" />
+  <title>FlowUp - Organize sua produção de conteúdo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../css/site.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <!-- CABEÇALHO -->
-  <header class="navbar">
-    <div class="logo">FlowUp</div>
-    <nav class="menu">
-      <a href="/Site/html/site.html">Início</a>
-      <a href="/Site/html/funcionalidade.html">Funcionalidades</a>
-      <a href="/Site/html/planos.html">Planos</a>
-      <a href="/Site/html/equipe.html">Equipe</a>
-    </nav>
+  <!-- SPRITE DE ÍCONES -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="icon-tasks" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M9 4v16" />
+      <path d="M15 4v16" />
+    </symbol>
+    <symbol id="icon-eye" viewBox="0 0 24 24">
+      <path d="M2.5 12s3-6 9.5-6 9.5 6 9.5 6-3 6-9.5 6S2.5 12 2.5 12z" />
+      <circle cx="12" cy="12" r="3" />
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8" />
+      <path d="M12 8v4l3 2" />
+    </symbol>
+    <symbol id="icon-chat" viewBox="0 0 24 24">
+      <path d="M5 5h9a3 3 0 0 1 3 3v3a3 3 0 0 1-3 3H9l-4 3v-3" />
+      <path d="M11 7h6a2 2 0 0 1 2 2v4" />
+    </symbol>
+    <symbol id="icon-grid" viewBox="0 0 24 24">
+      <rect x="4" y="4" width="6" height="6" rx="1" />
+      <rect x="14" y="4" width="6" height="6" rx="1" />
+      <rect x="4" y="14" width="6" height="6" rx="1" />
+      <rect x="14" y="14" width="6" height="6" rx="1" />
+    </symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24">
+      <rect x="4" y="6" width="16" height="14" rx="2" />
+      <path d="M4 10h16" />
+      <path d="M9 3v4" />
+      <path d="M15 3v4" />
+    </symbol>
+    <symbol id="icon-users" viewBox="0 0 24 24">
+      <circle cx="9" cy="9" r="3" />
+      <path d="M4 16a4.5 4.5 0 0 1 10 0" />
+      <circle cx="18" cy="9" r="2.5" />
+      <path d="M15.5 15a4 4 0 0 1 4.5 4" />
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8" />
+      <path d="M9 12l2 2.5L15 10" />
+    </symbol>
+    <symbol id="icon-target" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="12" cy="12" r="1.6" />
+    </symbol>
+    <symbol id="icon-video" viewBox="0 0 24 24">
+      <rect x="3" y="6" width="13" height="12" rx="2" />
+      <path d="M16 10l5-3v10l-5-3z" />
+    </symbol>
+    <symbol id="icon-building" viewBox="0 0 24 24">
+      <rect x="5" y="3" width="10" height="18" rx="1" />
+      <path d="M9 7h2M9 11h2M9 15h2" />
+      <path d="M15 9h4v12h-4" />
+    </symbol>
+    <symbol id="icon-phone" viewBox="0 0 24 24">
+      <rect x="8" y="3" width="8" height="18" rx="2" />
+      <circle cx="12" cy="17" r="1" />
+    </symbol>
+  </svg>
 
-    <a href="/Login/html/login.html"><button class="signin">Login</button></a>
+  <!-- TOPO -->
+  <header class="topbar">
+    <div class="container topbar__content">
+      <div class="logo">
+        <span class="logo__gradient">FlowUp</span>
+      </div>
+
+      <nav class="nav">
+        <a href="#inicio" class="nav__link active"><span>Início</span></a>
+        <a href="#funcionalidades" class="nav__link"><span>Funcionalidades</span></a>
+        <a href="#planos" class="nav__link"><span>Planos</span></a>
+        <a href="#equipe" class="nav__link"><span>Equipe</span></a>
+      </nav>
+
+      <div class="topbar__actions">
+        <a href="#login" class="btn btn--secondary">
+          <i class="fas fa-sign-in-alt"></i>
+          <span>Login</span>
+        </a>
+        <button class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
   </header>
 
-  <!-- SEÇÃO HERO -->
-<section class="hero">
-  <div class="hero-text">
-    <h1>Automatize suas <span>Postagens</span> e economize tempo</h1>
-    <p>Gerencie e programe publicações em múltiplas redes sociais com eficiência e inteligência artificial. Ideal para empresas, influenciadores e criadores de conteúdo.</p>
-    <button class="primary-btn">Saiba Mais</button>
-  </div>
+  <!-- HERO COM IMAGEM -->
+  <section class="hero" id="inicio">
+    <div class="container hero__container">
+      <div class="hero__content">
+        <div class="hero__badge">
+          <span>✨</span>
+          <span>Gestão de produção para agências, social media e times criativos</span>
+        </div>
+        
+        <h1 class="hero__title">
+          Organize sua produção de conteúdo do
+          <span class="gradient-text">planejamento ao post final</span>
+        </h1>
+        
+        <p class="hero__description">
+          Centralize tarefas, equipes e prazos em um só lugar. Tenha
+          visibilidade total da sua operação e elimine o caos da
+          produção de conteúdo.
+        </p>
+        
+        <div class="hero__actions">
+          <a href="#planos" class="btn btn--primary btn--large">
+            <i class="fas fa-rocket"></i>
+            <span>Começar a organizar minha produção</span>
+          </a>
+          <a href="#demo" class="btn btn--outline">
+            <i class="fas fa-play-circle"></i>
+            <span>Ver o fluxo de trabalho na prática</span>
+          </a>
+        </div>
+        
+        <div class="hero__stats">
+          <div class="stat">
+            <div class="stat__value">+500</div>
+            <div class="stat__label">times organizados</div>
+          </div>
+          <div class="divider"></div>
+          <div class="stat">
+            <div class="stat__value">+85%</div>
+            <div class="stat__label">produtividade</div>
+          </div>
+          <div class="divider"></div>
+          <div class="stat">
+            <div class="stat__value">24/7</div>
+            <div class="stat__label">suporte especializado</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- CONTAINER COM A IMAGEM DO CALENDÁRIO -->
+      <div class="hero__visual">
+        <div class="calendar-image-container">
+          <div class="image-wrapper">
+            <img src="calendario.jpeg" 
+                 alt="Calendário de Postagens FlowUp - Janeiro 2025" 
+                 class="calendar-image">
+            <div class="image-overlay">
+              <div class="overlay-content">
+                <h3><i class="far fa-calendar-alt"></i> Calendário de Postagem</h3>
+                <p>Visualize e gerencie todas as suas postagens em um só lugar</p>
+                <div class="overlay-stats">
+                  <div class="overlay-stat">
+                    <span class="stat-number">15</span>
+                    <span class="stat-label">Janeiro</span>
+                  </div>
+                  <div class="overlay-stat">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Postagens</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Badges flutuantes sobre a imagem -->
+          <div class="floating-badges">
+            <span class="floating-badge badge--primary">
+              <i class="fas fa-video"></i>
+              Vídeo
+            </span>
+            <span class="floating-badge badge--success">
+              <i class="fas fa-check-circle"></i>
+              Aprovado
+            </span>
+            <span class="floating-badge badge--warning">
+              <i class="far fa-clock"></i>
+              14:00
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Empresas parceiras -->
+    <div class="container hero__companies">
+      <p class="companies__label">Confiado por times de conteúdo das melhores empresas:</p>
+      <div class="companies__logos">
+        <span class="company-logo">AgencyPro</span>
+        <span class="company-logo">SocialBuzz</span>
+        <span class="company-logo">ContentLab</span>
+        <span class="company-logo">CreativeFlow</span>
+        <span class="company-logo">MediaMasters</span>
+      </div>
+    </div>
+  </section>
 
-  <div class="hero-images">
-    <div class="img-card">
-      <img src="../img/insta.png" alt="Instagram" style="background: #e0e0e0;">
+  <!-- SEÇÃO DE FUNCIONALIDADES -->
+  <section class="section section--light" id="funcionalidades">
+    <div class="container">
+      <div class="section__header">
+        <h2 class="section__title">O caos da produção de conteúdo <span class="gradient-text">custa caro</span></h2>
+        <p class="section__description">
+          Sem uma ferramenta pensada para produção, equipes perdem tempo,
+          prazos estouram e a comunicação vira um jogo de telefone sem fio.
+        </p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-card problem-card">
+          <div class="feature-icon">
+            <svg class="icon icon--problem"><use href="#icon-tasks" /></svg>
+          </div>
+          <h3>Tarefas espalhadas</h3>
+          <p>Planejamentos no e-mail, status no WhatsApp, arquivos no Drive.</p>
+          <div class="problem-indicator">
+            <i class="fas fa-times-circle"></i>
+            <span>Problema comum</span>
+          </div>
+        </div>
+        
+        <div class="feature-card problem-card">
+          <div class="feature-icon">
+            <svg class="icon icon--problem"><use href="#icon-eye" /></svg>
+          </div>
+          <h3>Falta de visibilidade</h3>
+          <p>Gestor não sabe o que cada um está fazendo agora.</p>
+          <div class="problem-indicator">
+            <i class="fas fa-times-circle"></i>
+            <span>Problema comum</span>
+          </div>
+        </div>
+        
+        <div class="feature-card problem-card">
+          <div class="feature-icon">
+            <svg class="icon icon--problem"><use href="#icon-clock" /></svg>
+          </div>
+          <h3>Atrasos constantes</h3>
+          <p>Ninguém sabe o que está atrasado até ser tarde demais.</p>
+          <div class="problem-indicator">
+            <i class="fas fa-times-circle"></i>
+            <span>Problema comum</span>
+          </div>
+        </div>
+        
+        <div class="feature-card problem-card">
+          <div class="feature-icon">
+            <svg class="icon icon--problem"><use href="#icon-chat" /></svg>
+          </div>
+          <h3>Comunicação truncada</h3>
+          <p>Informações se perdem entre mensagens, reuniões e arquivos.</p>
+          <div class="problem-indicator">
+            <i class="fas fa-times-circle"></i>
+            <span>Problema comum</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="img-card">
-      <img src="../img/cel.png" alt="Celular" style="background: #e0e0e0;">
-    </div>
-    <div class="img-card">
-      <img src="../img/cel2.png" alt="Celular 2" style="background: #e0e0e0;">
-    </div>
-  </div>
-</section>
+  </section>
 
->
+  <!-- SEÇÃO DE SOLUÇÃO -->
+  <section class="section" id="solucao">
+    <div class="container">
+      <div class="section__header">
+        <h2 class="section__title">Um painel para <span class="gradient-text">enxergar toda</span> a sua operação</h2>
+        <p class="section__description">
+          Visualize tudo que está em produção, quem está fazendo o quê
+          e onde estão os gargalos — tudo em tempo real.
+        </p>
+      </div>
+      
+      <div class="solution-showcase">
+        <div class="solution__visual">
+          <div class="macbook-frame">
+            <div class="macbook__screen">
+              <div class="screen__content">
+                <div class="calendar-view">
+                  <div class="calendar__header">
+                    <div class="calendar__month">Dezembro 2025</div>
+                    <div class="calendar__nav">
+                      <button class="nav-btn"><i class="fas fa-chevron-left"></i></button>
+                      <button class="nav-btn active">Mês</button>
+                      <button class="nav-btn">Semana</button>
+                      <button class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                  </div>
+                  <div class="calendar__grid">
+                    <!-- Dias do calendário -->
+                    <div class="calendar__day">Dom</div><div class="calendar__day">Seg</div><div class="calendar__day">Ter</div>
+                    <div class="calendar__day">Qua</div><div class="calendar__day">Qui</div><div class="calendar__day">Sex</div>
+                    <div class="calendar__day">Sáb</div>
+                    
+                    <!-- Dias vazios -->
+                    <div class="calendar__date empty"></div><div class="calendar__date empty"></div>
+                    
+                    <!-- Dias do mês com eventos -->
+                    <div class="calendar__date">1</div>
+                    <div class="calendar__date">
+                      2
+                      <span class="event event--deadline">Entrega</span>
+                    </div>
+                    <div class="calendar__date">3</div>
+                    <div class="calendar__date">
+                      4
+                      <span class="event event--meeting">Reunião</span>
+                    </div>
+                    <div class="calendar__date">5</div>
+                    
+                    <!-- Continuar dias -->
+                    <div class="calendar__date">6</div><div class="calendar__date">7</div><div class="calendar__date">8</div>
+                    <div class="calendar__date">9</div><div class="calendar__date">10</div><div class="calendar__date">11</div>
+                    <div class="calendar__date">12</div><div class="calendar__date">13</div><div class="calendar__date">14</div>
+                    <div class="calendar__date">15</div><div class="calendar__date">16</div><div class="calendar__date">17</div>
+                    <div class="calendar__date">18</div><div class="calendar__date">19</div><div class="calendar__date">20</div>
+                    <div class="calendar__date">21</div><div class="calendar__date">22</div><div class="calendar__date">23</div>
+                    <div class="calendar__date">24</div><div class="calendar__date">25</div><div class="calendar__date">26</div>
+                    <div class="calendar__date">27</div><div class="calendar__date">28</div><div class="calendar__date">29</div>
+                    <div class="calendar__date">30</div><div class="calendar__date">31</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="macbook__base"></div>
+          </div>
+        </div>
+        
+        <div class="solution__features">
+          <div class="feature-highlight">
+            <div class="highlight__icon">
+              <svg class="icon"><use href="#icon-grid" /></svg>
+            </div>
+            <div class="highlight__content">
+              <h3>Pipeline de produção visual</h3>
+              <p>Veja cada conteúdo em qual etapa está: briefing, produção, revisão ou publicado.</p>
+            </div>
+          </div>
+          
+          <div class="feature-highlight">
+            <div class="highlight__icon">
+              <svg class="icon"><use href="#icon-calendar" /></svg>
+            </div>
+            <div class="highlight__content">
+              <h3>Planejamento mensal</h3>
+              <p>Calendário com todas as entregas e status em tempo real.</p>
+            </div>
+          </div>
+          
+          <div class="feature-highlight">
+            <div class="highlight__icon">
+              <svg class="icon"><use href="#icon-users" /></svg>
+            </div>
+            <div class="highlight__content">
+              <h3>Gestão de equipe</h3>
+              <p>Dashboard individual mostrando o que cada pessoa está fazendo e seus prazos.</p>
+            </div>
+          </div>
+          
+          <div class="feature-highlight">
+            <div class="highlight__icon">
+              <svg class="icon"><use href="#icon-check" /></svg>
+            </div>
+            <div class="highlight__content">
+              <h3>Aprovações sem fricção</h3>
+              <p>Cliente ou gestor aprova direto na plataforma, sem e-mail ou mensagem solta.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- SEÇÃO DE FLUXO -->
+  <section class="section section--gradient" id="fluxo">
+    <div class="container">
+      <div class="section__header">
+        <h2 class="section__title">Da ideia ao conteúdo publicado, <span>em fluxo só</span></h2>
+        <p class="section__description">
+          Um processo estruturado que leva sua produção do briefing inicial
+          até a publicação final.
+        </p>
+      </div>
+      
+      <div class="process-flow">
+        <div class="process-step">
+          <div class="step__number">1</div>
+          <div class="step__content">
+            <h3>Briefing estruturado</h3>
+            <p>Todas as informações necessárias organizadas em um só lugar.</p>
+          </div>
+          <div class="step__arrow">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+        
+        <div class="process-step">
+          <div class="step__number">2</div>
+          <div class="step__content">
+            <h3>Planejamento de conteúdo</h3>
+            <p>Agende e distribua tarefas pela equipe com prazos claros.</p>
+          </div>
+          <div class="step__arrow">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+        
+        <div class="process-step">
+          <div class="step__number">3</div>
+          <div class="step__content">
+            <h3>Produção e execução</h3>
+            <p>Equipe trabalha com visibilidade total do que precisa ser feito.</p>
+          </div>
+          <div class="step__arrow">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+        
+        <div class="process-step">
+          <div class="step__number">4</div>
+          <div class="step__content">
+            <h3>Revisão e aprovação</h3>
+            <p>Processo de aprovação integrado e rastreável.</p>
+          </div>
+          <div class="step__arrow">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+        
+        <div class="process-step">
+          <div class="step__number">5</div>
+          <div class="step__content">
+            <h3>Publicação e acompanhamento</h3>
+            <p>Marque como publicado e acompanhe resultados.</p>
+          </div>
+          <div class="step__success">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
- <!-- FUNCIONALIDADES -->
-<!-- FUNCIONALIDADES -->
-<section class="funcionalidades">
-  <h2>Principais Funcionalidades</h2>
-  <div class="funcionalidades-grid">
-    <div class="funcionalidade-card">
-      <div class="funcionalidade-img">
-        <img src="../img/homem.png" alt="Agendamento Automático">
+  <!-- SEÇÃO DE PLANOS -->
+  <section class="section section--dark" id="planos">
+    <div class="container">
+      <div class="section__header">
+        <h2 class="section__title">Planos que <span class="gradient-text-light">crescem com você</span></h2>
+        <p class="section__description">
+          Escolha o plano ideal para o tamanho da sua equipe e produção.
+        </p>
       </div>
-      <h3>Agendamento Automático</h3>
-      <p>Programe postagens em diversas redes com os melhores horários de engajamento.</p>
+      
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing__header">
+            <h3>Starter</h3>
+            <div class="pricing__price">
+              <span class="price">R$ 97</span>
+              <span class="period">/mês</span>
+            </div>
+            <p class="pricing__description">Para freelancers e pequenos times</p>
+          </div>
+          <div class="pricing__features">
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Até 3 membros na equipe</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>50 conteúdos por mês</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Calendário editorial</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Suporte por email</span>
+            </div>
+          </div>
+          <button class="btn btn--outline-light btn--block">
+            Começar agora
+          </button>
+        </div>
+        
+        <div class="pricing-card featured">
+          <div class="pricing__badge">Mais Popular</div>
+          <div class="pricing__header">
+            <h3>Pro</h3>
+            <div class="pricing__price">
+              <span class="price">R$ 197</span>
+              <span class="period">/mês</span>
+            </div>
+            <p class="pricing__description">Para agências e times em crescimento</p>
+          </div>
+          <div class="pricing__features">
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Até 10 membros na equipe</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Conteúdos ilimitados</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Aprovações automatizadas</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Integrações com redes sociais</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Suporte prioritário</span>
+            </div>
+          </div>
+          <button class="btn btn--primary btn--block">
+            Escolher Plano Pro
+          </button>
+        </div>
+        
+        <div class="pricing-card">
+          <div class="pricing__header">
+            <h3>Enterprise</h3>
+            <div class="pricing__price">
+              <span class="price">Custom</span>
+            </div>
+            <p class="pricing__description">Para grandes equipes e necessidades específicas</p>
+          </div>
+          <div class="pricing__features">
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Membros ilimitados</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Personalização completa</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>API dedicada</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Treinamento da equipe</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Gerente de conta dedicado</span>
+            </div>
+          </div>
+          <button class="btn btn--outline-light btn--block">
+            Falar com vendas
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="funcionalidade-card">
-      <div class="funcionalidade-img">
-        <img src="../img/grafico.png" alt="Análise de Desempenho">
-      </div>
-      <h3>Análise de Desempenho</h3>
-      <p>Acompanhe métricas de alcance, curtidas e comentários em tempo real.</p>
-    </div>
-    <div class="funcionalidade-card">
-      <div class="funcionalidade-img">
-        <img src="../img/cubo.png" alt="Integração Multiplataforma">
-      </div>
-      <h3>Integração Multiplataforma</h3>
-      <p>Gerencie Instagram, Facebook, LinkedIn e outras redes em um único painel.</p>
-    </div>
-    <div class="funcionalidade-card">
-      <div class="funcionalidade-img">
-        <img src="../img/papel.png" alt="Geração de Conteúdo">
-      </div>
-      <h3>Geração de Conteúdo</h3>
-      <p>Crie legendas automáticas com IA baseadas no público e estilo da marca.</p>
-    </div>
-  </div>
-  <button class="outline-btn">Explorar todas as funções</button>
-</section>
-  <!-- ARTIGOS -->
- <!-- ARTIGOS -->
-<section class="stories">
-  <h2>Últimos Artigos</h2>
-  <div class="stories-grid">
-    <div class="story large">
-      <div class="story-img">
-        <img src="../img/IA.png" alt="Automação: o futuro da gestão de redes sociais">
-      </div>
-      <div class="story-content">
-        <h3>Automação: o futuro da gestão de redes sociais</h3>
-      </div>
-    </div>
-    <div class="story small">
-      <div class="story-img">
-        <img src="../img/papel2.png" alt="Melhores horários para publicar e engajar seu público">
-      </div>
-      <div class="story-content">
-        <h3>Melhores horários para publicar e engajar seu público</h3>
-      </div>
-    </div>
-    <div class="story small">
-      <div class="story-img">
-        <img src="../img/desempenho.png" alt="Como medir resultados de campanhas automatizadas">
-      </div>
-      <div class="story-content">
-        <h3>Como medir resultados de campanhas automatizadas</h3>
-      </div>
-    </div>
-  </div>
-  <button class="outline-btn">Ler mais artigos</button>
-</section>
+  </section>
 
-  <!-- DESTAQUE -->
-  <!-- DESTAQUE -->
-<section class="highlights">
-  <h2>Destaque do Projeto</h2>
-  <div class="highlight-content">
-    <div class="profile">
-      <h3>Equipe AutoPost</h3>
-      <p>O <strong>AutoPost</strong> é um projeto acadêmico que visa otimizar o marketing digital por meio da automação de postagens. A proposta é fornecer uma ferramenta prática para gerenciar conteúdos e analisar o desempenho das publicações com inteligência artificial.</p>
-      <p>O sistema integra múltiplas redes sociais e permite programar postagens de forma rápida, visual e centralizada.</p>
-    </div>
-    <div class="highlight-img">
-      <img src="../img/desenho.png" alt="Destaque do Projeto AutoPost">
-    </div>
-  </div>
-</section>
-  <!-- RODAPÉ + NEWSLETTER -->
-  <footer class="footer-news">
-    <div class="newsletter-combined">
-      <h2>Receba Novidades do Projeto</h2>
-      <form>
-        <input type="email" placeholder="Digite seu e-mail">
-        <button type="submit">Inscrever-se</button>
-      </form>
-    </div>
-
-    <div class="footer-content">
-      <div class="footer-logo">FlowUp</div>
-      <div class="footer-links">
-        <a href="#">Sobre</a>
-        <a href="#">Privacidade</a>
-        <a href="#">Contato</a>
+  <!-- SEÇÃO DE NEWSLETTER -->
+  <section class="section" id="newsletter">
+    <div class="container newsletter">
+      <div class="newsletter__content">
+        <h2 class="newsletter__title">Comece a organizar sua produção hoje</h2>
+        <p class="newsletter__description">
+          Experimente gratuitamente por 14 dias. Sem compromisso, sem cartão de crédito.
+        </p>
+      </div>
+      <div class="newsletter__form">
+        <div class="form-group">
+          <input type="email" placeholder="Seu melhor e-mail" class="input">
+          <button class="btn btn--primary">
+            <span>Começar teste gratuito</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+        <p class="form-note">
+          <i class="fas fa-lock"></i>
+          Seus dados estão seguros. Nunca enviaremos spam.
+        </p>
       </div>
     </div>
-    <p class="copy">&copy; 2025 FlowUp - Projeto de Automação de Postagens em Redes Sociais.</p>
+  </section>
+
+  <!-- RODAPÉ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__content">
+        <div class="footer__brand">
+          <div class="logo">
+            <span class="logo__gradient">FlowUp</span>
+          </div>
+          <p class="footer__description">
+            A ferramenta de gestão de produção de conteúdo para times que querem escalar resultados.
+          </p>
+          <div class="footer__social">
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer__links">
+          <div class="footer__column">
+            <h4>Produto</h4>
+            <a href="#">Funcionalidades</a>
+            <a href="#">Planos</a>
+            <a href="#">Preços</a>
+            <a href="#">API</a>
+          </div>
+          
+          <div class="footer__column">
+            <h4>Empresa</h4>
+            <a href="#">Sobre</a>
+            <a href="#">Blog</a>
+            <a href="#">Carreiras</a>
+            <a href="#">Contato</a>
+          </div>
+          
+          <div class="footer__column">
+            <h4>Recursos</h4>
+            <a href="#">Documentação</a>
+            <a href="#">Tutoriais</a>
+            <a href="#">FAQ</a>
+            <a href="#">Status</a>
+          </div>
+          
+          <div class="footer__column">
+            <h4>Legal</h4>
+            <a href="#">Privacidade</a>
+            <a href="#">Termos</a>
+            <a href="#">Cookies</a>
+            <a href="#">Segurança</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer__bottom">
+        <p class="copyright">© 2025 FlowUp. Todos os direitos reservados.</p>
+        <div class="footer__locale">
+          <i class="fas fa-globe"></i>
+          <span>Português (Brasil)</span>
+        </div>
+      </div>
+    </div>
   </footer>
+
+  <script>
+    // Menu mobile
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+      document.querySelector('.nav').classList.toggle('nav--open');
+    });
+    
+    // Animações ao scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    }, observerOptions);
+    
+    // Observar elementos para animação
+    document.querySelectorAll('.feature-card, .process-step, .pricing-card').forEach(el => {
+      observer.observe(el);
+    });
+    
+    // Smooth scroll para links internos
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+          
+          // Fechar menu mobile se aberto
+          document.querySelector('.nav').classList.remove('nav--open');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
