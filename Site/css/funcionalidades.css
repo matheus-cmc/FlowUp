@@ -2,7 +2,7 @@
 
 /* ===== VARIÁVEIS E RESET ===== */
 :root {
-    --primary: #833ab4;
+    --primary: var(--gradient);
     --primary-light: #9d4dc9;
     --secondary: #fd1d1d;
     --accent: #fcb045;
@@ -11,8 +11,8 @@
     --bg-light: #f8fafc;
     --bg-white: #ffffff;
     --border: #e2e8f0;
-    --success: #10b981;
-    --warning: #f59e0b;
+    --success: linear-gradient(135deg, #833ab4 10%, #fd1d1d 50%, #fcb045 100%);
+    --warning: #ebad10;
     --danger: #ef4444;
     --radius-sm: 8px;
     --radius: 12px;
@@ -208,8 +208,8 @@ h4 { font-size: 1.3rem; }
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: var(--gradient-light);
-    color: var(--primary);
+    background: var(--gradient); /* Fundo atual */
+    color: var(--bg-white); /* Cor do texto atual */
     padding: 8px 20px;
     border-radius: 999px;
     font-size: 0.9rem;
@@ -313,10 +313,10 @@ h4 { font-size: 1.3rem; }
 }
 
 .feature-list i.fa-check-circle {
-    color: var(--success);
-    font-size: 1.2rem;
-    margin-top: 4px;
-    flex-shrink: 0;
+    background: linear-gradient(135deg, #833ab4 10%, #fd1d1d 50%, #fcb045 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .feature-list strong {
@@ -464,7 +464,7 @@ h4 { font-size: 1.3rem; }
 }
 
 .color.video { background: var(--primary); }
-.color.approved { background: var(--success); }
+.color.approved { background: #139907; }
 .color.pending { background: var(--warning); }
 
 /* Kanban */
@@ -660,8 +660,9 @@ h4 { font-size: 1.3rem; }
 
 /* ===== TODAS AS FUNCIONALIDADES ===== */
 .all-features {
-    padding: 100px 0;
-    background: var(--bg-light);
+    padding: 120px 0;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    position: relative;
 }
 
 .section-header {
@@ -669,77 +670,444 @@ h4 { font-size: 1.3rem; }
     margin-bottom: 60px;
 }
 
+.section-header h2 {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: #0f172a;
+}
+
+.section-header h2 .text-grad {
+    background: linear-gradient(135deg, #000000 0%, #fd1d1d 50%, #fcb045 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+
 .section-subtitle {
-    font-size: 1.25rem;
-    color: var(--text-light);
+    font-size: 20px;
+    color: #64748b;
     max-width: 600px;
-    margin: 16px auto 0;
+    margin: 0 auto;
+    line-height: 1.6;
 }
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-top: 60px;
+    width: 100%;
 }
 
+/* CARD STYLE - LIMPO E ESPAÇADO */
 .feature-card {
     background: white;
-    padding: 32px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow);
+    border-radius: 24px;
+    padding: 40px 32px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
-    border: 1px solid var(--border);
+    border: 1px solid #e2e8f0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 
 .feature-card:hover {
     transform: translateY(-8px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--primary);
+    box-shadow: 0 20px 40px rgba(139, 92, 246, 0.15);
+    border: 1px solid #8b5cf6;
 }
 
+.feature-card:hover::before {
+    opacity: 0.3; /* Gradiente mais suave por baixo */
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+}
+
+/* ÍCONE CIRCULAR*/
 .card-icon {
-    width: 60px;
-    height: 60px;
-    background: var(--gradient-light);
-    border-radius: var(--radius);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    color: var(--primary);
-    margin-bottom: 20px;
+    font-size: 32px;
+    color: white;
+    margin: 0 auto 32px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
 }
 
+.feature-card:hover .card-icon {
+    transform: scale(1.05);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon::after {
+    display: none;
+}
+
+.card-icon i {
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card-body {
+    padding: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/* TÍTULO PRETO E GRANDE */
 .feature-card h4 {
-    margin-bottom: 12px;
-}
-
-.feature-card > p {
-    color: var(--text-light);
+    font-size: 24px;
+    font-weight: 700;
     margin-bottom: 20px;
-    font-size: 0.95rem;
+    line-height: 1.3;
+    color: #000000; /* PRETO */
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* DESCRIÇÃO COM ESPAÇO */
+.feature-card > p {
+    color: #64748b;
+    margin-bottom: 28px;
+    font-size: 16px;
+    line-height: 1.6;
+    flex-grow: 1;
+    min-height: 72px;
+}
+
+/* LISTA COM ESPAÇAMENTO */
 .card-list {
     list-style: none;
-    padding-left: 0;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    flex-grow: 0;
 }
 
 .card-list li {
-    padding: 6px 0;
-    font-size: 0.9rem;
-    color: var(--text-light);
+    padding: 12px 0;
+    font-size: 15px;
+    color: #374151;
     position: relative;
-    padding-left: 20px;
+    padding-left: 32px;
+    line-height: 1.5;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    align-items: center;
 }
 
+.card-list li:last-child {
+    border-bottom: none;
+}
+
+/* CHECKMARK */
 .card-list li::before {
-    content: '✓';
+    content: '';
     position: absolute;
     left: 0;
-    color: var(--success);
-    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #833ab4 10%, #fd1d1d 50%, #fcb045 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    content: '\f00c';
+    color: white;
+    font-size: 10px;
+}
+/* ===== RESPONSIVIDADE PERFEITA ===== */
+@media (max-width: 1400px) {
+    .features-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+    }
+    
+    .feature-card {
+        padding: 32px 24px;
+    }
+    
+    .card-icon {
+        width: 72px;
+        height: 72px;
+        font-size: 28px;
+        margin-bottom: 28px;
+    }
+    
+    .feature-card h4 {
+        font-size: 22px;
+        min-height: 54px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+    }
+    
+    .feature-card h4 {
+        min-height: auto;
+    }
+}
+
+@media (max-width: 992px) {
+    .all-features {
+        padding: 80px 0;
+    }
+    
+    .section-header h2 {
+        font-size: 40px;
+    }
+    
+    .section-subtitle {
+        font-size: 18px;
+    }
+    
+    .features-grid {
+        gap: 28px;
+    }
+    
+    .feature-card {
+        padding: 32px 24px;
+    }
+    
+    .feature-card h4 {
+        font-size: 22px;
+        margin-bottom: 18px;
+    }
+    
+    .feature-card > p {
+        font-size: 15px;
+        margin-bottom: 24px;
+        min-height: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-header h2 {
+        font-size: 36px;
+    }
+    
+    .section-subtitle {
+        font-size: 18px;
+        padding: 0 20px;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin: 40px auto 0;
+        gap: 24px;
+    }
+    
+    .feature-card {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 32px 28px;
+    }
+    
+    .card-icon {
+        width: 72px;
+        height: 72px;
+        font-size: 28px;
+        margin-bottom: 28px;
+    }
+    
+    .feature-card h4 {
+        font-size: 22px;
+        margin-bottom: 20px;
+        min-height: auto;
+    }
+    
+    .feature-card > p {
+        font-size: 16px;
+        margin-bottom: 24px;
+        min-height: auto;
+    }
+    
+    .card-list li {
+        font-size: 15px;
+        padding-left: 28px;
+        padding: 10px 0;
+    }
+    
+    .card-list li::before {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .all-features {
+        padding: 60px 0;
+    }
+    
+    .section-header h2 {
+        font-size: 32px;
+    }
+    
+    .section-subtitle {
+        font-size: 16px;
+        padding: 0 16px;
+    }
+    
+    .features-grid {
+        gap: 20px;
+    }
+    
+    .feature-card {
+        padding: 28px 20px;
+    }
+    
+    .card-icon {
+        width: 64px;
+        height: 64px;
+        font-size: 24px;
+        margin-bottom: 24px;
+    }
+    
+    .feature-card h4 {
+        font-size: 20px;
+        margin-bottom: 16px;
+    }
+    
+    .feature-card > p {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+    
+    .card-list li {
+        font-size: 14px;
+        padding-left: 24px;
+        padding: 8px 0;
+    }
+    
+    .card-list li::before {
+        width: 16px;
+        height: 16px;
+        font-size: 9px;
+    }
+}
+
+/* Para telas muito pequenas */
+@media (max-width: 360px) {
+    .feature-card {
+        padding: 24px 16px;
+    }
+    
+    .feature-card h4 {
+        font-size: 18px;
+    }
+    
+    .card-list li {
+        font-size: 13px;
+        padding-left: 22px;
+    }
+}
+
+/* ADICIONE ESTAS REGRAS PARA CELULAR */
+@media (max-width: 480px) {
+    /* Corrige textos quebrados em listas */
+    .card-list li {
+        white-space: nowrap; /* Evita quebra de linha */
+        overflow: hidden;
+        text-overflow: ellipsis; /* Adiciona "..." se muito longo */
+        padding-right: 10px; /* Espaço para o ellipsis */
+    }
+    
+    /* Ou se preferir que quebre, mas de forma controlada: */
+    .card-list li {
+        word-break: break-word; /* Quebra palavras longas */
+        hyphens: auto; /* Adiciona hífen quando quebrar */
+    }
+    
+    /* Ajusta o título para não quebrar palavras */
+    .feature-card h4 {
+        word-break: keep-all; /* Mantém palavras inteiras */
+        overflow-wrap: break-word; /* Quebra apenas se necessário */
+        text-align: center;
+        padding: 0 5px; /* Pequeno padding lateral */
+    }
+    
+    /* Ajusta a descrição */
+    .feature-card > p {
+        hyphens: auto;
+        text-align: center;
+        padding: 0 5px;
+    }
+    
+    /* Ajusta o grid para uma coluna com mais espaço */
+    .features-grid {
+        gap: 20px;
+        padding: 0 15px; /* Reduz padding para aproveitar tela */
+    }
+    
+    /* Aumenta um pouco a área de toque para mobile */
+    .feature-card {
+        min-height: 300px; /* Altura mínima para cards */
+    }
+}
+
+/* Para telas muito pequenas (menos de 360px) */
+@media (max-width: 360px) {
+    /* Reduz ainda mais os textos para caber */
+    .feature-card h4 {
+        font-size: 18px;
+        line-height: 1.2;
+        min-height: 44px;
+    }
+    
+    .feature-card > p {
+        font-size: 14px;
+        line-height: 1.4;
+        min-height: 60px;
+    }
+    
+    .card-list li {
+        font-size: 13px;
+        padding-left: 24px;
+        padding-right: 5px;
+    }
+    
+    .card-list li::before {
+        width: 16px;
+        height: 16px;
+        font-size: 9px;
+    }
+    
+    /* Ajuste específico para textos muito longos */
+    .card-list li {
+        white-space: normal; /* Permite quebra */
+        line-height: 1.3;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Aumenta o espaço entre checkmark e texto */
+    .card-list li {
+        padding-left: 35px !important; /* De 24px para 35px */
+    }
+    
+    .card-list li::before {
+        left: 8px !important; /* Posiciona melhor o checkmark */
+    }
 }
 
 /* ===== CTA ===== */
