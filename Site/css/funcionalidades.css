@@ -797,11 +797,13 @@ h4 { font-size: 1.3rem; }
     gap: 80px;
     margin-bottom: 60px;
 }
-
 .footer-brand .footer-logo {
     font-size: 1.8rem;
     font-weight: 800;
-    color: white;
+    background: linear-gradient(135deg, #9D4EDD, #E0AAFF); /* Gradiente roxo-rosa da imagem */
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
     text-decoration: none;
     display: block;
     margin-bottom: 16px;
@@ -951,4 +953,16 @@ h4 { font-size: 1.3rem; }
     .features-grid {
         grid-template-columns: 1fr;
     }
+}
+
+.footer-func .footer-brand .footer-logo {
+  font-size: 2rem;
+  font-weight: 800;
+  background: var(--gradient); /* MESMO GRADIENTE */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 1rem;
 }
