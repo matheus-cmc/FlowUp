@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funcionalidades - FlowUp</title>
+    <link rel="stylesheet" href="../css/funcionalidades.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar-func">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="nav-logo">
+                    <span class="logo-grad">FlowUp</span>
+                </a>
+                <div class="nav-menu">
+                    <a href="site.html" class="nav-link">Início</a>
+                    <a href="funcionalidades.html" class="nav-link active">Funcionalidades</a>
+                    <a href="planos.html" class="nav-link">Planos</a>
+                    <a href="equipe.html" class="nav-link">Equipe</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="login.html" class="btn btn-login">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                    <a href="planos.html" class="btn btn-primary">
+                        Começar Grátis
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero-func">
+        <div class="container">
+            <div class="hero-content">
+                <span class="badge-hero">
+                    <i class="fas fa-star"></i> TUDO EM UM SÓ LUGAR
+                </span>
+                <h1 class="hero-title">
+                    Funcionalidades que <span class="text-grad">transformam</span> sua produção
+                </h1>
+                <p class="hero-desc">
+                    Deixe a bagunça para trás e tenha controle total sobre cada etapa do seu conteúdo, 
+                    do planejamento à publicação.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-num">+85%</div>
+                        <div class="stat-label">Produtividade</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num">-60%</div>
+                        <div class="stat-label">Tempo perdido</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num">100%</div>
+                        <div class="stat-label">Visibilidade</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALENDÁRIO EDITORIAL -->
+    <section class="feature-section feature-calendar">
+        <div class="container">
+            <div class="feature-header">
+                <div class="feature-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h2>Calendário Editorial Inteligente</h2>
+                <p class="feature-subtitle">Visualize e gerencie toda sua programação em um calendário interativo</p>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-details">
+                    <h3>Planejamento visual completo</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Visão mensal e semanal</strong>
+                                <p>Alterne entre diferentes visualizações do seu cronograma</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Arraste e solte</strong>
+                                <p>Reagende posts com um simples arrastar na tela</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Cores por status</strong>
+                                <p>Verde = publicado, Amarelo = em produção, Vermelho = atrasado</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Lembretes automáticos</strong>
+                                <p>Notificações para prazos próximos e pendências</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="feature-preview">
+                    <div class="calendar-mockup">
+                        <div class="mockup-header">
+                            <h4>Calendário de Postagens - Janeiro 2025</h4>
+                            <div class="view-tabs">
+                                <button class="view-tab active">Mês</button>
+                                <button class="view-tab">Semana</button>
+                                <button class="view-tab">Lista</button>
+                            </div>
+                        </div>
+                        <div class="calendar-grid">
+                            <div class="weekdays">
+                                <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span>
+                                <span>Qui</span><span>Sex</span><span>Sáb</span>
+                            </div>
+                            <div class="calendar-days">
+                                <!-- Dias do mês -->
+                                <div class="day empty"></div>
+                                <div class="day">1</div>
+                                <div class="day has-event">
+                                    2
+                                    <span class="event-tag video">Vídeo</span>
+                                </div>
+                                <div class="day">3</div>
+                                <div class="day has-event">
+                                    4
+                                    <span class="event-tag approved">Aprovado</span>
+                                </div>
+                                <div class="day">5</div>
+                                <div class="day">6</div>
+                            </div>
+                        </div>
+                        <div class="mockup-footer">
+                            <div class="legend">
+                                <span class="legend-item"><div class="color video"></div>Vídeo</span>
+                                <span class="legend-item"><div class="color approved"></div>Aprovado</span>
+                                <span class="legend-item"><div class="color pending"></div>Pendente</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GESTÃO DE TAREFAS -->
+    <section class="feature-section feature-tasks">
+        <div class="container">
+            <div class="feature-header">
+                <div class="feature-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <h2>Gestão de Tarefas Colaborativa</h2>
+                <p class="feature-subtitle">Divida projetos em etapas e atribua responsáveis com prazos claros</p>
+            </div>
+            
+            <div class="feature-grid reverse">
+                <div class="feature-preview">
+                    <div class="kanban-mockup">
+                        <div class="kanban-board">
+                            <div class="kanban-column">
+                                <div class="column-header">
+                                    <h4>A Fazer</h4>
+                                    <span class="task-count">3</span>
+                                </div>
+                                <div class="task-card">
+                                    <div class="task-priority high"></div>
+                                    <div class="task-content">
+                                        <h5>Criar roteiro do vídeo</h5>
+                                        <div class="task-meta">
+                                            <span class="deadline"><i class="far fa-clock"></i> Hoje</span>
+                                            <div class="assignee">
+                                                <div class="avatar">CR</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kanban-column">
+                                <div class="column-header">
+                                    <h4>Em Produção</h4>
+                                    <span class="task-count">2</span>
+                                </div>
+                                <div class="task-card">
+                                    <div class="task-priority medium"></div>
+                                    <div class="task-content">
+                                        <h5>Editar post Instagram</h5>
+                                        <div class="task-meta">
+                                            <span class="deadline"><i class="far fa-clock"></i> Amanhã</span>
+                                            <div class="assignee">
+                                                <div class="avatar">AR</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feature-details">
+                    <h3>Pipeline visual de produção</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Quadro Kanban intuitivo</strong>
+                                <p>Veja cada conteúdo em qual etapa está</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Checklists detalhados</strong>
+                                <p>Divida grandes tarefas em pequenos passos</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Dependências entre tarefas</strong>
+                                <p>Defina o que precisa ser feito antes do quê</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Time tracking integrado</strong>
+                                <p>Saiba quanto tempo cada tarefa está consumindo</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- APROVAÇÕES -->
+    <section class="feature-section feature-approvals">
+        <div class="container">
+            <div class="feature-header">
+                <div class="feature-icon">
+                    <i class="fas fa-check-double"></i>
+                </div>
+                <h2>Aprovações Simplificadas</h2>
+                <p class="feature-subtitle">Processo de revisão e aprovação sem e-mails perdidos</p>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-details">
+                    <h3>Feedback direto na plataforma</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Comentários por trecho</strong>
+                                <p>Comente especificamente em partes do conteúdo</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Versões do arquivo</strong>
+                                <p>Acompanhe todas as alterações com histórico completo</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Aprovação em um clique</strong>
+                                <p>Cliente ou gestor aprova com um único clique</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Notificações inteligentes</strong>
+                                <p>Alertas automáticos quando algo precisa de atenção</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="feature-preview">
+                    <div class="approval-mockup">
+                        <div class="approval-card">
+                            <div class="approval-header">
+                                <div class="content-info">
+                                    <h5>Post: Campanha Verão 2025</h5>
+                                    <span class="status pending">Aguardando aprovação</span>
+                                </div>
+                                <div class="approval-actions">
+                                    <button class="btn-approve"><i class="fas fa-check"></i> Aprovar</button>
+                                    <button class="btn-reject"><i class="fas fa-times"></i> Revisar</button>
+                                </div>
+                            </div>
+                            <div class="approval-content">
+                                <div class="comment-thread">
+                                    <div class="comment">
+                                        <div class="comment-author">Ana (Designer)</div>
+                                        <div class="comment-text">Arte finalizada, pronta para revisão.</div>
+                                    </div>
+                                    <div class="comment client">
+                                        <div class="comment-author">Carlos (Cliente)</div>
+                                        <div class="comment-text">Podemos ajustar as cores para um tom mais vibrante?</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TODAS AS FUNCIONALIDADES -->
+    <section class="all-features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Todas as funcionalidades <span class="text-grad">em detalhes</span></h2>
+                <p class="section-subtitle">Cada ferramenta foi pensada para resolver problemas reais da produção de conteúdo</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Dashboard Analytics</h4>
+                    <p>Métricas de produtividade e desempenho em tempo real</p>
+                    <ul class="card-list">
+                        <li>Velocidade de produção</li>
+                        <li>Tempo médio por etapa</li>
+                        <li>Bottlenecks identificados</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Gestão de Equipe</h4>
+                    <p>Veja o que cada membro está fazendo e seus prazos</p>
+                    <ul class="card-list">
+                        <li>Carga de trabalho balanceada</li>
+                        <li>Disponibilidade dos membros</li>
+                        <li>Histórico de atividades</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="card-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h4>Integrações</h4>
+                    <p>Conecte com as ferramentas que você já usa</p>
+                    <ul class="card-list">
+                        <li>Google Drive & Docs</li>
+                        <li>Slack & Teams</li>
+                        <li>Canva & Adobe CC</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="card-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h4>Automatização</h4>
+                    <p>Automatize fluxos repetitivos e ganhe tempo</p>
+                    <ul class="card-list">
+                        <li>Templates de workflow</li>
+                        <li>Gatilhos automáticos</li>
+                        <li>Lembretes programados</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Pronto para transformar sua produção de conteúdo?</h2>
+                <p>Experimente todas essas funcionalidades gratuitamente por 14 dias. Sem compromisso.</p>
+                <div class="cta-buttons">
+                    <a href="planos.html" class="btn btn-primary btn-large">
+                        <i class="fas fa-rocket"></i> Começar Teste Grátis
+                    </a>
+                    <a href="#demo" class="btn btn-outline">
+                        <i class="fas fa-play-circle"></i> Ver Demonstração
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer-func">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">FlowUp</a>
+                    <p>A ferramenta de gestão de produção de conteúdo para times que querem escalar resultados.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Produto</h4>
+                        <a href="funcionalidades.html">Funcionalidades</a>
+                        <a href="planos.html">Planos</a>
+                        <a href="#">API</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Empresa</h4>
+                        <a href="equipe.html">Sobre</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Contato</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Recursos</h4>
+                        <a href="#">Documentação</a>
+                        <a href="#">Tutoriais</a>
+                        <a href="#">FAQ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 FlowUp. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

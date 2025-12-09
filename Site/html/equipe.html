@@ -1,118 +1,516 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Equipe - FlowUp</title>
-  <link rel="stylesheet" href="/Site/css/equipe.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipe - FlowUp</title>
+    <link rel="stylesheet" href="../css/equipe.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <!-- CABEÇALHO -->
-  <header class="navbar">
-    <div class="logo">FlowUp</div>
-    <nav class="menu">
-      <a href="/Site/html/site.html">Início</a>
-      <a href="/Site/html/funcionalidade.html">Funcionalidades</a>
-      <a href="/Site/html/planos.html">Planos</a>
-      <a href="/Site/html/equipe.html" class="active">Equipe</a>
+    <!-- NAVBAR -->
+    <nav class="navbar-equipe">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="nav-logo">
+                    <span class="logo-grad">FlowUp</span>
+                </a>
+                <div class="nav-menu">
+                    <a href="site.html" class="nav-link">Início</a>
+                    <a href="funcionalidades.html" class="nav-link">Funcionalidades</a>
+                    <a href="planos.html" class="nav-link">Planos</a>
+                    <a href="equipe.html" class="nav-link active">Equipe</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="login.html" class="btn btn-login">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                    <a href="planos.html" class="btn btn-primary">
+                        Começar Grátis
+                    </a>
+                </div>
+            </div>
+        </div>
     </nav>
-      <a href="/Login/html/login.html"><button class="signin">Login</button></a>
-  </header>
 
-  <!-- SEÇÃO PRINCIPAL -->
-  <section class="hero">
-    <div class="hero-text">
-      <h1>Nossa <span>Equipe</span></h1>
-      <p>Conheça os talentosos desenvolvedores por trás do FlowUp, unindo expertise técnica e criatividade para revolucionar a automação de redes sociais.</p>
-    </div>
-  </section>
+    <!-- HERO -->
+    <section class="hero-equipe">
+        <div class="container">
+            <div class="hero-content">
+                <span class="badge-hero">
+                    <i class="fas fa-users"></i> CONHEÇA A EQUIPE
+                </span>
+                <h1 class="hero-title">
+                    As pessoas por trás da <span class="text-grad">revolução</span>
+                </h1>
+                <p class="hero-desc">
+                    Somos um time de especialistas em gestão de projetos, tecnologia e conteúdo
+                    unidos por uma missão: acabar com o caos na produção criativa.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-num">15</div>
+                        <div class="stat-label">Membros</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num">2022</div>
+                        <div class="stat-label">Fundação</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num">+500</div>
+                        <div class="stat-label">Times atendidos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- EQUIPE PRINCIPAL -->
-  <section class="destinations">
-    <h2>Time de Desenvolvimento</h2>
-    <div class="card-grid">
-      <div class="card">
-        <div class="img agata"></div>
-        <h3>Agata Giovanna</h3>
-        <p class="role">Backend Developer</p>
-        <p>Especialista em arquitetura de sistemas e APIs robustas. Responsável pela lógica de negócio e integrações do FlowUp.</p>
-      </div>
-      <div class="card">
-        <div class="img erick"></div>
-        <h3>Erick Santos</h3>
-        <p class="role">Frontend Developer</p>
-        <p>Mestre em interfaces intuitivas e experiência do usuário. Transforma complexidade em simplicidade visual.</p>
-      </div>
-      <div class="card">
-        <div class="img matheus"></div>
-        <h3>Matheus Carvalho</h3>
-        <p class="role">Full Stack Developer</p>
-        <p>Versátil e completo, conecta frontend e backend com maestria. O elo que une todas as partes do projeto.</p>
-      </div>
-      <div class="card">
-        <div class="img mariana"></div>
-        <h3>Mariana Leite</h3>
-        <p class="role">Full Stack Developer</p>
-        <p>Multitalentosa e criativa, domina desde a interface até o banco de dados. Garante a coesão do sistema.</p>
-      </div>
-    </div>
-  </section>
+    <!-- NOSSA HISTÓRIA -->
+    <section class="historia-section">
+        <div class="container">
+            <div class="historia-grid">
+                <div class="historia-content">
+                    <h2>Nossa <span class="text-grad">História</span></h2>
+                    <p class="historia-text">
+                        O FlowUp nasceu em 2022 de uma dor real: enquanto trabalhávamos em agências
+                        de marketing e produção de conteúdo, vivíamos o caos de ter informações
+                        espalhadas em dezenas de ferramentas diferentes.
+                    </p>
+                    <p class="historia-text">
+                        Briefings no email, prazos no WhatsApp, arquivos no Google Drive, status
+                        em planilhas Excel... era impossível ter visibilidade do todo.
+                    </p>
+                    <p class="historia-text">
+                        Decidimos criar a ferramenta que sempre sonhamos ter: uma plataforma
+                        que centraliza toda a produção de conteúdo, do planejamento ao post final.
+                    </p>
+                    
+                    <div class="historia-valores">
+                        <h3>Nossos Valores</h3>
+                        <div class="valores-grid">
+                            <div class="valor-item">
+                                <i class="fas fa-eye"></i>
+                                <h4>Transparência</h4>
+                                <p>Comunicamos abertamente, sem segredos</p>
+                            </div>
+                            <div class="valor-item">
+                                <i class="fas fa-heart"></i>
+                                <h4>Paixão</h4>
+                                <p>Amamos o que fazemos e fazemos com amor</p>
+                            </div>
+                            <div class="valor-item">
+                                <i class="fas fa-rocket"></i>
+                                <h4>Inovação</h4>
+                                <p>Sempre buscamos melhorar e evoluir</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="historia-visual">
+                    <div class="office-image">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Equipe FlowUp trabalhando">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-quote-left"></i>
+                                <p>"Acreditamos que tecnologia deve simplificar, não complicar"</p>
+                                <span>— Equipe FlowUp</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- SOBRE A EQUIPE -->
-  <section class="stories">
-    <h2>Nossa Jornada</h2>
-    <div class="stories-grid">
-      <div class="story large">
-        <div class="img team-work"></div>
-        <h3>Colaboração & Inovação</h3>
-        <p>Unimos forças para criar uma solução completa de automação de redes sociais. Cada membro traz expertise única, formando um time coeso e complementar.</p>
-      </div>
-      <div class="story small">
-        <div class="img mission"></div>
-        <h3>Nossa Missão</h3>
-        <p>Simplificar a gestão de redes sociais para empresas e criadores de conteúdo, oferecendo ferramentas inteligentes que economizam tempo e aumentam resultados.</p>
-      </div>
-      <div class="story small">
-        <div class="img vision"></div>
-        <h3>Nossa Visão</h3>
-        <p>Ser a plataforma mais intuitiva e poderosa de automação de postagens, utilizando IA para potencializar a presença digital dos nossos usuários.</p>
-      </div>
-    </div>
-  </section>
+    <!-- LIDERANÇA -->
+    <section class="lideranca-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Liderança & <span class="text-grad">Fundadores</span></h2>
+                <p class="section-subtitle">Conheça quem está à frente da nossa missão</p>
+            </div>
+            
+            <div class="lideranca-grid">
+                <!-- Fundador 1 -->
+                <div class="membro-card lider">
+                    <div class="membro-foto">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Carlos Silva">
+                        <div class="membro-badge">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                    </div>
+                    <div class="membro-info">
+                        <h3 class="membro-nome">Carlos Silva</h3>
+                        <p class="membro-cargo">CEO & Co-fundador</p>
+                        <p class="membro-bio">
+                            Ex-gerente de produção em agência com 10+ anos de experiência.
+                            Especialista em fluxos de trabalho criativos e gestão de equipes.
+                        </p>
+                        <div class="membro-historico">
+                            <div class="historico-item">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Ex-AgencyPro</span>
+                            </div>
+                            <div class="historico-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>MBA Gestão</span>
+                            </div>
+                        </div>
+                        <div class="membro-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Fundador 2 -->
+                <div class="membro-card lider">
+                    <div class="membro-foto">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Ana Rodrigues">
+                        <div class="membro-badge">
+                            <i class="fas fa-code"></i>
+                        </div>
+                    </div>
+                    <div class="membro-info">
+                        <h3 class="membro-nome">Ana Rodrigues</h3>
+                        <p class="membro-cargo">CTO & Co-fundadora</p>
+                        <p class="membro-bio">
+                            Engenheira de software com background em UX. Acredita que
+                            tecnologia deve ser invisível e intuitiva para o usuário final.
+                        </p>
+                        <div class="membro-historico">
+                            <div class="historico-item">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Ex-Google</span>
+                            </div>
+                            <div class="historico-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Ciência da Computação</span>
+                            </div>
+                        </div>
+                        <div class="membro-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- DESTAQUE DA EQUIPE -->
-  <section class="highlights">
-    <h2>Por Que Escolhemos Este Projeto?</h2>
-    <div class="highlight-content">
-      <div class="profile">
-        <h3>FlowUp - Mais Que Um Projeto</h3>
-        <p>Escolhemos desenvolver o <strong>FlowUp</strong> porque acreditamos que a gestão de redes sociais pode ser mais eficiente e inteligente. Vivemos em um mundo onde a presença digital é crucial, mas o tempo é limitado.</p>
-        <p>Nossa equipe identificou a necessidade de uma solução que una automação prática com analytics poderosos, tudo em uma interface amigável. Cada membro contribui com suas habilidades específicas para tornar essa visão realidade.</p>
-        <button class="primary-btn">Conheça o Projeto</button>
-      </div>
-      <div class="img team-collab"></div>
-    </div>
-  </section>
+    <!-- TIME COMPLETO -->
+    <section class="time-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nosso <span class="text-grad">Time</span> Completo</h2>
+                <p class="section-subtitle">Especialistas apaixonados por resolver problemas complexos</p>
+            </div>
+            
+            <div class="time-categorias">
+                <!-- Desenvolvimento -->
+                <div class="categoria">
+                    <h3 class="categoria-titulo">
+                        <i class="fas fa-code"></i>
+                        Desenvolvimento & Tecnologia
+                    </h3>
+                    <div class="categoria-grid">
+                        <div class="membro-card">
+                            <div class="membro-avatar">
+                                <div class="avatar-iniciais">RS</div>
+                            </div>
+                            <div class="membro-info">
+                                <h4 class="membro-nome">Rafael Santos</h4>
+                                <p class="membro-cargo">Senior Frontend Developer</p>
+                                <p class="membro-bio">
+                                    Especialista em React e experiência do usuário. Ama criar
+                                    interfaces que são tão bonitas quanto funcionais.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="membro-card">
+                            <div class="membro-avatar">
+                                <div class="avatar-iniciais">PM</div>
+                            </div>
+                            <div class="membro-info">
+                                <h4 class="membro-nome">Patrícia Mendes</h4>
+                                <p class="membro-cargo">Backend Developer</p>
+                                <p class="membro-bio">
+                                    Desenvolvedora Python e Django. Garante que tudo funcione rápido
+                                    e seguro nos bastidores.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="membro-card">
+                            <div class="membro-avatar">
+                                <div class="avatar-iniciais">LS</div>
+                            </div>
+                            <div class="membro-info">
+                                <h4 class="membro-nome">Lucas Souza</h4>
+                                <p class="membro-cargo">DevOps Engineer</p>
+                                <p class="membro-bio">
+                                    Mantém a infraestrutura 99.9% disponível. Especialista em AWS
+                                    e monitoramento de sistemas.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Produto & Design -->
+                <div class="categoria">
+                    <h3 class="categoria-titulo">
+                        <i class="fas fa-paint-brush"></i>
+                        Produto & Design
+                    </h3>
+                    <div class="categoria-grid">
+                        <div class="membro-card">
+                            <div class="membro-avatar">
+                                <div class="avatar-iniciais">MO</div>
+                            </div>
+                            <div class="membro-info">
+                                <h4 class="membro-nome">Marcos Oliveira</h4>
+                                <p class="membro-cargo">Head de Produto</p>
+                                <p class="membro-bio">
+                                    Product Manager com experiência em SaaS B2B. Conecta necessidades
+                                    dos clientes com soluções técnicas.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="membro-card">
+                            <div class="membro-foto">
+                                <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Juliana Costa">
+                            </div>
+                            <div class="membro-info">
+                                <h4 class="membro-nome">Juliana Costa</h4>
+                                <p class="membro-cargo">UX/UI Designer</p>
+                                <p class="membro-bio">
+                                    Transforma problemas complexos em interfaces simples e intuitivas.
+                                    Especialista em design systems.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sucesso do Cliente -->
+                <div class="categoria">
+                    <h3 class="categoria-titulo">
+                        <i class="fas fa-headset"></i>
+                        Sucesso do Cliente
+                    </h3>
+                    <div class="categoria-grid">
+                        <div class="membro-card">
+                            <div class="membro-avatar">
+                                <div class="avatar-iniciais">JC</div>
+                            </div>
+                            <div class="membro-info">
+                                <h4 class="membro-nome">João Carvalho</h4>
+                                <p class="membro-cargo">Head de Sucesso do Cliente</p>
+                                <p class="membro-bio">
+                                    Garante que cada cliente tenha a melhor experiência possível.
+                                    Especialista em onboarding e treinamento.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="membro-card">
+                            <div class="membro-avatar">
+                                <div class="avatar-iniciais">TR</div>
+                            </div>
+                            <div class="membro-info">
+                                <h4 class="membro-nome">Thiago Rocha</h4>
+                                <p class="membro-cargo">Customer Support Specialist</p>
+                                <p class="membro-bio">
+                                    Resolve problemas técnicos com paciência e expertise. Sabe
+                                    exatamente como ajudar em cada situação.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- RODAPÉ + NEWSLETTER -->
-  <footer class="footer-news">
-    <div class="newsletter-combined">
-      <h2>Fique Por Dentro das Novidades</h2>
-      <form>
-        <input type="email" placeholder="Digite seu e-mail">
-        <button type="submit">Inscrever-se</button>
-      </form>
-    </div>
+    <!-- CULTURA -->
+    <section class="cultura-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nossa <span class="text-grad">Cultura</span></h2>
+                <p class="section-subtitle">O ambiente que construímos juntos</p>
+            </div>
+            
+            <div class="cultura-grid">
+                <div class="cultura-card">
+                    <div class="cultura-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Trabalho Remoto</h3>
+                    <p>Equipe distribuída pelo Brasil, com flexibilidade total de horários</p>
+                </div>
+                
+                <div class="cultura-card">
+                    <div class="cultura-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Aprendizado Contínuo</h3>
+                    <p>Orçamento anual para cursos, livros e conferências</p>
+                </div>
+                
+                <div class="cultura-card">
+                    <div class="cultura-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Equilíbrio</h3>
+                    <p>Horários flexíveis e foco em resultados, não em horas trabalhadas</p>
+                </div>
+                
+                <div class="cultura-card">
+                    <div class="cultura-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>Colaboração</h3>
+                    <p>Reuniões semanais de alinhamento e muito trabalho em equipe</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="footer-content">
-      <div class="footer-logo">FlowUp</div>
-      <div class="footer-links">
-        <a href="#">Sobre</a>
-        <a href="#">Privacidade</a>
-        <a href="#">Contato</a>
-      </div>
-    </div>
-    <p class="copy">&copy; 2025 FlowUp - Desenvolvido com ❤️ por Agata, Erick, Matheus e Mariana</p>
-  </footer>
+    <!-- TRABALHE CONOSCO -->
+    <section class="trabalhe-section">
+        <div class="container">
+            <div class="trabalhe-content">
+                <div class="trabalhe-texto">
+                    <h2>Quer fazer parte <span class="text-grad">do time?</span></h2>
+                    <p class="trabalhe-desc">
+                        Estamos sempre buscando pessoas talentosas e apaixonadas por resolver
+                        problemas complexos com tecnologia.
+                    </p>
+                    <a href="mailto:carreiras@flowup.com" class="btn btn-primary btn-large">
+                        <i class="fas fa-paper-plane"></i>
+                        Enviar Currículo
+                    </a>
+                </div>
+                
+                <div class="trabalhe-beneficios">
+                    <h3>Benefícios:</h3>
+                    <ul class="beneficios-list">
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <div>
+                                <strong>Trabalho remoto</strong>
+                                <p>Escolha onde trabalhar</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <div>
+                                <strong>Plano de saúde</strong>
+                                <p>Saúde e odontológico completo</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <div>
+                                <strong>Vale-refeição</strong>
+                                <p>Alimentação e refeição</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <div>
+                                <strong>Home office allowance</strong>
+                                <p>Equipamento para trabalhar melhor</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer-equipe">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">FlowUp</a>
+                    <p>A ferramenta de gestão de produção de conteúdo para times que querem escalar resultados.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Produto</h4>
+                        <a href="funcionalidades.html">Funcionalidades</a>
+                        <a href="planos.html">Planos</a>
+                        <a href="#">API</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Empresa</h4>
+                        <a href="equipe.html">Sobre</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Contato</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Recursos</h4>
+                        <a href="#">Documentação</a>
+                        <a href="#">Tutoriais</a>
+                        <a href="#">FAQ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 FlowUp. Todos os direitos reservados.</p>
+                <div class="footer-cta">
+                    <a href="planos.html" class="btn btn-outline-light">
+                        Começar Teste Grátis
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animação suave ao hover dos cards
+        const memberCards = document.querySelectorAll('.membro-card');
+        
+        memberCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Efeito de fade-in para elementos ao scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observar elementos para animação
+        document.querySelectorAll('.membro-card, .cultura-card, .valor-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
