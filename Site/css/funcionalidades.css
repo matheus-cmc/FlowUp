@@ -240,19 +240,16 @@ h4 { font-size: 1.3rem; }
 }
 
 .stat-num {
-    font-size: 2.5rem;
-    font-weight: 800;
-    background: var(--gradient);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
     line-height: 1;
+    margin-bottom: 4px;
 }
 
 .stat-label {
     font-size: 0.95rem;
     color: var(--text-light);
-    margin-top: 8px;
     font-weight: 500;
 }
 
@@ -276,19 +273,6 @@ h4 { font-size: 1.3rem; }
 .feature-header {
     text-align: center;
     margin-bottom: 60px;
-}
-
-.feature-icon {
-    width: 80px;
-    height: 80px;
-    background: var(--gradient-light);
-    border-radius: var(--radius);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 24px;
-    font-size: 2rem;
-    color: var(--primary);
 }
 
 .feature-subtitle {
