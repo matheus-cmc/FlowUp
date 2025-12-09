@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname, "src/public")));
 
 // ROTA PRINCIPAL
 app.get("/", (req, res) => {
-    res.render("site"); // dashboard.ejs
+    res.render("equipe_site"); // dashboard.ejs
 });
 
 // Porta

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FlowUp - Automação de Postagens</title>
-  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="/css/site.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
@@ -14,12 +14,12 @@
     <div class="container">
       <div class="logo">FlowUp</div>
       <nav class="menu">
-        <a href="#inicio" class="nav-link">Início</a>
-        <a href="funcionalidade_site.ejs" class="nav-link">Funcionalidades</a>
-        <a href="#planos" class="nav-link">Planos</a>
-        <a href="#equipe" class="nav-link">Equipe</a>
+        <a href="/" class="nav-link active">Início</a>
+        <a href="/funcionalidades" class="nav-link">Funcionalidades</a>
+        <a href="/planos" class="nav-link">Planos</a>
+        <a href="/equipe" class="nav-link">Equipe</a>
       </nav>
-      <a href="/Login/html/login.html" class="btn-signin">Login</a>
+      <a href="/login" class="btn-signin">Login</a>
       <button class="mobile-menu-btn">
         <i class="fas fa-bars"></i>
       </button>
@@ -181,7 +181,7 @@
             <div class="panel-card-body">
               <h3>Pipeline de produção</h3>
               <p>Veja cada conteúdo em qual etapa está: briefing, produção, revisão ou publicado.</p>
-              <a href="#" class="panel-link">Ver exemplo <i class="fas fa-arrow-right"></i></a>
+              <a href="/funcionalidades" class="panel-link">Ver exemplo <i class="fas fa-arrow-right"></i></a>
             </div>
           </article>
           <article class="panel-card">
@@ -193,7 +193,7 @@
             <div class="panel-card-body">
               <h3>Planejamento mensal + calendário</h3>
               <p>Visualize o mês inteiro e programe entregas com antecedência.</p>
-              <a href="#" class="panel-link">Ver exemplo <i class="fas fa-arrow-right"></i></a>
+              <a href="/funcionalidades" class="panel-link">Ver exemplo <i class="fas fa-arrow-right"></i></a>
             </div>
           </article>
           <article class="panel-card">
@@ -205,7 +205,7 @@
             <div class="panel-card-body">
               <h3>Dashboard da equipe</h3>
               <p>Cada membro vê suas tarefas priorizadas e organizadas.</p>
-              <a href="#" class="panel-link">Ver exemplo <i class="fas fa-arrow-right"></i></a>
+              <a href="/funcionalidades" class="panel-link">Ver exemplo <i class="fas fa-arrow-right"></i></a>
             </div>
           </article>
           <article class="panel-card">
@@ -217,80 +217,14 @@
             <div class="panel-card-body">
               <h3>Aprovações sem fricção</h3>
               <p>Cliente ou gestor aprova direto na plataforma, sem e-mail ou mensagem solta.</p>
-              <a href="#" class="panel-link">Ver exemplo <i class="fas fa-arrow-right"></i></a>
+              <a href="/funcionalidades" class="panel-link">Ver exemplo <i class="fas fa-arrow-right"></i></a>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- FEITO PARA A ROTINA REAL -->
-    <section class="section features-real">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Feito para a rotina real de produção de conteúdo</h2>
-          <p class="section-subtitle">
-            Recursos pensados para eliminar fricção e aumentar produtividade da sua equipe.
-          </p>
-        </div>
-        <div class="features-grid">
-          <article class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-columns"></i>
-            </div>
-            <div class="feature-content">
-              <h3>Gestão por status</h3>
-              <p>Cartões visuais organizados por etapa (To do, Doing, Review, Done).</p>
-            </div>
-          </article>
-          <article class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-calendar-week"></i>
-            </div>
-            <div class="feature-content">
-              <h3>Planejamento mensal + calendário</h3>
-              <p>Visualize o mês inteiro e programe entregas com antecedência.</p>
-            </div>
-          </article>
-          <article class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-user-clock"></i>
-            </div>
-            <div class="feature-content">
-              <h3>Dashboard da equipe</h3>
-              <p>Cada membro vê suas tarefas priorizadas e organizadas.</p>
-            </div>
-          </article>
-          <article class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-file-alt"></i>
-            </div>
-            <div class="feature-content">
-              <h3>Briefing integrado</h3>
-              <p>Tudo que o time precisa saber está dentro do card da tarefa.</p>
-            </div>
-          </article>
-          <article class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-history"></i>
-            </div>
-            <div class="feature-content">
-              <h3>Histórico de entregas e aprovações</h3>
-              <p>Rastreie quem fez o quê e quando cada etapa aconteceu.</p>
-            </div>
-          </article>
-          <article class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-robot"></i>
-            </div>
-            <div class="feature-content">
-              <h3>Automatizações inteligentes</h3>
-              <p>Notificações, lembretes e fluxos que rodam sozinhos.</p>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
+    
 
     <!-- FLUXO HORIZONTAL -->
     <section class="section flow">
@@ -392,90 +326,6 @@
       </div>
     </section>
 
-    <!-- CTA PLANOS -->
-    <section class="section cta" id="planos">
-      <div class="container">
-        <div class="cta-content">
-          <h2 class="section-title">Cresça com uma operação organizada</h2>
-          <p class="section-subtitle">
-            Planos flexíveis que crescem com sua equipe. Comece pequeno e escale conforme sua produção aumenta.
-          </p>
-          <div class="cta-actions">
-            <button class="btn btn-primary btn-large">
-              <i class="fas fa-rocket"></i>
-              Ver planos e preços
-            </button>
-            <button class="btn btn-secondary btn-large">
-              <i class="fas fa-comment-alt"></i>
-              Falar com especialista
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SOBRE / EQUIPE -->
-    <section class="section about" id="equipe">
-      <div class="container">
-        <div class="about-grid">
-          <div class="about-content">
-            <h2 class="section-title">Criado por quem vive o dia a dia de agência</h2>
-            <p>
-              FlowUp nasceu da experiência real de gerenciar produção de conteúdo para múltiplos clientes.
-              Conhecemos suas dores porque já estivemos aí.
-            </p>
-            <p>
-              Nossa equipe combina anos de experiência em agências digitais, social media e desenvolvimento
-              de produtos para criar a ferramenta que gostaríamos de ter tido.
-            </p>
-            <button class="btn btn-secondary">
-              <i class="fas fa-users"></i>
-              Conheça a equipe
-            </button>
-          </div>
-          <div class="about-visual">
-            <div class="team-photo">
-              <div class="team-member">
-                <div class="member-avatar">
-                  <img src="/img/matheus.png" alt="Membro da equipe">
-                </div>
-                <div class="member-info">
-                  <h4>Matheus Carvalho</h4>
-                  <p>CEO & Founder</p>
-                </div>
-              </div>
-              <div class="team-member">
-                <div class="member-avatar">
-                  <img src="/img/mariana.png" alt="Membro da equipe">
-                </div>
-                <div class="member-info">
-                  <h4>Mariana Leite</h4>
-                  <p>Head de Produto</p>
-                </div>
-              </div>
-              <div class="team-member">
-                <div class="member-avatar">
-                  <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Membro da equipe">
-                </div>
-                <div class="member-info">
-                  <h4>Carlos Oliveira</h4>
-                  <p>CTO</p>
-                </div>
-              </div>
-              <div class="team-member">
-                <div class="member-avatar">
-                  <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Membro da equipe">
-                </div>
-                <div class="member-info">
-                  <h4>Ana Costa</h4>
-                  <p>Head de Marketing</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <!-- RODAPÉ -->
@@ -494,14 +344,14 @@
         </div>
         <div class="footer-links">
           <h4>Produto</h4>
-          <a href="#funcionalidades">Funcionalidades</a>
-          <a href="#planos">Planos</a>
+          <a href="/funcionalidades">Funcionalidades</a>
+          <a href="/planos">Planos</a>
           <a href="#">API</a>
           <a href="#">Status</a>
         </div>
         <div class="footer-links">
           <h4>Empresa</h4>
-          <a href="#equipe">Sobre</a>
+          <a href="/equipe">Sobre</a>
           <a href="#">Blog</a>
           <a href="#">Carreiras</a>
           <a href="#">Contato</a>
@@ -530,6 +380,6 @@
     </div>
   </footer>
 
-  <script src="js/site.js"></script>
+  <script src="/js/site.js"></script>
 </body>
 </html>

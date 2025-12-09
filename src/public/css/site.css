@@ -733,52 +733,6 @@ h2 {
   z-index: 2;
 }
 
-/* Responsividade para fluxo horizontal */
-@media (max-width: 1200px) {
-  .flow-steps {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 3rem;
-  }
-  
-  .step-card {
-    flex: 0 0 calc(33.333% - 3rem);
-    max-width: calc(33.333% - 3rem);
-  }
-  
-  .flow-line {
-    display: none;
-  }
-  
-  .step-card:not(:last-child)::after {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .step-card {
-    flex: 0 0 calc(50% - 3rem);
-    max-width: calc(50% - 3rem);
-  }
-}
-
-@media (max-width: 480px) {
-  .flow-steps {
-    flex-direction: column;
-    align-items: center;
-    gap: 3rem;
-  }
-  
-  .step-card {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-  
-  .step-content {
-    min-height: auto;
-  }
-}
-
 /* ===== SEGMENTOS ===== */
 .segments {
   padding: 6rem 0;
@@ -1012,6 +966,11 @@ h2 {
   padding-left: 5px;
 }
 
+.footer-newsletter {
+  display: flex;
+  flex-direction: column;
+}
+
 .footer-newsletter h4 {
   color: white;
   font-size: 1.125rem;
@@ -1157,9 +1116,4 @@ h2 {
   .footer-content {
     grid-template-columns: 1fr;
   }
-}
-
-.hero-frame {
-  background: var(--color-white); /* Ou outra cor de fundo */
-  overflow: hidden; /* Evitar vazamentos */
 }
