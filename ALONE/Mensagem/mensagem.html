@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlowUp • Mensagens</title>
+  <link rel="stylesheet" href="/Menu/menu.css">
+  <link rel="stylesheet" href="/Mensagem/mensagem.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+          <span>FlowUp</span>
+      </div>
+
+      <nav class="nav">
+        <a href="/Menu/menu.html">
+          <div class="ico i-analytics"></div><span>Mapa Geral</span>
+        </a>
+        <a href="/Planejamento/planejamento.html">
+          <div class="ico i-planning"></div><span>Planejamento Mensal</span>
+        </a>
+        <a href="#">
+          <div class="ico i-post"></div><span>Agendamento de Postagem</span>
+        </a>
+        <a href="#">
+          <div class="ico i-calendar"></div><span>Calendário de Postagem</span>
+        </a>
+        <a href="#">
+          <div class="ico i-manage"></div><span>Gestão de Projetos</span>
+        </a>
+        <a href="/Briefing/briefing.html">
+          <div class="ico i-briefing"></div><span>Briefing</span>
+        </a>
+        <a href="#">
+          <div class="ico i-team"></div><span>Equipe</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="company">
+        <div class="avatar" title="Logo da Empresa"></div>
+        <div class="custom-select">
+          <div class="select-selected">
+            <span>Empresa A</span>
+            <div class="select-arrow"></div>
+          </div>
+          <div class="select-items">
+            <div class="select-option" data-value="Empresa A">
+              <div class="option-avatar"></div>
+              <span>Empresa A</span>
+            </div>
+            <div class="select-option" data-value="Empresa B">
+              <div class="option-avatar"></div>
+              <span>Empresa B</span>
+            </div>
+            <div class="select-option" data-value="Empresa C">
+              <div class="option-avatar"></div>
+              <span>Empresa C</span>
+            </div>
+            <div class="select-divider"></div>
+            <div class="select-option select-new-company" data-value="new" id="addCompanyBtn">
+              <div class="option-avatar new-company-icon"></div>
+              <span>Cadastrar empresa nova</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="user" id="user-menu-trigger">
+        <div>
+          <div class="name">Alone Souza</div>
+          <div class="role">Profissional</div>
+        </div>
+        <div class="avatar" title="Seu perfil"></div>
+        
+        <div class="user-menu" id="user-menu">
+          <div class="user-menu-header">
+            <div class="user-menu-avatar"></div>
+            <div class="user-menu-info">
+              <div class="user-menu-name">Alone Souza</div>
+              <div class="user-menu-email">alone.souza@flowup.com</div>
+            </div>
+          </div>
+          <div class="user-menu-divider"></div>
+          <a href="/Perfil/perfil.html" class="user-menu-item">
+            <div class="user-menu-icon i-profile"></div>
+            <span>Meu Perfil</span>
+          </a>
+          <a href="/Mensagem/mensagem.html" class="user-menu-item">
+            <div class="user-menu-icon i-messages"></div>
+            <span>Mensagens</span>
+            <span class="user-menu-badge">3</span>
+          </a>
+          <a href="/Configuração/config.html" class="user-menu-item">
+            <div class="user-menu-icon i-settings"></div>
+            <span>Configurações</span>
+          </a>
+          <div class="user-menu-divider"></div>
+          <a href="#" class="user-menu-item">
+            <div class="user-menu-icon i-logout"></div>
+            <span>Sair</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="main messages-main">
+      <div class="messages-container">
+        <!-- Lista de Conversas -->
+        <div class="conversations-sidebar">
+          <div class="conversations-header">
+            <h2>Mensagens</h2>
+            <button class="new-message-btn" id="newMessageBtn">
+              <div class="new-message-icon"></div>
+              Nova Mensagem
+            </button>
+          </div>
+          
+          <div class="conversations-search">
+            <div class="search-input">
+              <div class="search-icon"></div>
+              <input type="text" placeholder="Buscar conversas..." id="conversationSearch">
+            </div>
+          </div>
+          
+          <div class="conversations-list" id="conversationsList">
+            <!-- Conversas serão carregadas via JavaScript -->
+          </div>
+        </div>
+
+        <!-- Área de Chat -->
+        <div class="chat-area" id="chatArea">
+          <div class="no-conversation-selected" id="noConversation">
+            <div class="no-conversation-icon"></div>
+            <h3>Nenhuma conversa selecionada</h3>
+            <p>Selecione uma conversa para começar a enviar mensagens</p>
+          </div>
+          
+          <div class="chat-content" id="chatContent" style="display: none;">
+            <div class="chat-header">
+              <div class="chat-user">
+                <div class="chat-user-avatar" id="currentUserAvatar"></div>
+                <div class="chat-user-info">
+                  <div class="chat-user-name" id="currentUserName">Selecione uma conversa</div>
+                  <div class="chat-user-status" id="currentUserStatus">Offline</div>
+                </div>
+              </div>
+              <div class="chat-actions">
+                <button class="chat-action-btn" title="Informações">
+                  <div class="action-icon i-info"></div>
+                </button>
+                <button class="chat-action-btn" title="Buscar">
+                  <div class="action-icon i-search"></div>
+                </button>
+              </div>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+              <!-- Mensagens serão carregadas via JavaScript -->
+            </div>
+            
+            <div class="chat-input-container">
+              <div class="chat-input">
+                <div class="input-actions">
+                  <button class="input-action-btn" title="Anexar arquivo">
+                    <div class="action-icon i-attach"></div>
+                  </button>
+                  <button class="input-action-btn" title="Emojis">
+                    <div class="action-icon i-emoji"></div>
+                  </button>
+                </div>
+                <div class="chat-input-area">
+                  <input type="text" placeholder="Digite sua mensagem..." id="messageInput">
+                </div>
+                <button class="send-btn" id="sendBtn" title="Enviar mensagem">
+                  <div class="send-icon"></div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Nova Mensagem -->
+  <div class="modal" id="newMessageModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Nova Mensagem</h3>
+        <button class="modal-close" id="newMessageModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="recipient">Para</label>
+          <select id="recipient">
+            <option value="">Selecione um destinatário</option>
+            <option value="maria">Maria Silva</option>
+            <option value="joao">João Santos</option>
+            <option value="ana">Ana Costa</option>
+            <option value="equipe">Equipe FlowUp</option>
+            <option value="carlos">Carlos Mendes</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="newMessage">Mensagem</label>
+          <textarea id="newMessage" placeholder="Digite sua mensagem..." rows="4"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="newMessageCancelBtn">Cancelar</button>
+        <button type="button" class="btn-primary" id="newMessageSendBtn">Enviar Mensagem</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Nova Empresa -->
+  <div class="modal" id="newCompanyModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Cadastrar Nova Empresa</h3>
+        <button class="modal-close" id="newCompanyModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="companyName">Nome da Empresa</label>
+          <input type="text" id="companyName" placeholder="Digite o nome da empresa">
+        </div>
+        <div class="form-group">
+          <label for="companyEmail">Email</label>
+          <input type="email" id="companyEmail" placeholder="email@empresa.com">
+        </div>
+        <div class="form-group">
+          <label for="companyIndustry">Ramo de Atuação</label>
+          <select id="companyIndustry">
+            <option value="">Selecione o ramo</option>
+            <option value="tecnologia">Tecnologia</option>
+            <option value="marketing">Marketing</option>
+            <option value="varejo">Varejo</option>
+            <option value="servicos">Serviços</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="newCompanyCancelBtn">Cancelar</button>
+        <button type="button" class="btn-primary" id="newCompanySaveBtn">Salvar Empresa</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/Menu/menu.js"></script>
+  <script src="/Mensagem/mensag.js"></script>
+</body>
+</html>
