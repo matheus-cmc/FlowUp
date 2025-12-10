@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/Menu/css/menu.css">
   <link rel="stylesheet" href="/Menu/css/agendamento.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <div class="app">
@@ -17,26 +18,33 @@
       </div>
 
       <nav class="nav">
-        <a href="/Menu/html/mapa.html" class="active">
-          <div class="ico i-analytics"></div><span>Mapa Geral</span>
+        <a href="/Menu/html/menu.html">
+          <div class="ico i-analytics"></div>
+          <span>Mapa Geral</span>
         </a>
         <a href="/Menu/html/planejamento.html">
-          <div class="ico i-planning"></div><span>Planejamento Mensal</span>
+          <div class="ico i-planning"></div>
+          <span>Planejamento Mensal</span>
         </a>
-        <a href="/Menu/html/agendamento.html">
-          <div class="ico i-post"></div><span>Agendamento de Postagem</span>
+        <a href="/Menu/html/agendamento.html" class="active">
+          <div class="ico i-post"></div>
+          <span>Agendamento de Postagem</span>
         </a>
         <a href="/Menu/html/calendario.html">
-          <div class="ico i-calendar"></div><span>Calendário de Postagem</span>
+          <div class="ico i-calendar"></div>
+          <span>Calendário de Postagem</span>
         </a>
         <a href="/Menu/html/gestao.html">
-          <div class="ico i-manage"></div><span>Gestão de Projetos</span>
+          <div class="ico i-manage"></div>
+          <span>Gestão de Projetos</span>
         </a>
         <a href="/Menu/html/briefing.html">
-          <div class="ico i-briefing"></div><span>Briefing</span>
+          <div class="ico i-briefing"></div>
+          <span>Briefing</span>
         </a>
         <a href="/Menu/html/equipe.html">
-          <div class="ico i-team"></div><span>Equipe</span>
+          <div class="ico i-team"></div>
+          <span>Equipe</span>
         </a>
       </nav>
     </aside>
@@ -123,7 +131,10 @@
           </div>
           <div class="header-actions">
             <button class="btn-primary" id="importarProjetosBtn">
-              <span class="btn-icon">📥</span> Importar Projetos Concluídos
+              <i class="fas fa-download btn-icon"></i> Importar Projetos
+            </button>
+            <button class="btn-primary btn-gradient" id="novoAgendamentoBtn">
+              <i class="fas fa-plus btn-icon"></i> Novo Agendamento
             </button>
           </div>
         </div>
@@ -131,8 +142,8 @@
         <!-- Barra de Filtros -->
         <div class="filters-bar">
           <div class="search-box">
-            <input type="text" id="searchProjeto" placeholder="Buscar por título...">
-            <div class="search-icon"></div>
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchProjeto" placeholder="Buscar por título, descrição...">
           </div>
 
           <div class="filters-right">
@@ -151,6 +162,7 @@
                 <option value="pronto">Pronto para Agendar</option>
                 <option value="agendado">Agendado</option>
                 <option value="publicado">Publicado</option>
+                <option value="rascunho">Rascunho</option>
               </select>
 
               <select class="filter-select" id="mesFilter">
@@ -170,7 +182,52 @@
               </select>
             </div>
 
-            <button type="button" class="btn-clear-filters" id="clearFiltersBtn">Limpar filtros</button>
+            <button type="button" class="btn-clear-filters" id="clearFiltersBtn">
+              <i class="fas fa-times"></i> Limpar filtros
+            </button>
+          </div>
+        </div>
+
+        <!-- Cards de Estatísticas -->
+        <div class="stats-cards">
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(109, 40, 217, 0.1);">
+              <i class="fas fa-clock" style="color: #6d28d9;"></i>
+            </div>
+            <div class="stat-info">
+              <h3 id="totalAgendamentos">12</h3>
+              <p>Total Agendados</p>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(236, 72, 153, 0.1);">
+              <i class="fas fa-check-circle" style="color: #ec4899;"></i>
+            </div>
+            <div class="stat-info">
+              <h3 id="totalPublicados">8</h3>
+              <p>Publicados</p>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1);">
+              <i class="fas fa-calendar-alt" style="color: #f59e0b;"></i>
+            </div>
+            <div class="stat-info">
+              <h3 id="totalHoje">2</h3>
+              <p>Para Hoje</p>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1);">
+              <i class="fas fa-exclamation-triangle" style="color: #3b82f6;"></i>
+            </div>
+            <div class="stat-info">
+              <h3 id="totalAtrasados">1</h3>
+              <p>Atrasados</p>
+            </div>
           </div>
         </div>
 
@@ -180,6 +237,7 @@
           <aside class="agendamento-sidebar">
             <div class="sidebar-header">
               <h3>Meus Agendamentos</h3>
+              <div class="sidebar-count" id="agendamentosCount">8 itens</div>
             </div>
             
             <div class="agendamento-list" id="agendamentoList">
@@ -191,21 +249,29 @@
           <section class="agendamento-panel">
             <div class="panel-placeholder" id="panelPlaceholder">
               <div class="placeholder-content">
-                <div class="placeholder-icon">📱</div>
+                <div class="placeholder-icon">
+                  <i class="fas fa-calendar-plus"></i>
+                </div>
                 <h3>Selecione um agendamento</h3>
                 <p>Escolha um agendamento da lista ao lado para visualizar ou editar</p>
+                <button class="btn-primary btn-gradient" id="criarPrimeiroBtn">
+                  <i class="fas fa-plus btn-icon"></i> Criar Primeiro Agendamento
+                </button>
               </div>
             </div>
 
-            <div class="panel-content" id="panelContent" style="display: none;">
+            <div class="panel-content" id="panelContent">
               <div class="panel-header">
                 <h2 id="panelTitulo">Título do Projeto</h2>
                 <div class="panel-actions">
                   <button class="btn-secondary" id="editarAgendamentoBtn">
-                    <span class="btn-icon">✏️</span> Editar
+                    <i class="fas fa-edit btn-icon"></i> Editar
                   </button>
-                  <button class="btn-primary" id="agendarNovamenteBtn">
-                    <span class="btn-icon">📅</span> Agendar Novamente
+                  <button class="btn-secondary btn-danger" id="excluirAgendamentoBtn">
+                    <i class="fas fa-trash btn-icon"></i> Excluir
+                  </button>
+                  <button class="btn-primary btn-gradient" id="agendarNovamenteBtn">
+                    <i class="fas fa-calendar-plus btn-icon"></i> Agendar Novamente
                   </button>
                 </div>
               </div>
@@ -214,38 +280,52 @@
                 <div class="detail-grid">
                   <div class="detail-group">
                     <label>Tipo de Conteúdo</label>
-                    <p id="panelTipo">-</p>
+                    <div class="detail-value">
+                      <span class="content-type-badge" id="panelTipo">Reels</span>
+                    </div>
                   </div>
                   <div class="detail-group">
                     <label>Status</label>
-                    <div id="panelStatus">-</div>
+                    <div class="detail-value">
+                      <span class="status-badge" id="panelStatus">Agendado</span>
+                    </div>
                   </div>
                   <div class="detail-group">
                     <label>Data de Agendamento</label>
-                    <p id="panelData">-</p>
+                    <p id="panelData" class="detail-value">-</p>
                   </div>
                   <div class="detail-group">
                     <label>Plataforma</label>
-                    <p id="panelPlataforma">-</p>
+                    <p id="panelPlataforma" class="detail-value">
+                      <i class="fab fa-instagram"></i> Instagram
+                    </p>
+                  </div>
+                  <div class="detail-group">
+                    <label>Horário</label>
+                    <p id="panelHorario" class="detail-value">-</p>
+                  </div>
+                  <div class="detail-group">
+                    <label>Criado por</label>
+                    <p id="panelCriador" class="detail-value">-</p>
                   </div>
                 </div>
 
                 <div class="detail-section">
-                  <h4>Legenda</h4>
+                  <h4><i class="fas fa-align-left"></i> Legenda</h4>
                   <div class="legenda-content" id="panelLegenda">
                     -
                   </div>
                 </div>
 
                 <div class="detail-section">
-                  <h4>Hashtags</h4>
+                  <h4><i class="fas fa-hashtag"></i> Hashtags</h4>
                   <div class="hashtags-content" id="panelHashtags">
                     -
                   </div>
                 </div>
 
                 <div class="detail-section">
-                  <h4>Mídia</h4>
+                  <h4><i class="fas fa-images"></i> Mídia</h4>
                   <div class="media-preview-grid" id="panelMedia">
                     <!-- Mídia será carregada aqui -->
                   </div>
@@ -258,52 +338,42 @@
     </main>
   </div>
 
-  <!-- Modal de Agendamento (mantido do código anterior) -->
-  <div class="modal" id="agendamentoModal">
+  <!-- Modal de Novo Agendamento -->
+  <div class="modal" id="novoAgendamentoModal">
     <div class="modal-content large-modal">
       <div class="modal-header">
-        <h3 id="modalAgendamentoTitulo">Agendar Postagem</h3>
+        <h3 id="modalAgendamentoTitulo">Novo Agendamento</h3>
         <button class="modal-close" id="modalAgendamentoClose">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="agendamento-detail">
-          <!-- Informações do Projeto -->
-          <div class="info-section">
-            <h4>Informações do Projeto</h4>
-            <div class="info-grid">
-              <div class="info-group">
-                <label>Título</label>
-                <p id="agendamentoTitulo">-</p>
-              </div>
-              <div class="info-group">
-                <label>Tipo de Conteúdo</label>
-                <p id="agendamentoTipo">-</p>
-              </div>
-              <div class="info-group">
-                <label>Mês do Planejamento</label>
-                <p id="agendamentoMes">-</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Configurações de Agendamento -->
-          <div class="agendamento-section">
-            <h4>Configurações de Agendamento</h4>
+        <form id="agendamentoForm">
+          <div class="form-step active" id="step1">
+            <h4 class="step-title">
+              <span class="step-number">1</span>
+              Informações Básicas
+            </h4>
             
             <div class="form-grid">
               <div class="form-group">
-                <label for="dataAgendamento">Data de Publicação</label>
-                <input type="date" id="dataAgendamento" required>
+                <label for="tituloAgendamento">Título do Agendamento *</label>
+                <input type="text" id="tituloAgendamento" required placeholder="Ex: Lançamento da nova coleção">
               </div>
               
               <div class="form-group">
-                <label for="horaAgendamento">Horário de Publicação</label>
-                <input type="time" id="horaAgendamento" required>
+                <label for="tipoConteudo">Tipo de Conteúdo *</label>
+                <select id="tipoConteudo" required>
+                  <option value="">Selecione</option>
+                  <option value="reels">Reels</option>
+                  <option value="video">Vídeo</option>
+                  <option value="carrossel">Carrossel</option>
+                  <option value="storys">Storys</option>
+                  <option value="foto">Foto</option>
+                </select>
               </div>
               
               <div class="form-group">
-                <label for="plataformaAgendamento">Plataforma</label>
-                <select id="plataformaAgendamento">
+                <label for="plataformaAgendamento">Plataforma *</label>
+                <select id="plataformaAgendamento" required>
                   <option value="instagram">Instagram</option>
                   <option value="facebook">Facebook</option>
                   <option value="twitter">Twitter</option>
@@ -312,24 +382,73 @@
               </div>
               
               <div class="form-group">
-                <label for="tipoPostagem">Tipo de Postagem</label>
-                <select id="tipoPostagem">
-                  <option value="feed">Feed</option>
-                  <option value="storys">Storys</option>
-                  <option value="reels">Reels</option>
-                  <option value="carrossel">Carrossel</option>
+                <label for="projetoAgendamento">Projeto Relacionado</label>
+                <select id="projetoAgendamento">
+                  <option value="">Nenhum</option>
+                  <option value="projeto1">Lançamento Coleção Verão</option>
+                  <option value="projeto2">Campanha Black Friday</option>
+                  <option value="projeto3">Promoção Especial</option>
                 </select>
               </div>
             </div>
-          </div>
-
-          <!-- Conteúdo da Postagem -->
-          <div class="content-section">
-            <h4>Conteúdo da Postagem</h4>
             
             <div class="form-group">
-              <label for="legendaPostagem">Legenda</label>
-              <textarea id="legendaPostagem" rows="4" placeholder="Escreva a legenda da publicação..."></textarea>
+              <label for="descricaoAgendamento">Descrição</label>
+              <textarea id="descricaoAgendamento" rows="3" placeholder="Descreva brevemente este agendamento..."></textarea>
+            </div>
+          </div>
+          
+          <div class="form-step" id="step2">
+            <h4 class="step-title">
+              <span class="step-number">2</span>
+              Data e Horário
+            </h4>
+            
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="dataAgendamento">Data de Publicação *</label>
+                <input type="date" id="dataAgendamento" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="horaAgendamento">Horário de Publicação *</label>
+                <input type="time" id="horaAgendamento" required>
+              </div>
+            </div>
+            
+            <div class="advanced-options">
+              <div class="option-group">
+                <input type="checkbox" id="repetirAgendamento">
+                <label for="repetirAgendamento">Repetir agendamento</label>
+              </div>
+              
+              <div class="repetir-options" id="repetirOptions" style="display: none;">
+                <div class="form-group">
+                  <label for="frequenciaRepeticao">Frequência</label>
+                  <select id="frequenciaRepeticao">
+                    <option value="diario">Diariamente</option>
+                    <option value="semanal">Semanalmente</option>
+                    <option value="mensal">Mensalmente</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="quantidadeRepeticoes">Quantidade de repetições</label>
+                  <input type="number" id="quantidadeRepeticoes" min="1" max="12" value="1">
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-step" id="step3">
+            <h4 class="step-title">
+              <span class="step-number">3</span>
+              Conteúdo da Postagem
+            </h4>
+            
+            <div class="form-group">
+              <label for="legendaPostagem">Legenda *</label>
+              <textarea id="legendaPostagem" rows="4" required placeholder="Escreva a legenda da publicação..."></textarea>
               <div class="char-count">
                 <span id="charCount">0</span>/2200 caracteres
               </div>
@@ -337,62 +456,66 @@
             
             <div class="form-group">
               <label for="hashtagsPostagem">Hashtags</label>
-              <textarea id="hashtagsPostagem" rows="2" placeholder="#exemplo #hashtags"></textarea>
+              <textarea id="hashtagsPostagem" rows="2" placeholder="#exemplo #hashtags (separadas por espaço)"></textarea>
+              <div class="hashtags-suggestions">
+                <span class="suggestion-tag">#marketing</span>
+                <span class="suggestion-tag">#socialmedia</span>
+                <span class="suggestion-tag">#instagram</span>
+                <span class="suggestion-tag">#digital</span>
+              </div>
             </div>
             
-            <div class="form-group">
-              <label for="localizacaoPostagem">Localização</label>
-              <input type="text" id="localizacaoPostagem" placeholder="Adicionar localização">
-            </div>
-            
-            <div class="form-group">
-              <label for="marcarPessoas">Marcar Pessoas</label>
-              <input type="text" id="marcarPessoas" placeholder="@nomedousuario">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="localizacaoPostagem">Localização</label>
+                <input type="text" id="localizacaoPostagem" placeholder="Adicionar localização">
+              </div>
+              
+              <div class="form-group">
+                <label for="marcarPessoas">Marcar Pessoas</label>
+                <input type="text" id="marcarPessoas" placeholder="@nomedousuario">
+              </div>
             </div>
           </div>
-
-          <!-- Mídia -->
-          <div class="media-section">
-            <h4>Mídia para Publicação</h4>
+          
+          <div class="form-step" id="step4">
+            <h4 class="step-title">
+              <span class="step-number">4</span>
+              Mídia
+            </h4>
+            
+            <div class="media-upload-area" id="mediaUploadArea">
+              <i class="fas fa-cloud-upload-alt upload-icon"></i>
+              <h4>Arraste e solte arquivos aqui</h4>
+              <p>ou clique para procurar</p>
+              <p class="upload-info">Suporta: JPG, PNG, GIF, MP4 (max 100MB)</p>
+              <input type="file" id="uploadMidia" accept="image/*,video/*" multiple hidden>
+            </div>
             
             <div class="media-preview" id="mediaPreview">
               <!-- Prévia da mídia será carregada aqui -->
             </div>
-            
-            <div class="media-actions">
-              <button class="btn-secondary" id="adicionarMidiaBtn">
-                <span class="btn-icon">➕</span> Adicionar Mídia
-              </button>
-              <input type="file" id="uploadMidia" accept="image/*,video/*" multiple hidden>
-            </div>
           </div>
-
-          <!-- Configurações Avançadas -->
-          <div class="advanced-section">
-            <h4>Configurações Avançadas</h4>
-            
-            <div class="advanced-options">
-              <div class="option-group">
-                <input type="checkbox" id="comentariosAtivos">
-                <label for="comentariosAtivos">Permitir comentários</label>
-              </div>
-              
-              <div class="option-group">
-                <input type="checkbox" id="compartilhamentoAtivo">
-                <label for="compartilhamentoAtivo">Permitir compartilhamento</label>
-              </div>
-              
-              <div class="option-group">
-                <input type="checkbox" id="salvarRascunho">
-                <label for="salvarRascunho">Salvar como rascunho</label>
-              </div>
-            </div>
-          </div>
-        </div>
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-secondary" id="cancelAgendamentoBtn">Cancelar</button>
-        <button type="button" class="btn-primary" id="salvarAgendamentoBtn">Agendar Publicação</button>
+        <div class="step-indicator">
+          <span class="step-dot active" data-step="1"></span>
+          <span class="step-dot" data-step="2"></span>
+          <span class="step-dot" data-step="3"></span>
+          <span class="step-dot" data-step="4"></span>
+        </div>
+        
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="prevStepBtn" style="display: none;">
+            <i class="fas fa-arrow-left"></i> Anterior
+          </button>
+          <button type="button" class="btn-secondary" id="cancelAgendamentoBtn">Cancelar</button>
+          <button type="button" class="btn-primary btn-gradient" id="nextStepBtn">Próximo</button>
+          <button type="submit" class="btn-primary btn-gradient" id="salvarAgendamentoBtn" style="display: none;">
+            <i class="fas fa-calendar-check"></i> Agendar Publicação
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -401,14 +524,17 @@
   <div class="modal" id="confirmacaoModal">
     <div class="modal-content small-modal">
       <div class="modal-header">
-        <h3>Confirmação de Agendamento</h3>
+        <h3 id="confirmacaoTitulo">Confirmação</h3>
         <button class="modal-close" id="confirmacaoModalClose">&times;</button>
       </div>
       <div class="modal-body">
+        <div class="confirmacao-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
         <p id="confirmacaoMensagem">Publicação agendada com sucesso!</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-primary" id="confirmacaoOkBtn">OK</button>
+        <button type="button" class="btn-primary btn-gradient" id="confirmacaoOkBtn">OK</button>
       </div>
     </div>
   </div>

@@ -561,25 +561,27 @@ function showNotification(message, type = 'info') {
 }
 
 // Menu do usuário
+// Menu do usuário
 function initializeUserMenu() {
-    const userMenuTrigger = document.getElementById('user-menu-trigger');
-    const userMenu = document.getElementById('user-menu');
+  const userMenuTrigger = document.getElementById('user-menu-trigger');
+  const userMenu = document.getElementById('user-menu');
 
-    if (userMenuTrigger && userMenu) {
-        userMenuTrigger.addEventListener('click', function (e) {
-            e.stopPropagation();
-            userMenu.classList.toggle('user-menu-show');
-        });
+  if (userMenuTrigger && userMenu) {
+    userMenuTrigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      userMenu.classList.toggle('show');   // <--- AQUI
+    });
 
-        document.addEventListener('click', function () {
-            userMenu.classList.remove('user-menu-show');
-        });
+    document.addEventListener('click', function () {
+      userMenu.classList.remove('show');   // <--- E AQUI
+    });
 
-        userMenu.addEventListener('click', function (e) {
-            e.stopPropagation();
-        });
-    }
+    userMenu.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+  }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const kanbanView = document.getElementById('kanbanView');
@@ -611,3 +613,5 @@ document.addEventListener('DOMContentLoaded', () => {
     listaView.classList.remove('active');
   }
 });
+
+

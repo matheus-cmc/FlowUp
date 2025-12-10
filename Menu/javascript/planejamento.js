@@ -2,7 +2,7 @@
 let planejamentos = [
     {
         id: 1,
-        titulo: "Campanha Verão 2024",
+        titulo: "Campanha Verão 2025",
         descricao: "Planejamento de conteúdo para a temporada de verão com foco em produtos refrescantes e estilo de vida",
         tipo: "mensal",
         mes: "1",
@@ -33,19 +33,22 @@ let planejamentos = [
                 destino: "design"
             }
         ],
-        createdAt: "2024-01-01",
-        updatedAt: "2024-01-10"
+        createdAt: "2025-01-01",
+        updatedAt: "2025-01-10"
     }
+
+    
 ];
+
 
 let currentPlanejamentoId = null;
 let postCounter = 1;
+let isEditMode = false;
 
 // Elementos DOM
 const planejamentoList = document.getElementById('planejamentoList');
 const planejamentoModal = document.getElementById('planejamentoModal');
 const detailModal = document.getElementById('detailModal');
-const actionsModal = document.getElementById('actionsModal');
 const confirmModal = document.getElementById('confirmModal');
 const planejamentoForm = document.getElementById('planejamentoForm');
 const postsContainer = document.getElementById('postsContainer');
@@ -59,6 +62,7 @@ const editPlanejamentoBtn = document.getElementById('editPlanejamentoBtn');
 const detailActionsBtn = document.getElementById('detailActionsBtn');
 const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+const modalTitle = document.getElementById('modalTitle');
 
 // Inicialização
 document.addEventListener('DOMContentLoaded', function() {
@@ -66,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     initializeUserMenu();
     initializeCustomSelects();
+    applyCustomStyles();
 });
 
 function setupEventListeners() {
@@ -74,8 +79,10 @@ function setupEventListeners() {
     savePlanejamentoBtn.addEventListener('click', savePlanejamento);
     cancelBtn.addEventListener('click', closeModal);
     closeDetailBtn.addEventListener('click', closeDetailModal);
-    editPlanejamentoBtn.addEventListener('click', editCurrentPlanejamento);
-    detailActionsBtn.addEventListener('click', openActionsModal);
+    editPlanejamentoBtn.addEventListener('click', function() {
+        openDetailModalInEditMode(currentPlanejamentoId);
+    });
+    detailActionsBtn.addEventListener('click', openShareModal);
     confirmDeleteBtn.addEventListener('click', deletePlanejamento);
     cancelDeleteBtn.addEventListener('click', closeConfirmModal);
     
@@ -85,19 +92,16 @@ function setupEventListeners() {
     document.getElementById('searchPlanejamento').addEventListener('input', renderPlanejamentoList);
     
     // Controle do tipo de planejamento
-    // Tipo de planejamento – agora o mês SEMPRE aparece
     document.getElementById('planejamentoTipo').addEventListener('change', function() {
-    const mesGroup = document.getElementById('mesGroup');
-    mesGroup.style.display = 'block';
-    document.getElementById('planejamentoMes').required = true;
+        const mesGroup = document.getElementById('mesGroup');
+        mesGroup.style.display = 'block';
+        document.getElementById('planejamentoMes').required = true;
     });
-
     
     // Fechar modais ao clicar fora
     window.addEventListener('click', function(event) {
         if (event.target === planejamentoModal) closeModal();
         if (event.target === detailModal) closeDetailModal();
-        if (event.target === actionsModal) closeActionsModal();
         if (event.target === confirmModal) closeConfirmModal();
     });
     
@@ -106,11 +110,542 @@ function setupEventListeners() {
         if (event.key === 'Escape') {
             closeModal();
             closeDetailModal();
-            closeActionsModal();
             closeConfirmModal();
         }
     });
 }
+
+// Aplicar estilos personalizados
+// Aplicar estilos personalizados
+function applyCustomStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        /* Remover borda laranja do botão Novo Planejamento */
+        #novoPlanejamentoBtn {
+            border: none !important;
+            outline: none !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        }
+        
+        #novoPlanejamentoBtn:hover {
+            box-shadow: 0 4px 8px rgba(109, 40, 217, 0.2) !important;
+        }
+        
+        /* Evitar quebra de linha no botão Novo Planejamento */
+        #novoPlanejamentoBtn span {
+            white-space: nowrap !important;
+        }
+        
+        /* Aumentar espaço entre as estatísticas */
+        .stats-row {
+            gap: 24px !important;
+            padding: 10px 0 20px 0 !important;
+        }
+        
+        .stats-item {
+            min-width: 120px !important;
+            padding: 20px 16px !important;
+        }
+        
+        .stats-value {
+            font-size: 28px !important;
+            margin-bottom: 12px !important;
+        }
+        
+        .stats-label {
+            font-size: 13px !important;
+        }
+        
+        /* CORREÇÃO: ADICIONAR LINHA/ BORDA AO CAMPO DE DESCRIÇÃO NO MODAL DE NOVO/EDITAR */
+        .planning-modal #planejamentoDescricao {
+            border: 1px solid #d1d5db !important;
+            background: white !important;
+            padding: 12px 16px !important;
+            border-radius: 10px !important;
+            font-size: 14px !important;
+            color: #111827 !important;
+            width: 100% !important;
+            min-height: 100px !important;
+            resize: vertical !important;
+            font-family: inherit !important;
+        }
+        
+        .planning-modal #planejamentoDescricao:focus {
+            border-color: #8b5cf6 !important;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
+            outline: none !important;
+        }
+        
+        .planning-modal #planejamentoDescricao::placeholder {
+            color: #9ca3af !important;
+        }
+        
+        /* Linha gradiente no topo dos modais */
+        .planning-modal::before,
+        .detail-modal::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
+            border-radius: 20px 20px 0 0;
+            z-index: 1;
+        }
+        
+        /* Estilo para modal de compartilhamento */
+        .share-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 0;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            z-index: 1001;
+            width: 400px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .share-modal.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        
+        .share-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .share-header h3 {
+            margin: 0;
+            color: #111827;
+            font-size: 18px;
+        }
+        
+        .share-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6b7280;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .share-close:hover {
+            background: #f3f4f6;
+        }
+        
+        .share-body {
+            padding: 24px;
+        }
+        
+        .share-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .share-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .share-option:hover {
+            border-color: #8b5cf6;
+            background: #faf5ff;
+            transform: translateY(-2px);
+        }
+        
+        .share-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+        
+        .share-icon.email {
+            background: #dc2626;
+        }
+        
+        .share-icon.whatsapp {
+            background: #22c55e;
+        }
+        
+        .share-icon.pdf {
+            background: #ef4444;
+        }
+        
+        .share-icon.duplicate {
+            background: #8b5cf6;
+        }
+        
+        .share-option span {
+            font-weight: 600;
+            color: #111827;
+            flex: 1;
+        }
+        
+        /* Overlay para modal de compartilhamento */
+        .share-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .share-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Estilos para modal de detalhes (igual ao novo planejamento) */
+        .detail-modal .modal-body {
+            padding: 24px 32px;
+            background: #f3f4f6 !important;
+            overflow-y: auto;
+        }
+        
+        .detail-modal .modal-header h3 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 800;
+            color: #111827;
+        }
+        
+        .detail-modal .form-section {
+            background: #ffffff;
+            border-radius: 18px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+            padding: 22px 24px 20px;
+            margin-bottom: 24px;
+        }
+        
+        .detail-modal .section-title {
+            margin: 0 0 16px;
+            color: #111827;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .detail-modal .section-title::before {
+            content: "";
+            width: 6px;
+            height: 20px;
+            background: linear-gradient(180deg, #8b5cf6, #a855f7);
+            border-radius: 3px;
+        }
+        
+        /* CORREÇÃO: Remover seta dos selects no modal de detalhes */
+        .detail-modal .custom-select .select-arrow {
+            display: none !important;
+        }
+        
+        .detail-modal .custom-select {
+            width: 100% !important;
+        }
+        
+        .detail-modal .select-selected {
+            width: 100%;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-weight: 600;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            cursor: default !important;
+        }
+        
+        .detail-modal .select-items {
+            display: none !important;
+        }
+        
+        .detail-modal .custom-select .select-selected {
+            pointer-events: none !important;
+            cursor: default !important;
+        }
+        
+        /* Inputs no modal de detalhes */
+        .detail-modal input[type="text"],
+        .detail-modal input[type="date"],
+        .detail-modal textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 14px;
+            background: white;
+            min-height: 44px;
+            cursor: default !important;
+            pointer-events: none !important;
+        }
+        
+        .detail-modal textarea {
+            min-height: 100px;
+            resize: none !important;
+        }
+        
+        /* CORREÇÃO: Campo de descrição no modal de detalhes SEM BORDA */
+        .detail-modal #detailPlanejamentoDescricao {
+            border: none !important;
+            background: transparent !important;
+            padding: 12px 0 !important;
+            resize: none !important;
+            min-height: auto !important;
+            line-height: 1.6 !important;
+        }
+        
+        /* CORREÇÃO: Campo de título no modal de detalhes SEM BORDA */
+        .detail-modal #detailPlanejamentoTitulo {
+            border: none !important;
+            background: transparent !important;
+            padding: 12px 0 !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            color: #111827 !important;
+        }
+        
+        /* CORREÇÃO: Campo de título no modal de novo/editar COM BORDA FOCUS */
+        .planning-modal #planejamentoTitulo {
+            border: 1px solid #d1d5db !important;
+            background: white !important;
+            padding: 12px 16px !important;
+            border-radius: 10px !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            color: #111827 !important;
+        }
+        
+        .planning-modal #planejamentoTitulo:focus {
+            border-color: #8b5cf6 !important;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
+            outline: none !important;
+        }
+        
+        .planning-modal #planejamentoTitulo::placeholder {
+            color: #9ca3af !important;
+            font-weight: normal !important;
+        }
+        
+        /* Botões no modal de detalhes */
+        .detail-modal .btn-primary {
+            background: linear-gradient(90deg, #8b5cf6, #a855f7);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 44px;
+        }
+        
+        .detail-modal .btn-secondary {
+            background: white;
+            color: #111827;
+            border: 1px solid #d1d5db;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 44px;
+        }
+        
+        /* Estatísticas no modal de detalhes */
+        .detail-modal .stats-row {
+            display: flex;
+            gap: 20px;
+            padding: 20px 0;
+        }
+        
+        .detail-modal .stats-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            min-width: 120px;
+        }
+        
+        .detail-modal .stats-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #8b5cf6;
+            margin-bottom: 8px;
+        }
+        
+        .detail-modal .stats-label {
+            font-weight: 600;
+            color: #111827;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* CORREÇÃO: Título dos posts no modal de novo/editar COM BORDA */
+        .planning-modal .post-item input[name="postTitulo"],
+        .planning-modal .post-titulo {
+            border: 1px solid #d1d5db !important;
+            background: white !important;
+            padding: 12px 16px !important;
+            border-radius: 10px !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            color: #111827 !important;
+            width: 100% !important;
+            margin-bottom: 16px !important;
+        }
+        
+        .planning-modal .post-item input[name="postTitulo"]:focus,
+        .planning-modal .post-titulo:focus {
+            border-color: #8b5cf6 !important;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
+            outline: none !important;
+        }
+        
+        .planning-modal .post-item input[name="postTitulo"]::placeholder,
+        .planning-modal .post-titulo::placeholder {
+            color: #9ca3af !important;
+            font-weight: normal !important;
+        }
+        
+        /* Estilos para posts em modo de edição */
+        .planning-modal .post-item {
+            border: 1px solid #e5e7eb !important;
+            padding: 20px !important;
+            border-radius: 16px !important;
+            background: white !important;
+            margin-bottom: 20px !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+        }
+        
+        /* Outros inputs dos posts em modo de edição */
+        .planning-modal .post-item input[type="date"],
+        .planning-modal .post-item textarea,
+        .planning-modal .post-item .select-selected {
+            border: 1px solid #d1d5db !important;
+            background: white !important;
+            padding: 10px 14px !important;
+            border-radius: 8px !important;
+            font-size: 14px !important;
+            color: #111827 !important;
+            width: 100% !important;
+        }
+        
+        .planning-modal .post-item input[type="date"]:focus,
+        .planning-modal .post-item textarea:focus,
+        .planning-modal .post-item .select-selected:focus {
+            border-color: #8b5cf6 !important;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
+        }
+        
+        /* Textareas dos posts em modo de edição */
+        .planning-modal .post-item textarea[name="postDescricao"],
+        .planning-modal .post-item textarea[name="postLegenda"],
+        .planning-modal .post-item textarea[name="postInspiracao"] {
+            min-height: 80px !important;
+            resize: vertical !important;
+            font-family: inherit !important;
+            line-height: 1.5 !important;
+        }
+        
+        /* Botão Excluir dos posts */
+        .planning-modal .btn-remove-post {
+            background: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        
+        .planning-modal .btn-remove-post:hover {
+            background: linear-gradient(90deg, #dc2626, #b91c1c);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(220, 38, 38, 0.2);
+        }
+        
+        /* Linha gradiente nos posts */
+        .planning-modal .post-item::before,
+        .detail-modal .detail-post-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #8b5cf6, #a855f7, #d946ef);
+            border-radius: 16px 16px 0 0;
+        }
+        
+        /* Adicionar posicionamento relativo aos posts */
+        .planning-modal .post-item,
+        .detail-modal .detail-post-card {
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        
+        /* Ajustar padding para compensar a linha */
+        .planning-modal .post-item > *:first-child,
+        .detail-modal .detail-post-card > *:first-child {
+            margin-top: 3px !important;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// ... o resto do código JavaScript permanece igual ...
 
 // Inicializar selects customizados
 function initializeCustomSelects() {
@@ -183,7 +718,7 @@ function renderPlanejamentoList() {
     if (filteredPlanejamentos.length === 0) {
         planejamentoList.innerHTML = `
             <div class="empty-state">
-                <div class="empty-icon">📋</div>
+                <div class="empty-icon"></div>
                 <h4>Nenhum planejamento encontrado</h4>
                 <p>Crie seu primeiro planejamento clicando no botão "Novo Planejamento"</p>
             </div>
@@ -223,113 +758,316 @@ function renderPlanejamentoList() {
     }).join('');
 }
 
+// FUNÇÃO PRINCIPAL DE DETALHES - AGORA COM LAYOUT IGUAL AO NOVO PLANEJAMENTO
 function openDetailModal(id) {
     const planejamento = planejamentos.find(p => p.id === id);
     if (!planejamento) return;
 
     currentPlanejamentoId = id;
+    isEditMode = false;
     
     // Calcular estatísticas
     const stats = calcularEstatisticas(planejamento.posts);
 
+    // Usar o MESMO layout do modal de novo planejamento
     detailModalContent.innerHTML = `
-        <div class="detail-header">
-            <div class="detail-title-section">
-                <h2>${planejamento.titulo}</h2>
-                <div class="detail-meta">
-                    ${planejamento.tipo === 'especial' ? 'Planejamento Especial' : `${getMesNome(planejamento.mes)} ${planejamento.ano}`}
-                    • ${planejamento.posts.length} publicações programadas
+        <form id="detailPlanejamentoForm">
+            <!-- Seção 1: Detalhes do Planejamento -->
+            <div class="form-section">
+                <h4 class="section-title">Detalhes do Planejamento</h4>
+
+                <!-- Linha com Tipo, Mês e Ano -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="detailPlanejamentoTipo">Tipo de Planejamento</label>
+                        <div class="custom-select">
+                            <div class="select-selected">
+                                <span>${planejamento.tipo === 'especial' ? 'Planejamento Especial' : 'Planejamento Mensal'}</span>
+                                <div class="select-arrow"></div>
+                            </div>
+                            <div class="select-items">
+                                <div class="select-option" data-value="mensal">Planejamento Mensal</div>
+                                <div class="select-option" data-value="especial">Planejamento Especial</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="detailMesGroup">
+                        <label for="detailPlanejamentoMes">Mês</label>
+                        <div class="custom-select">
+                            <div class="select-selected">
+                                <span>${getMesNome(planejamento.mes)}</span>
+                                <div class="select-arrow"></div>
+                            </div>
+                            <div class="select-items">
+                                <div class="select-option" data-value="1">Janeiro</div>
+                                <div class="select-option" data-value="2">Fevereiro</div>
+                                <div class="select-option" data-value="3">Março</div>
+                                <div class="select-option" data-value="4">Abril</div>
+                                <div class="select-option" data-value="5">Maio</div>
+                                <div class="select-option" data-value="6">Junho</div>
+                                <div class="select-option" data-value="7">Julho</div>
+                                <div class="select-option" data-value="8">Agosto</div>
+                                <div class="select-option" data-value="9">Setembro</div>
+                                <div class="select-option" data-value="10">Outubro</div>
+                                <div class="select-option" data-value="11">Novembro</div>
+                                <div class="select-option" data-value="12">Dezembro</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="detailPlanejamentoAno">Ano</label>
+                        <div class="custom-select">
+                            <div class="select-selected">
+                                <span>${planejamento.ano}</span>
+                                <div class="select-arrow"></div>
+                            </div>
+                            <div class="select-items">
+                                <div class="select-option" data-value="2024">2024</div>
+                                <div class="select-option" data-value="2025">2025</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Título -->
+                <div class="form-group">
+                    <label for="detailPlanejamentoTitulo">Título do Planejamento</label>
+                    <input type="text" id="detailPlanejamentoTitulo" value="${planejamento.titulo}" readonly>
+                </div>
+
+                <!-- Descrição -->
+                <div class="form-group">
+                    <label for="detailPlanejamentoDescricao">Descrição</label>
+                    <textarea id="detailPlanejamentoDescricao" readonly rows="3">${planejamento.descricao || ''}</textarea>
+                </div>
+            </div>
+
+            <!-- Seção 2: Estatísticas -->
+            <div class="form-section">
+                <h4 class="section-title">Estatísticas</h4>
+                
+                <!-- Status lado a lado em linha horizontal -->
                 <div class="stats-row">
-                    <div class="stat-badge" style="background: #d1fae5; color: #059669;">
-                        ✅ ${stats.aprovados} aprovados
+                    <div class="stats-item">
+                        <div class="stats-value">${planejamento.posts.length}</div>
+                        <div class="stats-label">Total</div>
                     </div>
-                    <div class="stat-badge" style="background: #fef3c7; color: #d97706;">
-                        🔄 ${stats.emRevisao} em revisão
+                    
+                    <div class="stats-item">
+                        <div class="stats-value">${stats.aprovados}</div>
+                        <div class="stats-label">Aprovados</div>
                     </div>
-                    <div class="stat-badge" style="background: #dbeafe; color: #1e40af;">
-                        ⏳ ${stats.emProducao} em produção
+                    
+                    <div class="stats-item">
+                        <div class="stats-value">${stats.emRevisao}</div>
+                        <div class="stats-label">Em Revisão</div>
                     </div>
-                    <div class="stat-badge" style="background: #f3f4f6; color: #6b7280;">
-                        📝 ${stats.rascunhos} rascunhos
+                    
+                    <div class="stats-item">
+                        <div class="stats-value">${stats.emProducao}</div>
+                        <div class="stats-label">Em Produção</div>
+                    </div>
+                    
+                    <div class="stats-item">
+                        <div class="stats-value">${stats.rascunhos}</div>
+                        <div class="stats-label">Rascunhos</div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="detail-content">
-            <div class="form-section" style="border: none; margin: 0; padding: 0;">
-                <h3>📝 Descrição</h3>
-                <p style="color: var(--muted); line-height: 1.6; margin: 0;">${planejamento.descricao || 'Sem descrição'}</p>
-            </div>
+            <!-- Seção 3: Publicações Programadas -->
+            <div class="form-section">
+                <h4 class="section-title">Publicações Programadas</h4>
 
-            <div class="detail-posts">
-                <h3>📋 Publicações Programadas (${planejamento.posts.length})</h3>
-                ${planejamento.posts.map((post, index) => `
-                    <div class="detail-post">
-                        <div class="detail-post-header">
-                            <h4 class="detail-post-title">${post.titulo}</h4>
-                            <div class="detail-post-badges">
-                                <span class="post-type-badge">${getTipoNome(post.tipo)}</span>
-                                <span class="status-badge ${post.status}">${getStatusNome(post.status)}</span>
-                                <span class="post-priority ${post.prioridade}">${post.prioridade}</span>
-                            </div>
-                        </div>
-                        
-                        <div class="post-info-grid">
-                            <div class="post-info-item">
-                                <label>Data</label>
-                                <p>${formatDate(post.data)}</p>
-                            </div>
-                            <div class="post-info-item">
-                                <label>Responsável</label>
-                                <p>${getResponsavelNome(post.responsavel)}</p>
-                            </div>
-                            <div class="post-info-item">
-                                <label>Descrição</label>
-                                <p>${post.descricao}</p>
-                            </div>
-                            <div class="post-info-item">
-                                <label>Destino</label>
-                                <p>${getDestinoNome(post.destino)}</p>
-                            </div>
-                        </div>
-                        
-                        ${post.legenda ? `
-                            <div class="post-info-item">
-                                <label>Legenda</label>
-                                <p style="font-style: italic; color: var(--muted);">${post.legenda}</p>
-                            </div>
-                        ` : ''}
-                        
-                        ${post.inspiracao ? `
-                            <div class="post-info-item">
-                                <label>Inspirações</label>
-                                <p style="word-break: break-all; color: var(--g1);">${post.inspiracao}</p>
-                            </div>
-                        ` : ''}
-                    </div>
-                `).join('')}
+                <div class="posts-container" id="detailPostsContainer">
+                    <!-- Posts serão adicionados dinamicamente -->
+                </div>
             </div>
-        </div>
+        </form>
     `;
+
+    // Adicionar as publicações programadas (com selects maiores)
+    const detailPostsContainer = document.getElementById('detailPostsContainer');
+    detailPostsContainer.innerHTML = planejamento.posts.map((post, index) => `
+        <div class="post-item">
+            <div class="post-header">
+                <div class="post-title-section">
+                    <input type="text" class="post-titulo" value="${post.titulo}" readonly>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Tipo de Conteúdo</label>
+                    <div class="custom-select">
+                        <div class="select-selected">
+                            <span>${getTipoNome(post.tipo)}</span>
+                            <div class="select-arrow"></div>
+                        </div>
+                        <div class="select-items">
+                            <div class="select-option" data-value="reels">Reels</div>
+                            <div class="select-option" data-value="video">Vídeo</div>
+                            <div class="select-option" data-value="carrossel">Carrossel</div>
+                            <div class="select-option" data-value="storys">Storys</div>
+                            <div class="select-option" data-value="foto">Foto</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <div class="custom-select">
+                        <div class="select-selected">
+                            <span>${getStatusNome(post.status)}</span>
+                            <div class="select-arrow"></div>
+                        </div>
+                        <div class="select-items">
+                            <div class="select-option" data-value="rascunho">Rascunho</div>
+                            <div class="select-option" data-value="em_producao">Em Produção</div>
+                            <div class="select-option" data-value="em_revisao">Em Revisão</div>
+                            <div class="select-option" data-value="aprovado">Aprovado</div>
+                            <div class="select-option" data-value="agendado">Agendado</div>
+                            <div class="select-option" data-value="publicado">Publicado</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Prioridade</label>
+                    <div class="custom-select">
+                        <div class="select-selected">
+                            <span>${post.prioridade}</span>
+                            <div class="select-arrow"></div>
+                        </div>
+                        <div class="select-items">
+                            <div class="select-option" data-value="baixa">Baixa</div>
+                            <div class="select-option" data-value="media">Média</div>
+                            <div class="select-option" data-value="alta">Alta</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Data de Postagem</label>
+                    <input type="date" value="${post.data}" readonly>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Responsável</label>
+                    <div class="custom-select">
+                        <div class="select-selected">
+                            <span>${getResponsavelNome(post.responsavel)}</span>
+                            <div class="select-arrow"></div>
+                        </div>
+                        <div class="select-items">
+                            <div class="select-option" data-value="alone">Alone Souza</div>
+                            <div class="select-option" data-value="maria">Maria Silva</div>
+                            <div class="select-option" data-value="joao">João Santos</div>
+                            <div class="select-option" data-value="ana">Ana Costa</div>
+                            <div class="select-option" data-value="carlos">Carlos Oliveira</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Destino da Tarefa</label>
+                    <div class="custom-select">
+                        <div class="select-selected">
+                            <span>${getDestinoNome(post.destino)}</span>
+                            <div class="select-arrow"></div>
+                        </div>
+                        <div class="select-items">
+                            <div class="select-option" data-value="design">Design</div>
+                            <div class="select-option" data-value="gravacao">Gravação</div>
+                            <div class="select-option" data-value="edicao">Edição</div>
+                            <div class="select-option" data-value="revisao">Revisão</div>
+                            <div class="select-option" data-value="publicacao">Publicação</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Descrição da Publicação</label>
+                <textarea readonly rows="3">${post.descricao}</textarea>
+            </div>
+
+            ${post.legenda ? `
+            <div class="form-group">
+                <label>Texto da Legenda</label>
+                <textarea readonly rows="3">${post.legenda}</textarea>
+            </div>
+            ` : ''}
+
+            ${post.inspiracao ? `
+            <div class="form-group">
+                <label>Inspirações (Links, imagens, vídeos)</label>
+                <textarea readonly rows="2">${post.inspiracao}</textarea>
+            </div>
+            ` : ''}
+        </div>
+    `).join('');
+
+    // Atualizar título do modal
+    document.getElementById('detailModalTitle').textContent = 'Detalhes do Planejamento';
+    
+    // Configurar botões do modal
+    editPlanejamentoBtn.textContent = 'Editar';
+    editPlanejamentoBtn.style.display = 'inline-flex';
+    detailActionsBtn.textContent = 'Compartilhar';
+    
+    // Inicializar selects no modal
+    setTimeout(() => {
+        initializeCustomSelects();
+        
+        // CORREÇÃO: Remover setas dos selects no modal de detalhes
+        const detailSelects = detailModalContent.querySelectorAll('.custom-select .select-arrow');
+        detailSelects.forEach(arrow => {
+            arrow.style.display = 'none';
+        });
+        
+        // Desabilitar todos os inputs e selects no modo de visualização
+        const inputs = detailModalContent.querySelectorAll('input, textarea, select, .custom-select');
+        inputs.forEach(input => {
+            input.disabled = true;
+            input.readonly = true;
+            if (input.classList.contains('custom-select')) {
+                input.style.pointerEvents = 'none';
+                input.style.opacity = '0.9';
+            }
+        });
+        
+        // Remover eventos de clique dos selects
+        const selectElements = detailModalContent.querySelectorAll('.select-selected');
+        selectElements.forEach(select => {
+            select.style.pointerEvents = 'none';
+            select.style.cursor = 'default';
+        });
+    }, 10);
 
     detailModal.style.display = 'flex';
     setTimeout(() => detailModal.classList.add('show'), 10);
+}
+
+// Abrir detalhes em modo de edição
+function openDetailModalInEditMode(id) {
+    isEditMode = true;
+    editPlanejamento(id);
 }
 
 function closeDetailModal() {
     detailModal.classList.remove('show');
     setTimeout(() => {
         detailModal.style.display = 'none';
+        isEditMode = false;
     }, 300);
 }
-
-// Mês sempre visível, independente do tipo
-    const mesGroup = document.getElementById('mesGroup');
-    mesGroup.style.display = 'block';
-    document.getElementById('planejamentoMes').required = true;
-
 
 function calcularEstatisticas(posts) {
     return {
@@ -345,7 +1083,8 @@ function calcularEstatisticas(posts) {
 function openNewPlanejamentoModal() {
     currentPlanejamentoId = null;
     postCounter = 1;
-    document.getElementById('modalTitle').textContent = 'Novo Planejamento';
+    isEditMode = false;
+    modalTitle.textContent = 'Novo Planejamento';
     planejamentoForm.reset();
     postsContainer.innerHTML = '';
     
@@ -354,6 +1093,7 @@ function openNewPlanejamentoModal() {
     
     // Mostrar grupo do mês por padrão
     document.getElementById('mesGroup').style.display = 'block';
+    document.getElementById('planejamentoMes').required = true;
     
     // Inicializar selects customizados no modal
     initializeCustomSelects();
@@ -548,7 +1288,7 @@ function editPlanejamento(id) {
     if (!planejamento) return;
 
     currentPlanejamentoId = id;
-    document.getElementById('modalTitle').textContent = 'Editar Planejamento';
+    modalTitle.textContent = 'Editar Planejamento';
     
     // Preencher formulário básico
     document.getElementById('planejamentoTipo').value = planejamento.tipo;
@@ -566,8 +1306,10 @@ function editPlanejamento(id) {
     const mesGroup = document.getElementById('mesGroup');
     if (planejamento.tipo === 'especial') {
         mesGroup.style.display = 'none';
+        document.getElementById('planejamentoMes').required = false;
     } else {
         mesGroup.style.display = 'block';
+        document.getElementById('planejamentoMes').required = true;
     }
     
     // Limpar posts existentes
@@ -599,11 +1341,14 @@ function editPlanejamento(id) {
         updateCustomSelectInElement(lastPost, 'postDestino', post.destino || '');
     });
     
-    planejamentoModal.style.display = 'flex';
-    setTimeout(() => planejamentoModal.classList.add('show'), 10);
+    // Fechar modal de detalhes e abrir modal de edição
+    closeDetailModal();
+    setTimeout(() => {
+        planejamentoModal.style.display = 'flex';
+        setTimeout(() => planejamentoModal.classList.add('show'), 10);
+    }, 300);
 }
 
-// Função auxiliar para atualizar selects customizados
 function updateCustomSelect(selectId, value) {
     const hiddenSelect = document.getElementById(selectId);
     const customSelect = hiddenSelect.closest('.custom-select');
@@ -624,7 +1369,6 @@ function updateCustomSelect(selectId, value) {
     }
 }
 
-// Função para atualizar selects dentro de um elemento específico
 function updateCustomSelectInElement(element, selectName, value) {
     const hiddenSelect = element.querySelector(`select[name="${selectName}"]`);
     if (!hiddenSelect) return;
@@ -692,17 +1436,17 @@ function savePlanejamento() {
         return;
     }
     
-    if (!formData.get('mes')) {
-    alert('Selecione o mês do planejamento.');
-    return;
+    // Validação do mês (obrigatório apenas para planejamento mensal)
+    if (formData.get('tipo') === 'mensal' && !formData.get('mes')) {
+        alert('Selecione o mês do planejamento.');
+        return;
     }
-
 
     const planejamentoData = {
         titulo: formData.get('titulo'),
         descricao: formData.get('descricao'),
         tipo: formData.get('tipo'),
-        mes: formData.get('mes'),
+        mes: formData.get('mes') || '1',
         ano: formData.get('ano'),
         posts: posts,
         updatedAt: new Date().toISOString().split('T')[0]
@@ -725,22 +1469,129 @@ function savePlanejamento() {
     showNotification(`Planejamento ${currentPlanejamentoId ? 'atualizado' : 'criado'} com sucesso!`, 'success');
 }
 
-// Funções de Ações
-function openActionsModal(id) {
-    currentPlanejamentoId = id;
-    const planejamento = planejamentos.find(p => p.id === id);
-    if (planejamento) {
-        document.getElementById('actionsModalTitle').textContent = `Ações: ${planejamento.titulo}`;
-    }
-    actionsModal.style.display = 'flex';
-    setTimeout(() => actionsModal.classList.add('show'), 10);
+// Modal de compartilhamento
+function openShareModal() {
+    if (!currentPlanejamentoId) return;
+    
+    // Criar overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'share-overlay';
+    overlay.onclick = closeShareModal;
+    
+    // Criar modal de compartilhamento
+    const modal = document.createElement('div');
+    modal.className = 'share-modal';
+    modal.innerHTML = `
+        <div class="share-header">
+            <h3>Compartilhar Planejamento</h3>
+            <button class="share-close">&times;</button>
+        </div>
+        <div class="share-body">
+            <div class="share-options">
+                <div class="share-option" onclick="compartilharEmail(${currentPlanejamentoId})">
+                    <div class="share-icon email">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <span>Compartilhar por E-mail</span>
+                </div>
+                <div class="share-option" onclick="compartilharWhatsApp(${currentPlanejamentoId})">
+                    <div class="share-icon whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <span>Compartilhar no WhatsApp</span>
+                </div>
+                <div class="share-option" onclick="gerarPDF(${currentPlanejamentoId})">
+                    <div class="share-icon pdf">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <span>Gerar PDF</span>
+                </div>
+                <div class="share-option" onclick="duplicarPlanejamento(${currentPlanejamentoId})">
+                    <div class="share-icon duplicate">
+                        <i class="fas fa-copy"></i>
+                    </div>
+                    <span>Duplicar Planejamento</span>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Configurar botão de fechar
+    modal.querySelector('.share-close').onclick = closeShareModal;
+    
+    // Adicionar ao DOM
+    document.body.appendChild(overlay);
+    document.body.appendChild(modal);
+    
+    // Animar entrada
+    setTimeout(() => {
+        overlay.classList.add('show');
+        modal.classList.add('show');
+    }, 10);
 }
 
-function closeActionsModal() {
-    actionsModal.classList.remove('show');
+function closeShareModal() {
+    const overlay = document.querySelector('.share-overlay');
+    const modal = document.querySelector('.share-modal');
+    
+    if (overlay) overlay.classList.remove('show');
+    if (modal) modal.classList.remove('show');
+    
     setTimeout(() => {
-        actionsModal.style.display = 'none';
+        if (overlay) overlay.remove();
+        if (modal) modal.remove();
     }, 300);
+}
+
+// Funções de compartilhamento
+function compartilharEmail(planejamentoId) {
+    const planejamento = planejamentos.find(p => p.id === planejamentoId);
+    if (!planejamento) return;
+
+    const assunto = encodeURIComponent(`Planejamento: ${planejamento.titulo}`);
+    let corpo = `Olá!\n\nSegue o planejamento de conteúdo:\n\n`;
+    corpo += `*${planejamento.titulo}*\n`;
+    corpo += `Tipo: ${planejamento.tipo === 'especial' ? 'Planejamento Especial' : `${getMesNome(planejamento.mes)} ${planejamento.ano}`}\n`;
+    corpo += `Descrição: ${planejamento.descricao || 'Não informada'}\n\n`;
+    corpo += `*Publicações (${planejamento.posts.length}):*\n\n`;
+    
+    planejamento.posts.forEach((post, index) => {
+        corpo += `${index + 1}. ${post.titulo}\n`;
+        corpo += `   Tipo: ${getTipoNome(post.tipo)}\n`;
+        corpo += `   Status: ${getStatusNome(post.status)}\n`;
+        corpo += `   Data: ${formatDate(post.data)}\n`;
+        corpo += `   Responsável: ${getResponsavelNome(post.responsavel)}\n\n`;
+    });
+    
+    corpo += `\nAtenciosamente,\nEquipe FlowUp`;
+    
+    const mailtoLink = `mailto:?subject=${assunto}&body=${encodeURIComponent(corpo)}`;
+    window.open(mailtoLink);
+    closeShareModal();
+    showNotification('E-mail preparado para envio!', 'success');
+}
+
+function compartilharWhatsApp(planejamentoId) {
+    const planejamento = planejamentos.find(p => p.id === planejamentoId);
+    if (!planejamento) return;
+
+    let mensagem = `*${planejamento.titulo}*\n\n`;
+    mensagem += `*Período:* ${planejamento.tipo === 'especial' ? 'Planejamento Especial' : `${getMesNome(planejamento.mes)} ${planejamento.ano}`}\n`;
+    mensagem += `*Descrição:* ${planejamento.descricao || 'Não informada'}\n\n`;
+    mensagem += `*Publicações (${planejamento.posts.length}):*\n\n`;
+    
+    planejamento.posts.forEach((post, index) => {
+        mensagem += `*${index + 1}. ${post.titulo}*\n`;
+        mensagem += ` Tipo: ${getTipoNome(post.tipo)}\n`;
+        mensagem += ` Status: ${getStatusNome(post.status)}\n`;
+        mensagem += ` Data: ${formatDate(post.data)}\n`;
+        mensagem += ` Responsável: ${getResponsavelNome(post.responsavel)}\n\n`;
+    });
+    
+    const whatsappLink = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+    window.open(whatsappLink, '_blank');
+    closeShareModal();
+    showNotification('Compartilhando no WhatsApp...', 'success');
 }
 
 function gerarPDF(planejamentoId) {
@@ -755,7 +1606,7 @@ function gerarPDF(planejamentoId) {
     
     // Cabeçalho
     doc.setFontSize(20);
-    doc.setTextColor(109, 40, 217);
+    doc.setTextColor(139, 92, 246);
     doc.text('FLOWUP - PLANEJAMENTO DE CONTEÚDO', 105, 20, { align: 'center' });
     
     doc.setFontSize(16);
@@ -774,7 +1625,7 @@ function gerarPDF(planejamentoId) {
     
     if (planejamento.posts.length > 0) {
         doc.setFontSize(14);
-        doc.setTextColor(109, 40, 217);
+        doc.setTextColor(139, 92, 246);
         doc.text('PUBLICAÇÕES PROGRAMADAS', 20, y);
         y += 10;
         
@@ -808,24 +1659,8 @@ function gerarPDF(planejamentoId) {
             doc.text(descLines, 20, y);
             y += descLines.length * 7;
             
-            // Legenda
-            if (post.legenda) {
-                const legendaLines = doc.splitTextToSize(`Legenda: ${post.legenda}`, 170);
-                doc.text(legendaLines, 20, y);
-                y += legendaLines.length * 7;
-            }
-            
-            // Inspirações
-            if (post.inspiracao) {
-                const inspiracaoLines = doc.splitTextToSize(`Inspirações: ${post.inspiracao}`, 170);
-                doc.text(inspiracaoLines, 20, y);
-                y += inspiracaoLines.length * 7;
-            }
-            
-            y += 10; // Espaço entre publicações
+            y += 10;
         });
-    } else {
-        doc.text('Nenhuma publicação programada.', 20, y);
     }
     
     // Rodapé
@@ -838,56 +1673,8 @@ function gerarPDF(planejamentoId) {
     }
     
     doc.save(`planejamento-${planejamento.titulo}.pdf`);
-    closeActionsModal();
+    closeShareModal();
     showNotification('PDF gerado com sucesso!', 'success');
-}
-
-function compartilharEmail(planejamentoId) {
-    const planejamento = planejamentos.find(p => p.id === planejamentoId);
-    if (!planejamento) return;
-
-    const assunto = `Planejamento: ${planejamento.titulo}`;
-    let corpo = `Olá!\n\nSegue o planejamento de conteúdo:\n\n`;
-    corpo += `*${planejamento.titulo}*\n`;
-    corpo += `Tipo: ${planejamento.tipo === 'especial' ? 'Planejamento Especial' : `${getMesNome(planejamento.mes)} ${planejamento.ano}`}\n`;
-    corpo += `Descrição: ${planejamento.descricao || 'Não informada'}\n\n`;
-    corpo += `*Publicações (${planejamento.posts.length}):*\n\n`;
-    
-    planejamento.posts.forEach((post, index) => {
-        corpo += `${index + 1}. ${post.titulo}\n`;
-        corpo += `   Tipo: ${getTipoNome(post.tipo)}\n`;
-        corpo += `   Status: ${getStatusNome(post.status)}\n`;
-        corpo += `   Data: ${formatDate(post.data)}\n`;
-        corpo += `   Responsável: ${getResponsavelNome(post.responsavel)}\n\n`;
-    });
-    
-    corpo += `\nAtenciosamente,\nEquipe FlowUp`;
-    
-    const mailtoLink = `mailto:?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
-    window.open(mailtoLink);
-    closeActionsModal();
-}
-
-function compartilharWhatsApp(planejamentoId) {
-    const planejamento = planejamentos.find(p => p.id === planejamentoId);
-    if (!planejamento) return;
-
-    let mensagem = `*${planejamento.titulo}*\n\n`;
-    mensagem += ` *Período:* ${planejamento.tipo === 'especial' ? 'Planejamento Especial' : `${getMesNome(planejamento.mes)} ${planejamento.ano}`}\n`;
-    mensagem += ` *Descrição:* ${planejamento.descricao || 'Não informada'}\n\n`;
-    mensagem += `*Publicações (${planejamento.posts.length}):*\n\n`;
-    
-    planejamento.posts.forEach((post, index) => {
-        mensagem += `*${index + 1}. ${post.titulo}*\n`;
-        mensagem += ` Tipo: ${getTipoNome(post.tipo)}\n`;
-        mensagem += ` Status: ${getStatusNome(post.status)}\n`;
-        mensagem += `Data: ${formatDate(post.data)}\n`;
-        mensagem += `Responsável: ${getResponsavelNome(post.responsavel)}\n\n`;
-    });
-    
-    const whatsappLink = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
-    window.open(whatsappLink, '_blank');
-    closeActionsModal();
 }
 
 function duplicarPlanejamento(planejamentoId) {
@@ -896,7 +1683,7 @@ function duplicarPlanejamento(planejamentoId) {
 
     const novoPlanejamento = {
         ...JSON.parse(JSON.stringify(planejamento)),
-        id: Math.max(...planejamentos.map(p => p.id)) + 1,
+        id: planejamentos.length > 0 ? Math.max(...planejamentos.map(p => p.id)) + 1 : 1,
         titulo: `${planejamento.titulo} (Cópia)`,
         createdAt: new Date().toISOString().split('T')[0],
         updatedAt: new Date().toISOString().split('T')[0]
@@ -904,22 +1691,8 @@ function duplicarPlanejamento(planejamentoId) {
     
     planejamentos.push(novoPlanejamento);
     renderPlanejamentoList();
-    closeActionsModal();
+    closeShareModal();
     showNotification('Planejamento duplicado com sucesso!', 'success');
-}
-
-function confirmDelete(id) {
-    currentPlanejamentoId = id;
-    confirmModal.style.display = 'flex';
-    setTimeout(() => confirmModal.classList.add('show'), 10);
-}
-
-function deletePlanejamento() {
-    planejamentos = planejamentos.filter(p => p.id !== currentPlanejamentoId);
-    renderPlanejamentoList();
-    closeConfirmModal();
-    closeDetailModal();
-    showNotification('Planejamento excluído com sucesso!', 'success');
 }
 
 function closeModal() {
@@ -934,6 +1707,14 @@ function closeConfirmModal() {
     setTimeout(() => {
         confirmModal.style.display = 'none';
     }, 300);
+}
+
+function deletePlanejamento() {
+    planejamentos = planejamentos.filter(p => p.id !== currentPlanejamentoId);
+    renderPlanejamentoList();
+    closeConfirmModal();
+    closeDetailModal();
+    showNotification('Planejamento excluído com sucesso!', 'success');
 }
 
 // Funções auxiliares
@@ -1044,3 +1825,9 @@ function initializeUserMenu() {
     }
 }
 
+// Exportar funções para uso global
+window.openDetailModal = openDetailModal;
+window.compartilharEmail = compartilharEmail;
+window.compartilharWhatsApp = compartilharWhatsApp;
+window.gerarPDF = gerarPDF;
+window.duplicarPlanejamento = duplicarPlanejamento;

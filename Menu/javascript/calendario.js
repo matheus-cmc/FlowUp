@@ -4,7 +4,7 @@ const LS_KEY = 'flowup_planejamentos_v1';
 // Estado
 let allPosts = [];          
 let viewYear, viewMonth;    
-let currentSelectedDate = '2024-01-15';
+let currentSelectedDate = '2025-01-15';
 
 // DOM
 const calTitle = document.getElementById('calTitle');
@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     loadPostsFromStorage();
     
-    // Janeiro 2024 como na imagem
-    viewYear = 2024;
+    // Janeiro 2025 como na imagem
+    viewYear = 2025;
     viewMonth = 0; // 0 é Janeiro (0-indexado)
     
     renderCalendar();
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Selecionar o dia 15 por padrão (como na imagem)
     setTimeout(() => {
-        onDayClick('2024-01-15');
+        onDayClick('2025-01-15');
         highlightDay(15);
     }, 100);
 
@@ -77,10 +77,10 @@ function loadPostsFromStorage() {
     // Dados mock baseados na imagem
     const mockPosts = [
         { 
-            titulo: 'Participação da Vista (Companhia Vista 2024)', 
+            titulo: 'Participação da Vista (Companhia Vista 2025)', 
             tipo: 'design', 
             status: 'aprovado', 
-            data: '2024-01-15', 
+            data: '2025-01-15', 
             hora: '10:00', 
             responsavel: 'alone',
             descricao: 'GRAÇA DE LÍNGUA',
@@ -90,7 +90,7 @@ function loadPostsFromStorage() {
             titulo: 'Caminho Responsável', 
             tipo: 'caminho', 
             status: 'aprovado', 
-            data: '2024-01-15', 
+            data: '2025-01-15', 
             hora: '14:00', 
             responsavel: 'equipe',
             descricao: 'Equivalência: 25,00 punta\nCAMINHO',
@@ -100,7 +100,7 @@ function loadPostsFromStorage() {
             titulo: 'Brasília Básia', 
             tipo: 'brasilia', 
             status: 'aprovado', 
-            data: '2024-01-15', 
+            data: '2026-01-15', 
             hora: '16:00', 
             responsavel: 'equipe',
             descricao: 'Embora poderá o trabalho\nCAMINHO',
@@ -227,7 +227,7 @@ function renderDayContent(dateStr, posts) {
         postsCount.textContent = `${posts.length} postagem${posts.length !== 1 ? 's' : ''}`;
     }
     
-    if (dateStr === '2024-01-15' && posts.length > 0) {
+    if (dateStr === '2025-01-15' && posts.length > 0) {
         dayContent.innerHTML = `
             <div class="content-section">
                 <div class="section-header">
