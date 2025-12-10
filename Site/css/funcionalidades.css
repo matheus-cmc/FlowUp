@@ -1334,3 +1334,339 @@ h4 { font-size: 1.3rem; }
   display: block;
   margin-bottom: 1rem;
 }
+
+/* ===== IMAGENS REAIS DAS FUNCIONALIDADES ===== */
+.calendar-image-container,
+.gestao-image-container {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+    height: 100%;
+    min-height: 450px;
+    max-height: 550px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-light);
+}
+
+.calendar-image-container:hover,
+.gestao-image-container:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.calendar-image,
+.gestao-image {
+    width: 95%;
+    height: 95%;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.3s ease;
+    border-radius: var(--radius);
+}
+
+.calendar-image-container:hover .calendar-image,
+.gestao-image-container:hover .gestao-image {
+    transform: scale(1.03);
+}
+
+.image-overlay {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+}
+
+.overlay-badge {
+    background: var(--gradient);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    display: inline-block;
+    letter-spacing: 0.5px;
+}
+
+/* Ajustes para layout com imagens */
+.feature-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 500px;
+}
+
+/* Aumenta o gap entre colunas para dar mais espaço */
+.feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px; /* Aumentado de 80px para 100px */
+    align-items: center;
+}
+
+.feature-grid.reverse {
+    direction: rtl;
+}
+
+.feature-grid.reverse > * {
+    direction: ltr;
+}
+
+/* Responsividade para imagens */
+@media (max-width: 1200px) {
+    .calendar-image-container,
+    .gestao-image-container {
+        min-height: 400px;
+        max-height: 480px;
+    }
+    
+    .feature-preview {
+        min-height: 450px;
+    }
+    
+    .feature-grid {
+        gap: 80px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .calendar-image-container,
+    .gestao-image-container {
+        min-height: 380px;
+        max-height: 450px;
+    }
+    
+    .feature-preview {
+        min-height: 420px;
+    }
+    
+    .calendar-image,
+    .gestao-image {
+        width: 92%;
+        height: 92%;
+    }
+}
+
+@media (max-width: 768px) {
+    .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+    }
+    
+    .feature-preview {
+        min-height: 350px;
+    }
+    
+    .calendar-image-container,
+    .gestao-image-container {
+        min-height: 350px;
+        max-height: 400px;
+    }
+    
+    .calendar-image,
+    .gestao-image {
+        width: 90%;
+        height: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-image-container,
+    .gestao-image-container {
+        min-height: 300px;
+        max-height: 350px;
+    }
+    
+    .feature-preview {
+        min-height: 320px;
+    }
+    
+    .calendar-image,
+    .gestao-image {
+        width: 88%;
+        height: 88%;
+    }
+    
+    .image-overlay {
+        top: 15px;
+        right: 15px;
+    }
+    
+    .overlay-badge {
+        padding: 5px 12px;
+        font-size: 0.75rem;
+    }
+}
+
+/* ===== IMAGENS SIMPLES - TAMANHO IGUAL AO LADO ESQUERDO ===== */
+.simple-image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.simple-image {
+    width: 100%;
+    height: auto;
+    max-height: 400px; /* Altura fixa igual à das descrições */
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+}
+
+/* Ajuste para garantir que as imagens tenham mesma altura que o texto */
+.feature-details {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.feature-preview {
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Para telas menores - ajuste responsivo */
+@media (max-width: 1024px) {
+    .simple-image {
+        max-height: 350px;
+    }
+    
+    .feature-details,
+    .feature-preview {
+        min-height: 350px;
+    }
+}
+
+@media (max-width: 768px) {
+    .simple-image {
+        max-height: 300px;
+    }
+    
+    .feature-details,
+    .feature-preview {
+        min-height: 300px;
+    }
+}
+
+/* ===== IMAGENS REAIS DAS FUNCIONALIDADES ===== */
+.calendar-image-container,
+.gestao-image-container,
+.feedback-image-container {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    height: 100%;
+    min-height: 450px;
+    max-height: 550px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-light);
+    /* REMOVA essas linhas que causam sombras escuras: */
+    /* box-shadow: var(--shadow-lg); */
+    /* border: 1px solid var(--border); */
+    transition: all 0.3s ease;
+}
+
+.calendar-image-container:hover,
+.gestao-image-container:hover,
+.feedback-image-container:hover {
+    transform: translateY(-4px);
+    /* Mude para sombra mais clara: */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+}
+
+.calendar-image,
+.gestao-image,
+.feedback-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.3s ease;
+    border-radius: var(--radius);
+    /* REMOVA borda e sombra da imagem: */
+    /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); */
+    /* border: 1px solid #e2e8f0; */
+}
+
+.calendar-image-container:hover .calendar-image,
+.gestao-image-container:hover .gestao-image,
+.feedback-image-container:hover .feedback-image {
+    transform: scale(1.02);
+}
+
+.image-overlay {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+}
+
+.overlay-badge {
+    background: var(--gradient);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Torna mais suave */
+    display: inline-block;
+    letter-spacing: 0.5px;
+}
+
+/* Ajustes para layout com imagens */
+.feature-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 500px;
+    padding: 20px;
+    background: transparent; /* Garante fundo transparente */
+}
+
+/* Se ainda tiver lista preta, tente isso: */
+.feedback-image {
+    background: white; /* Adiciona fundo branco atrás da imagem */
+    padding: 10px; /* Adiciona espaço interno */
+}
+
+/* OU se a imagem já tem fundo branco, force remoção de bordas: */
+.calendar-image,
+.gestao-image,
+.feedback-image {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Para garantir que não haja bordas escuras do container */
+.calendar-image-container,
+.gestao-image-container,
+.feedback-image-container {
+    border: 1px solid rgba(226, 232, 240, 0.5); /* Borda BEM clara */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* Sombra BEM suave */
+}
+
+/* Se a lista preta for da borda da imagem em si, tente: */
+.feedback-image {
+    box-shadow: 0 0 0 transparent;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.05)); /* Sombra alternativa */
+}

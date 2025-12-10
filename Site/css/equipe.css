@@ -712,3 +712,149 @@ h4 { font-size: 1.2rem; }
   display: block;
   margin-bottom: 1rem;
 }
+
+/* ===== MELHORIA DAS FOTOS DA EQUIPE ===== */
+.integrante-avatar {
+    background: var(--gradient);
+    padding: 40px 0 20px;
+}
+
+.avatar-foto {
+    width: 180px;
+    height: 180px;
+    object-fit: cover; /* Mantém a proporção e preenche */
+    border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background: var(--gradient); /* Fundo do mesmo gradiente */
+    transition: all 0.3s ease;
+}
+
+/* Ajuste individual para cada foto */
+.integrantes-grid .integrante-card:nth-child(1) .avatar-foto {
+    object-position: center 20%; /* Erick - ajusta posição vertical */
+}
+
+.integrantes-grid .integrante-card:nth-child(2) .avatar-foto {
+    object-position: center 30%; /* Matheus - ajusta posição vertical */
+}
+
+.integrantes-grid .integrante-card:nth-child(3) .avatar-foto {
+    object-position: center 25%; /* Mariana - ajusta posição vertical */
+}
+
+/* Remove fundo branco que causa partes brancas */
+.avatar-foto {
+    background: transparent;
+}
+
+/* Se ainda tiver partes brancas, adicione um pouco de zoom */
+.avatar-foto {
+    transform: scale(1.1);
+}
+
+.integrante-card:hover .avatar-foto {
+    transform: scale(1.15); /* Zoom um pouco maior no hover */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Opção: Se as fotos tiverem fundo branco, forçar fundo do gradiente */
+.avatar-foto::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: var(--gradient);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+/* ===== AJUSTES ESPECÍFICOS PARA A FOTO DO ERICK ===== */
+/* Foto do Erick (primeiro card) */
+.integrantes-grid .integrante-card:nth-child(1) .avatar-foto {
+    /* TAMANHO */
+    width: 190px;  /* Aumenta largura */
+    height: 260px; /* Aumenta altura */
+    
+    /* POSIÇÃO DA FOTO DENTRO DO CÍRCULO */
+    object-position: center 25%; /* Ajusta verticalmente: 25% do topo */
+    
+    /* ZOOM */
+    transform: scale(1.1); /* Aumenta um pouco */
+    
+    /* BORDA (se precisar) */
+    border-width: 5px; /* Borda mais grossa */
+}
+
+/* Ajuste no hover específico para o Erick */
+.integrantes-grid .integrante-card:nth-child(1):hover .avatar-foto {
+    transform: scale(1.2); /* Zoom maior no hover */
+}
+
+/* Se a foto tiver muito espaço em branco em cima ou embaixo */
+.integrantes-grid .integrante-card:nth-child(1) .avatar-foto {
+    object-position: center 30%; /* Move para baixo */
+    /* OU */
+    object-position: center 15%; /* Move para cima */
+}
+
+/* Para a foto do Erick ficar igual às outras */
+.integrantes-grid .integrante-card:nth-child(1) .avatar-foto {
+    width: 180px; /* Mesmo tamanho das outras */
+    height: 180px;
+    object-position: center 25%; /* Posição que funciona melhor */
+}
+
+/* ===== FOTO DO ERICK - MAIS CORPO MAS FORMA CIRCULAR ===== */
+/* Container da foto do Erick */
+.integrantes-grid .integrante-card:nth-child(1) .integrante-avatar {
+    min-height: 230px; /* Um pouco mais alto */
+    padding: 35px 0 20px; /* Ajuste do padding */
+}
+
+/* Foto do Erick - mantém circular mas mostra mais corpo */
+.integrantes-grid .integrante-card:nth-child(1) .avatar-foto {
+    /* Ajuste de posição - mostra mais do corpo */
+    object-position: center 20% !important;
+    
+    /* Um pouco maior */
+    width: 185px !important;
+    height: 185px !important;
+    
+    /* Mantém circular */
+    border-radius: 50% !important;
+    
+    /* Borda um pouco mais fina para mostrar mais foto */
+    border-width: 3px !important;
+    
+    /* Mantém cover para preencher o círculo */
+    object-fit: cover !important;
+}
+
+/* No hover */
+.integrantes-grid .integrante-card:nth-child(1):hover .avatar-foto {
+    transform: scale(1.08) !important;
+}
+
+/* Experimente estes valores de object-position: */
+/* 
+    center 10%  - mostra MUITO corpo (cabeça pequena)
+    center 15%  - mostra bastante corpo
+    center 20%  - mostra corpo moderado (RECOMENDADO)
+    center 25%  - mostra pouco corpo (padrão atual)
+    center 30%  - mostra muito pouco corpo
+*/
+
+/* Se ainda não mostrar corpo suficiente, tente: */
+.integrantes-grid .integrante-card:nth-child(1) .avatar-foto {
+    object-position: center 15% !important; /* Mostra MAIS corpo */
+    width: 190px !important;
+    height: 190px !important;
+}
+
+/* Ou se mostrar corpo demais (cabeça muito pequena): */
+.integrantes-grid .integrante-card:nth-child(1) .avatar-foto {
+    object-position: center 22% !important; /* Meio termo */
+}

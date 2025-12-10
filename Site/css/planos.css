@@ -865,3 +865,109 @@ h4 { font-size: 1.2rem; }
   display: block;
   margin-bottom: 1rem;
 }
+
+/* ===== BOTÕES DOS PLANOS - TODOS COM MESMA COR ===== */
+/* Aplica o mesmo estilo do botão "Escolher Plano Pro" para todos */
+.btn-plano.btn-outline,
+.btn-plano.btn-primary {
+    background: var(--gradient) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: var(--shadow) !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Efeito hover para todos os botões */
+.btn-plano.btn-outline:hover,
+.btn-plano.btn-primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+/* Remove o estilo outline original */
+.btn-plano.btn-outline {
+    background: var(--gradient) !important;
+    color: white !important;
+}
+
+/* Ajusta o ícone dos botões */
+.btn-plano.btn-outline i,
+.btn-plano.btn-primary i {
+    color: white !important;
+}
+
+/* Garante que o botão "Falar com Vendas" também tenha o mesmo estilo */
+.plano-card:nth-child(3) .btn-plano.btn-outline {
+    background: var(--gradient) !important;
+    color: white !important;
+    border: none !important;
+}
+
+/* Remove qualquer borda que possa ficar visível */
+.btn-plano {
+    border: none !important;
+}
+
+/* Se precisar, ajuste o hover específico */
+.btn-plano:hover {
+    opacity: 0.95;
+}
+
+/* ===== ALINHAR ALTURA DOS PLANOS ===== */
+.planos-grid {
+    align-items: stretch; /* Faz todos os cards terem mesma altura */
+}
+
+.plano-card {
+    height: 100%; /* Ocupa toda a altura disponível */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Remove o scale do plano featured */
+.plano-card.featured {
+    transform: none; /* Remove o scale(1.05) */
+    border: 2px solid var(--primary);
+    position: relative;
+}
+
+/* Mantém apenas o efeito hover */
+.plano-card.featured:hover {
+    transform: translateY(-8px); /* Só o translate no hover */
+}
+
+/* Ajusta a posição do badge "Mais Popular" */
+.plano-badge-popular {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+/* Garante que o conteúdo interno também ocupe toda a altura */
+.plano-features {
+    flex-grow: 1; /* Faz a lista de features expandir */
+    margin-bottom: 32px;
+}
+
+/* Se ainda estiver desalinhado, adicione altura mínima */
+.plano-card {
+    min-height: 680px; /* Altura mínima igual para todos */
+}
+
+/* Para telas menores, ajuste responsivo */
+@media (max-width: 1024px) {
+    .plano-card {
+        min-height: auto; /* Remove altura fixa em mobile */
+    }
+    
+    .planos-grid {
+        gap: 24px;
+    }
+}
+
+/* Solução alternativa: se o problema for o padding extra */
+.plano-card.featured {
+    padding: 40px 32px; /* Mesmo padding dos outros */
+}
