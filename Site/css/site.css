@@ -651,7 +651,7 @@ h2 {
 }
 
 .flow-line {
-  position: absolute;
+   position: absolute;
   top: 50px;
   left: 100px;
   right: 100px;
@@ -667,6 +667,18 @@ h2 {
   max-width: 200px;
   text-align: center;
   padding: 0 0.5rem;
+}
+
+@keyframes number-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: var(--shadow-large);
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 30px rgba(131, 58, 180, 0.5),
+                var(--shadow-large);
+  }
 }
 
 .step-badge {
@@ -685,7 +697,18 @@ h2 {
   border: 8px solid var(--color-white);
   position: relative;
   z-index: 3;
+  transition: var(--transition);
+  
+  /* Pulse suave nos números */
+  animation: number-pulse 3s ease-in-out infinite;
 }
+
+/* Pulse sequencial (um após o outro) */
+.step-card:nth-child(1) .step-badge { animation-delay: 0s; }
+.step-card:nth-child(2) .step-badge { animation-delay: 0.6s; }
+.step-card:nth-child(3) .step-badge { animation-delay: 1.2s; }
+.step-card:nth-child(4) .step-badge { animation-delay: 1.8s; }
+.step-card:nth-child(5) .step-badge { animation-delay: 2.4s; }
 
 .step-content {
   background: var(--color-white);
@@ -722,17 +745,25 @@ h2 {
 .step-card:not(:last-child)::after {
   content: '';
   position: absolute;
-  top: 50px;
+  top: 40px;
   right: -10px;
   width: 0;
   height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 15px solid var(--color-primary);
-  opacity: 0.5;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 18px solid;
+  border-left-color: var(--color-primary);
+  opacity: 0.7;
   z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  transition: var(--transition);
 }
 
+.step-card:hover::after {
+  opacity: 1;
+  transform: translateX(3px);
+  border-left-color: var(--color-secondary);
+}
 /* ===== SEGMENTOS ===== */
 .segments {
   padding: 6rem 0;
@@ -752,6 +783,7 @@ h2 {
   border: 1px solid var(--color-gray-light);
   background: var(--color-white);
   transition: var(--transition);
+  
 }
 
 .segment-card:hover {
@@ -764,13 +796,22 @@ h2 {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: var(--gradient-soft);
+  background: var(--gradient);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 1.5rem;
   font-size: 2rem;
-  color: var(--color-primary);
+  color: var(--color-white);
+  transition: var(--transition);
+}
+.segment-card:hover .segment-avatar {
+  animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
 }
 
 .segment-content h3 {
