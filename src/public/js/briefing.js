@@ -15,10 +15,10 @@ let briefings = [
         budget: 5000,
         status: "in-progress",
         timeline: "1-15/10: Preparação e produção de conteúdo\n16-31/10: Execução da campanha nas redes sociais",
-        startDate: "2024-10-01",
-        endDate: "2024-10-31",
-        createdAt: "2024-09-20",
-        updatedAt: "2024-09-25"
+        startDate: "2025-10-01",
+        endDate: "2025-10-31",
+        createdAt: "2025-09-20",
+        updatedAt: "2025-09-25"
     },
     {
         id: 2,
@@ -35,10 +35,50 @@ let briefings = [
         budget: 15000,
         status: "draft",
         timeline: "Fase 1: Desenvolvimento do produto\nFase 2: Lançamento e divulgação",
-        startDate: "2024-11-01",
-        endDate: "2024-12-15",
-        createdAt: "2024-09-15",
-        updatedAt: "2024-09-15"
+        startDate: "2025-11-01",
+        endDate: "2025-12-15",
+        createdAt: "2025-09-15",
+        updatedAt: "2025-09-15"
+    },
+    {
+        id: 3,
+        title: "Black Friday 2025",
+        description: "Campanha de Black Friday com descontos progressivos e ofertas especiais",
+        objectives: "Aumentar vendas em 150% durante a semana da Black Friday e captar novos clientes",
+        cta: "Aproveite até 70% de desconto - Ofertas por tempo limitado",
+        target: "Consumidores de 18-60 anos, todas as classes, com foco em compradores online que buscam melhores ofertas",
+        competition: "Grandes varejistas como Amazon, Magazine Luiza e Netshoes",
+        market: "Expectativa de crescimento de 25% nas vendas online durante a Black Friday 2025",
+        messages: "Os maiores descontos do ano. Economize com qualidade e confiança",
+        tone: "urgente",
+        channels: ["instagram", "facebook", "twitter"],
+        budget: 25000,
+        status: "draft",
+        timeline: "01-20/11: Pré-campanha\n21-29/11: Campanha ativa\n30/11: Pós-venda",
+        startDate: "2025-11-01",
+        endDate: "2025-11-30",
+        createdAt: "2025-10-01",
+        updatedAt: "2025-10-01"
+    },
+    {
+        id: 4,
+        title: "Reposicionamento de Marca",
+        description: "Atualização da identidade visual e posicionamento da marca no mercado",
+        objectives: "Aumentar reconhecimento da marca em 40% e atrair público mais jovem (18-30 anos)",
+        cta: "Conheça nossa nova cara",
+        target: "Jovens adultos 18-30 anos, digital natives, que valorizam autenticidade e inovação",
+        competition: "Marcas consolidadas com recentes reposicionamentos bem-sucedidos",
+        market: "Mercado exige renovação constante - 60% das marcas bem-sucedidas reposicionam a cada 5 anos",
+        messages: "A mesma qualidade, agora com uma nova identidade. Evoluímos para melhor atender você",
+        tone: "moderno",
+        channels: ["instagram", "linkedin", "twitter"],
+        budget: 80000,
+        status: "in-progress",
+        timeline: "Fase 1: Pesquisa e desenvolvimento\nFase 2: Lançamento da nova identidade\nFase 3: Consolidação",
+        startDate: "2025-09-01",
+        endDate: "2026-02-28",
+        createdAt: "2025-08-15",
+        updatedAt: "2025-10-10"
     }
 ];
 
@@ -55,20 +95,10 @@ const cancelBtn = document.getElementById('cancelBtn');
 const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
 
-// Modal de detalhes
-const briefingDetailModal = document.getElementById('briefingDetailModal');
-const briefingDetailBody = document.getElementById('briefingDetailBody');
-const closeBriefingDetailBtn = document.getElementById('closeBriefingDetailBtn');
-const detailEditBtn = document.getElementById('detailEditBtn');
-const detailDeleteBtn = document.getElementById('detailDeleteBtn');
-
 // Inicialização
 document.addEventListener('DOMContentLoaded', function() {
-
-     
     renderBriefingList();
     setupEventListeners();
-    initializeUserMenu();
     initializeCustomSelects();
 });
 
@@ -121,8 +151,6 @@ function setupEventListeners() {
     }
 
     // Modal de Confirmação (se existir)
-    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
     const cancelConfirmBtn = document.getElementById('cancelConfirmBtn');
 
     if (confirmDeleteBtn) {
@@ -174,11 +202,16 @@ function closeConfirmModal() {
 }
 
 function renderBriefingList() {
-    const statusFilter = document.getElementById('statusFilter').value;
-    const searchTerm = document.getElementById('searchBriefing').value.toLowerCase();
+    const statusFilterElement = document.getElementById('statusFilter');
+    const searchBriefingElement = document.getElementById('searchBriefing');
+    
+    if (!statusFilterElement || !searchBriefingElement) return;
+    
+    const statusFilterValue = statusFilterElement.value;
+    const searchTerm = searchBriefingElement.value.toLowerCase();
 
     let filteredBriefings = briefings.filter(briefing => {
-        const matchesStatus = statusFilter === 'all' || briefing.status === statusFilter;
+        const matchesStatus = statusFilterValue === 'all' || briefing.status === statusFilterValue;
         const matchesSearch =
             briefing.title.toLowerCase().includes(searchTerm) ||
             briefing.description.toLowerCase().includes(searchTerm);
@@ -226,7 +259,9 @@ function openBriefingDetail(id) {
 
     currentBriefingId = id;
 
-    
+    // Modal de detalhes
+    const briefingDetailModal = document.getElementById('briefingDetailModal');
+    const briefingDetailBody = document.getElementById('briefingDetailBody');
 
     briefingDetailBody.innerHTML = `
         <div class="detail-header">
@@ -320,13 +355,13 @@ function openBriefingDetail(id) {
 }
 
 function closeDetailModal() {
+    const briefingDetailModal = document.getElementById('briefingDetailModal');
     if (!briefingDetailModal) return;
     briefingDetailModal.classList.remove('show');
     setTimeout(() => {
         briefingDetailModal.style.display = 'none';
     }, 300);
 }
-
 
 // Modal Novo/Editar
 function openNewBriefingModal() {
@@ -340,6 +375,13 @@ function openNewBriefingModal() {
 
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('briefingStartDate').value = today;
+
+    // Reseta os selects
+    document.getElementById('briefingTone').value = '';
+    document.getElementById('briefingStatus').value = 'draft';
+
+    // Atualiza os selects customizados
+    updateCustomSelects();
 
     briefingModal.style.display = 'flex';
     setTimeout(() => briefingModal.classList.add('show'), 10);
@@ -370,6 +412,9 @@ function editBriefing(id) {
     document.querySelectorAll('input[name="channels"]').forEach(checkbox => {
         checkbox.checked = briefing.channels.includes(checkbox.value);
     });
+
+    // Atualiza os selects customizados
+    updateCustomSelects();
 
     briefingModal.style.display = 'flex';
     setTimeout(() => briefingModal.classList.add('show'), 10);
@@ -427,12 +472,6 @@ function saveBriefing() {
     showNotification(`Briefing ${currentBriefingId ? 'atualizado' : 'criado'} com sucesso!`, 'success');
 }
 
-function confirmDelete(id) {
-    currentBriefingId = id;
-    confirmModal.style.display = 'flex';
-    setTimeout(() => confirmModal.classList.add('show'), 10);
-}
-
 function deleteBriefing() {
     briefings = briefings.filter(b => b.id !== currentBriefingId);
     renderBriefingList();
@@ -448,13 +487,6 @@ function closeModal() {
     }, 300);
 }
 
-function closeConfirmModal() {
-    confirmModal.classList.remove('show');
-    setTimeout(() => {
-        confirmModal.style.display = 'none';
-    }, 300);
-}
-
 // ------ Custom Select (para filtros na topbar) ------
 function initializeCustomSelects() {
     const customSelects = document.querySelectorAll('.custom-select');
@@ -467,34 +499,92 @@ function initializeCustomSelects() {
 
         if (!selected || !items || !hiddenSelect) return;
 
+        // Sincroniza o texto inicial
+        const initialOption = hiddenSelect.options[hiddenSelect.selectedIndex];
+        if (initialOption) {
+            selected.querySelector('span').textContent = initialOption.textContent;
+        }
+
         selected.addEventListener('click', function (e) {
             e.stopPropagation();
-            closeAllSelects(this);
-            items.classList.toggle('select-show');
+            
+            // Fecha todos os outros
+            document.querySelectorAll('.custom-select.open').forEach(other => {
+                if (other !== select) other.classList.remove('open');
+            });
+            
+            // Abre/fecha este
+            select.classList.toggle('open');
         });
 
         options.forEach(option => {
-            option.addEventListener('click', function () {
+            option.addEventListener('click', function (e) {
+                e.stopPropagation();
                 const value = this.getAttribute('data-value');
                 const text = this.textContent;
 
-                selected.querySelector('span').textContent = text;
+                // Atualiza o select real
                 hiddenSelect.value = value;
-                hiddenSelect.dispatchEvent(new Event('change'));
-
-                items.classList.remove('select-show');
+                
+                // Atualiza o texto visível
+                selected.querySelector('span').textContent = text;
+                
+                // Remove a seleção de todas as opções
+                options.forEach(opt => opt.classList.remove('selected'));
+                // Adiciona a seleção à opção clicada
+                this.classList.add('selected');
+                
+                // Dispara o evento change
+                const changeEvent = new Event('change', { bubbles: true });
+                hiddenSelect.dispatchEvent(changeEvent);
+                
+                // Fecha o dropdown
+                select.classList.remove('open');
             });
+        });
+
+        // Atualiza visual quando o select real muda (via código)
+        hiddenSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (selectedOption) {
+                selected.querySelector('span').textContent = selectedOption.textContent;
+                
+                // Atualiza a seleção visual
+                options.forEach(opt => {
+                    opt.classList.remove('selected');
+                    if (opt.getAttribute('data-value') === this.value) {
+                        opt.classList.add('selected');
+                    }
+                });
+            }
+        });
+
+        // Marca a opção inicial como selecionada
+        options.forEach(opt => {
+            if (opt.getAttribute('data-value') === hiddenSelect.value) {
+                opt.classList.add('selected');
+            }
         });
     });
 
-    document.addEventListener('click', closeAllSelects);
+    // Fecha todos os dropdowns ao clicar fora
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.custom-select.open').forEach(select => {
+            select.classList.remove('open');
+        });
+    });
 }
 
-function closeAllSelects(elmnt) {
-    const selects = document.querySelectorAll('.select-items');
-    selects.forEach(select => {
-        if (elmnt && select.contains(elmnt)) return;
-        select.classList.remove('select-show');
+// Atualiza os selects customizados
+function updateCustomSelects() {
+    // Forçar atualização dos selects customizados
+    const customSelects = document.querySelectorAll('.custom-select');
+    customSelects.forEach(select => {
+        const hiddenSelect = select.querySelector('select');
+        if (hiddenSelect) {
+            const changeEvent = new Event('change', { bubbles: true });
+            hiddenSelect.dispatchEvent(changeEvent);
+        }
     });
 }
 
@@ -559,55 +649,3 @@ function showNotification(message, type = 'info') {
         notification.remove();
     }, 3000);
 }
-
-// Menu do usuário
-function initializeUserMenu() {
-    const userMenuTrigger = document.getElementById('user-menu-trigger');
-    const userMenu = document.getElementById('user-menu');
-
-    if (userMenuTrigger && userMenu) {
-        userMenuTrigger.addEventListener('click', function (e) {
-            e.stopPropagation();
-            userMenu.classList.toggle('user-menu-show');
-        });
-
-        document.addEventListener('click', function () {
-            userMenu.classList.remove('user-menu-show');
-        });
-
-        userMenu.addEventListener('click', function (e) {
-            e.stopPropagation();
-        });
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const kanbanView = document.getElementById('kanbanView');
-  const listaView  = document.getElementById('listaView');
-  const toggleBtns = document.querySelectorAll('.view-toggle .toggle-btn');
-
-  if (kanbanView && listaView && toggleBtns.length) {
-    toggleBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // tira "active" de todos os botões
-        toggleBtns.forEach(b => b.classList.remove('active'));
-        // coloca só no clicado
-        btn.classList.add('active');
-
-        const view = btn.dataset.view;
-
-        if (view === 'kanban') {
-          kanbanView.classList.add('active');
-          listaView.classList.remove('active');
-        } else {
-          listaView.classList.add('active');
-          kanbanView.classList.remove('active');
-        }
-      });
-    });
-
-    // garante estado inicial (kanban)
-    kanbanView.classList.add('active');
-    listaView.classList.remove('active');
-  }
-});

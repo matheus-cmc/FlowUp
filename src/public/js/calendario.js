@@ -77,7 +77,7 @@ function loadPostsFromStorage() {
     // Dados mock baseados na imagem
     const mockPosts = [
         { 
-            titulo: 'Participação da Vista (Companhia Vista 2026)', 
+            titulo: 'Participação da Vista (Companhia Vista 2025)', 
             tipo: 'design', 
             status: 'aprovado', 
             data: '2025-01-15', 
@@ -100,7 +100,7 @@ function loadPostsFromStorage() {
             titulo: 'Brasília Básia', 
             tipo: 'brasilia', 
             status: 'aprovado', 
-            data: '2025-01-15', 
+            data: '2026-01-15', 
             hora: '16:00', 
             responsavel: 'equipe',
             descricao: 'Embora poderá o trabalho\nCAMINHO',
